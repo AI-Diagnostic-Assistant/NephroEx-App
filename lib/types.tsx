@@ -1,3 +1,8 @@
+import {signInFormSchema} from "@/lib/schemas";
+import {z} from "zod";
+
+export type SignInFormValues = z.infer<typeof signInFormSchema>
+
 export type CompositeImage = {
     id: number
     createdAt: string

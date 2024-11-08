@@ -4,24 +4,24 @@ import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import {SignInFormValues} from "@/lib/types";
 
-export const signUpAction = async (formData: FormData) => {
-  const email = formData.get("email")?.toString();
-  const password = formData.get("password")?.toString();
+export const signUpAction = async (formData: SignInFormValues) => {
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
-
-  if (!email || !password) {
-    return { error: "Email and password are required" };
-  }
-
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
+  const credentials = {
+    email: formData.email,
+    password: formData.password,
     options: {
       emailRedirectTo: `${origin}/auth/callback`,
     },
-  });
+  }
+
+  if (!credentials.email || !credentials.password) {
+    return { error: "Email and password are required" };
+  }
+
+  const { error } = await supabase.auth.signUp(credentials);
 
   if (error) {
     console.error(error.code + " " + error.message);
