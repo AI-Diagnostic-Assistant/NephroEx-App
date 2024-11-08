@@ -4,3 +4,13 @@ export type CompositeImage = {
     imageUrl: string
 
 }
+
+
+export type Analysis = {
+    id: number
+    createdAt: string
+    confidenceId: number
+    userId: number
+    ckdStagePrediction: number
+
+}

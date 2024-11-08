@@ -52,6 +52,7 @@ export const signInAction = async (formData: FormData) => {
   return redirect("/protected");
 };
 
+
 export const forgotPasswordAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const supabase = await createClient();
