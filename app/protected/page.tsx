@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import {getAnalysisData} from "@/lib/data-fetch";
 import {SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {AppSidebar} from "@/components/app-sidebar";
+import {FileInput} from "lucide-react";
+import FileUpload from "@/components/file-upload";
 
 
 export default async function ProtectedPage() {
@@ -29,8 +31,11 @@ export default async function ProtectedPage() {
                   <SidebarTrigger />
               </SidebarProvider>
           </div>
-          <div>
-              HER SKAL DETALJER FRA EN ANALYSE LIGGE
+          <div className="flex flex-1 justify-center items-center">
+              <div>
+                  <FileUpload />
+              </div>
+
           </div>
       </div>
   )

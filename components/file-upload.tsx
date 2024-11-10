@@ -2,6 +2,11 @@
 
 import { useState, ChangeEvent } from 'react';
 import {CompositeImage} from "@/lib/types";
+import {Button} from "@/components/ui/button";
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+
 
 export default function FileUpload() {
     const [file, setFile] = useState<File | null>(null);
@@ -36,9 +41,16 @@ export default function FileUpload() {
     };
 
     return (
-        <div>
-            <input type="file" accept=".dcm" onChange={handleFileChange} />
-            <button onClick={handleUpload}>Upload and Process</button>
+        <div className="flex flex-col gap-5">
+            <div>
+                <Label htmlFor="picture">DICOM file</Label>
+                <Input type="file" accept=".dcm" onChange={handleFileChange} />
+            </div>
+            <div>
+                <Button onClick={handleUpload}>Do analysis</Button>
+            </div>
+
+
             {imageUrl && (
                 <div>
                     <h3>Processed Image:</h3>

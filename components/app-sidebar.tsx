@@ -48,7 +48,7 @@ export function AppSidebar(props: AppSidebarProps) {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {analysisData.map((item) => (
-                                <SidebarMenuItem key={item.title}>
+                                <SidebarMenuItem key={item.id}>
                                     <SidebarMenuButton asChild>
                                         <AnalysisCard analysis={item} />
                                     </SidebarMenuButton>
