@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.containerTypewriter {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -83,3 +89,5 @@
     @apply bg-background text-foreground;
   }
 }
+
+

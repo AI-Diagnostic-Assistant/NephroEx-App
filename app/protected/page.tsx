@@ -1,7 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import AnalysisCard from "@/components/analysis-card";
-import UserCard from "@/components/user-card";
 import {getAnalysisData} from "@/lib/data-fetch";
 import {SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {AppSidebar} from "@/components/app-sidebar";
@@ -20,7 +18,7 @@ export default async function ProtectedPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return redirect("/sign-in");
+    return redirect("/");
   }
 
   return (
