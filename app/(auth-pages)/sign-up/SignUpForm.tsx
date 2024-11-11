@@ -44,7 +44,7 @@ export default function SignUpForm() {
         <h1 className="text-2xl font-medium">Sign up</h1>
         <p className="text-sm text text-foreground">
           Already have an account?{" "}
-          <Link className="text-primary font-medium underline" href="/sign-in">
+          <Link className="text-primary font-medium underline" href="/">
             Sign in
           </Link>
         </p>
@@ -74,7 +74,9 @@ export default function SignUpForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <div className="flex pb-0.5">
+                    <FormLabel>Password</FormLabel>
+                  </div>
                   <FormControl>
                     <Input
                       placeholder="Your password"
