@@ -2,8 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signInFormSchema } from "@/lib/schemas";
-import { SignInFormValues } from "@/lib/types";
+import { signUpFormSchema } from "@/lib/schemas";
+import { SignUpFormValues } from "@/lib/types";
 import { signUpAction } from "@/app/actions";
 import {
   Form,
@@ -18,15 +18,15 @@ import { SubmitButton } from "@/components/submit-button";
 import Link from "next/link";
 
 export default function SignUpForm() {
-  const form = useForm<SignInFormValues>({
-    resolver: zodResolver(signInFormSchema),
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = async (data: SignInFormValues) => {
+  const onSubmit = async (data: SignUpFormValues) => {
     const error = await signUpAction(data);
     if (error) {
       console.error(error);
