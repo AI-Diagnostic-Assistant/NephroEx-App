@@ -47,16 +47,16 @@ export const signInAction = async (formData: SignInFormValues) => {
   const parsed = signInFormSchema.safeParse(formData);
 
   if (!parsed.success) {
-    return encodedRedirect("error", "/", "Invalid form data");
+    return encodedRedirect("error", "/sign-in", "Invalid form data");
   }
 
   const { error } = await supabase.auth.signInWithPassword(credentials);
 
   if (error) {
-    return encodedRedirect("error", "/", error.message);
+    return encodedRedirect("error", "/sign-in", error.message);
   }
 
-  return redirect("/protected");
+  return redirect("/");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
