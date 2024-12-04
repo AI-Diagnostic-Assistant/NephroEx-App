@@ -21,16 +21,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { createClient } from "@/utils/supabase/server";
 
 type AppSidebarProps = {
   analysisData: any[];
   user: User;
 };
 
-export function AppSidebar(props: AppSidebarProps) {
+export async function AppSidebar(props: AppSidebarProps) {
+  const supabase = await createClient();
   const { analysisData, user } = props;
+  const { data: fullUser } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
   return (
-    <Sidebar>
+    <Sidebar className="pb-2">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -68,31 +76,35 @@ export function AppSidebar(props: AppSidebarProps) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarGroupLabel>Settings</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton className="flex justify-between">
+                  {fullUser?.full_name ? (
+                    <div>
+                      <p className="font-semibold">{fullUser.full_name}</p>
+                      <p className="text-xs">{user.email}</p>
+                    </div>
+                  ) : (
                     <p>{user.email}</p>
-                    <ChevronsUpDown />
+                  )}
+                  <ChevronsUpDown />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" side="right">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <form action={signOutAction}>
+                  <SidebarMenuButton formAction={signOutAction}>
+                    <LogOut />
+                    <span> Sign out </span>
                   </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" side="right">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <form action={signOutAction}>
-                    <SidebarMenuButton formAction={signOutAction}>
-                      <LogOut />
-                      <span> Sign out </span>
-                    </SidebarMenuButton>
-                  </form>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
+                </form>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
   );
