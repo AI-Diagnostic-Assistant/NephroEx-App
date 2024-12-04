@@ -38,7 +38,7 @@ export async function AppSidebar(props: AppSidebarProps) {
     .single();
 
   return (
-    <Sidebar className="pb-2">
+    <Sidebar>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -80,7 +80,7 @@ export async function AppSidebar(props: AppSidebarProps) {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="flex justify-between">
+                <SidebarMenuButton className="flex justify-between h-min">
                   {fullUser?.full_name ? (
                     <div>
                       <p className="font-semibold">{fullUser.full_name}</p>
