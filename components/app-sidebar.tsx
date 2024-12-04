@@ -1,5 +1,4 @@
-import { LogOut, Activity } from "lucide-react";
-
+import { LogOut, Activity, ChevronsUpDown } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -7,6 +6,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -14,6 +14,13 @@ import {
 import AnalysisCard from "@/components/analysis-card";
 import { User } from "@supabase/auth-js";
 import { signOutAction } from "@/app/actions";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type AppSidebarProps = {
   analysisData: any[];
@@ -24,9 +31,9 @@ export function AppSidebar(props: AppSidebarProps) {
   const { analysisData, user } = props;
   return (
     <Sidebar>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
             <div className="flex items-center">
               <div>
                 <Activity />
@@ -36,13 +43,15 @@ export function AppSidebar(props: AppSidebarProps) {
                 <span className="text-sm">AI Diagnostic Assistant</span>
               </div>
             </div>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup>
-          <SidebarMenuButton className="bg-white flex items-center justify-center p-4 border border-gray-300 rounded">
-            <p className="text-black font-medium"> New Analysis </p>
-          </SidebarMenuButton>
-        </SidebarGroup>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton className="bg-white flex items-center justify-center p-4 border border-gray-300 rounded">
+              <p className="text-black font-medium"> New Analysis </p>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>History</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -57,23 +66,34 @@ export function AppSidebar(props: AppSidebarProps) {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarFooter>
-          <SidebarGroupLabel>Settings</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <form action={signOutAction}>
-                  <SidebarMenuButton formAction={signOutAction}>
-                    <LogOut />
-                    <span> Sign out </span>
-                  </SidebarMenuButton>
-                </form>
-                <p>{user.email}</p>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarFooter>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarGroupLabel>Settings</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton>
+                    <p>{user.email}</p>
+                    <ChevronsUpDown />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" side="right">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <form action={signOutAction}>
+                    <SidebarMenuButton formAction={signOutAction}>
+                      <LogOut />
+                      <span> Sign out </span>
+                    </SidebarMenuButton>
+                  </form>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarFooter>
     </Sidebar>
   );
 }
