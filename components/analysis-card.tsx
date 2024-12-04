@@ -1,22 +1,24 @@
-import {Analysis} from "@/lib/types";
+import { Analysis } from "@/lib/types";
 
 type AnalysisCardProps = {
-    analysis: Analysis
-}
+  analysis: Analysis;
+};
 export default function AnalysisCard(props: AnalysisCardProps) {
-    const {analysis} = props;
+  const { analysis } = props;
 
-    const formattedDate = new Date(analysis.createdAt).toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: '2-digit',
-    });
+  const formattedDate = new Date(analysis.createdAt).toLocaleDateString(
+    "en-GB",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    },
+  );
 
-
-    return (
-        <div className="flex justify-between">
-            <p> Stage {analysis.ckdStagePrediction} </p>
-            <p className="text-gray-700 text-xs"> {formattedDate}</p>
-        </div>
-    );
+  return (
+    <div className="flex justify-between">
+      <p> Stage {analysis.ckdStagePrediction} </p>
+      <p className="text-gray-700 text-xs"> {formattedDate}</p>
+    </div>
+  );
 }
