@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
 } from "@/components/ui/sidebar";
 import AnalysisCard from "@/components/analysis-card";
 import { User } from "@supabase/auth-js";
@@ -17,11 +18,13 @@ import { signOutAction } from "@/app/actions";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { createClient } from "@/utils/supabase/server";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 type AppSidebarProps = {
   analysisData: any[];
@@ -94,6 +97,9 @@ export async function AppSidebar(props: AppSidebarProps) {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" side="right">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Theme</DropdownMenuItem>
+                <ThemeSwitcher />
                 <DropdownMenuSeparator />
                 <form action={signOutAction}>
                   <SidebarMenuButton formAction={signOutAction}>
