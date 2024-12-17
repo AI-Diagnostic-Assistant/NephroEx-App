@@ -15,10 +15,15 @@ export default async function ProtectedPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  if (!user) {
+  if (!user || !session) {
     return redirect("/sign-in");
   }
+
+  const accessToken = session.access_token;
 
   return (
     <div className="flex gap-9">
@@ -30,7 +35,7 @@ export default async function ProtectedPage() {
       </div>
       <div className="flex flex-1 justify-center items-center">
         <div>
-          <FileUpload />
+          <FileUpload token={accessToken} />
         </div>
       </div>
     </div>
