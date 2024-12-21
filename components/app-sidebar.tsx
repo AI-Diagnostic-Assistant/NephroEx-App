@@ -10,7 +10,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
 } from "@/components/ui/sidebar";
 import AnalysisCard from "@/components/analysis-card";
 import { User } from "@supabase/auth-js";
@@ -25,15 +24,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { createClient } from "@/utils/supabase/server";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { getAnalysisData } from "@/lib/data-fetch";
 
 type AppSidebarProps = {
-  analysisData: any[];
   user: User;
 };
 
 export async function AppSidebar(props: AppSidebarProps) {
   const supabase = await createClient();
-  const { analysisData, user } = props;
+
+  const analysisData = await getAnalysisData();
+  const { user } = props;
   const { data: fullUser } = await supabase
     .from("profiles")
     .select("*")
