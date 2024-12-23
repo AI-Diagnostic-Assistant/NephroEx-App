@@ -57,8 +57,17 @@ export async function AppSidebar(props: AppSidebarProps) {
             </div>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton className="bg-white flex items-center justify-center p-4 border border-gray-300 rounded">
-              <p className="text-black font-medium"> New Analysis </p>
+            <SidebarMenuButton
+              asChild
+              className="bg-white flex items-center justify-center p-4 border border-gray-300 rounded"
+            >
+              <a
+                href={"/"}
+                className="text-black font-medium w-full text-center"
+              >
+                {" "}
+                New Analysis{" "}
+              </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
