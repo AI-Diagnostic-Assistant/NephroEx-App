@@ -8,6 +8,11 @@
   color: white;
 }
 
+h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
