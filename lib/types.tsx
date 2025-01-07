@@ -14,7 +14,7 @@ export type CompositeImage = {
 export type Analysis = {
   id: number;
   createdAt: string;
-  confidenceId: number;
+  probabilities: number[];
   userId: number;
   ckdStagePrediction: number;
 };
