@@ -11,7 +11,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import AnalysisCard from "@/components/analysis-card";
 import { User } from "@supabase/auth-js";
 import { signOutAction } from "@/app/actions";
 import {
@@ -24,7 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { createClient } from "@/utils/supabase/server";
 import { ThemeSwitcher } from "@/components/theme-switcher";
-import { getAnalysisData } from "@/lib/data-fetch";
+import AnalysisList from "@/components/analysis-list";
 
 type AppSidebarProps = {
   user: User;
@@ -33,7 +32,6 @@ type AppSidebarProps = {
 export async function AppSidebar(props: AppSidebarProps) {
   const supabase = await createClient();
 
-  const analysisData = await getAnalysisData();
   const { user } = props;
   const { data: fullUser } = await supabase
     .from("profiles")
@@ -76,15 +74,7 @@ export async function AppSidebar(props: AppSidebarProps) {
         <SidebarGroup>
           <SidebarGroupLabel>History</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {analysisData.map((item) => (
-                <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton asChild>
-                    <AnalysisCard analysis={item} />
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+            <AnalysisList />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
