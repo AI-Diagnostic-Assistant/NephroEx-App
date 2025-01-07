@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/client";
 import camelcaseKeys from "camelcase-keys";
 
-export async function getAnalysisData() {
+export async function getAnalyses() {
   const supabase = createClient();
 
   const { data, error } = await supabase

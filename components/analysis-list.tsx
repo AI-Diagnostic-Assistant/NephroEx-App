@@ -6,7 +6,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import AnalysisCard from "@/components/analysis-card";
-import { getAnalysisData } from "@/lib/data-fetch";
+import { getAnalyses } from "@/lib/data-fetch";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import camelcaseKeys from "camelcase-keys";
@@ -32,7 +32,7 @@ export default function AnalysisList() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getAnalysisData();
+      const data = await getAnalyses();
       setAnalysisData(data);
     };
     fetchData();
