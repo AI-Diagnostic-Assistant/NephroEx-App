@@ -1,3 +1,5 @@
+"use client";
+
 import { Analysis } from "@/lib/types";
 
 type AnalysisCardProps = {
@@ -16,9 +18,12 @@ export default function AnalysisCard(props: AnalysisCardProps) {
   );
 
   return (
-    <div className="flex justify-between">
+    <a
+      href={`/analysis/${analysis.id}`}
+      className="flex justify-between w-full"
+    >
       <p> Stage {analysis.ckdStagePrediction} </p>
-      <p className="text-gray-700 text-xs"> {formattedDate}</p>
-    </div>
+      <p className="text-gray-700"> {formattedDate}</p>
+    </a>
   );
 }
