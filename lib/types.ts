@@ -19,7 +19,7 @@ export type Analysis = {
   id: number;
   createdAt: string;
   probabilities: number[];
-  userId: string;
+  userId: string | null;
   ckdStagePrediction: number;
 };
 
@@ -33,3 +33,16 @@ export type Explanation = {
   technique: XAITechnique;
   type: XAIType;
 };
+
+export function isAnalysis(obj: any): obj is Analysis {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    typeof obj.id === "number" &&
+    typeof obj.createdAt === "string" &&
+    Array.isArray(obj.probabilities) &&
+    obj.probabilities.every((prob: any) => typeof prob === "number") &&
+    (typeof obj.userId === "string" || obj.userId === null) &&
+    typeof obj.ckdStagePrediction === "number"
+  );
+}
