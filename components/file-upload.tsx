@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, ChangeEvent } from "react";
-import { CompositeImage } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 
 export default function FileUpload({ token }: { token: string }) {
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>("");
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -31,9 +31,9 @@ export default function FileUpload({ token }: { token: string }) {
         body: formData,
       });
 
-      const data: CompositeImage = await response.json();
-
-      setImageUrl(data.imageUrl);
+      const data = await response.json();
+      console.log("Upload successful:", data.id);
+      router.push(`/analysis/${data.id}`);
     } catch (error) {
       console.error("Upload failed:", error);
       alert("An error occurred during upload.");
@@ -49,13 +49,6 @@ export default function FileUpload({ token }: { token: string }) {
       <div>
         <Button onClick={handleUpload}>Do analysis</Button>
       </div>
-
-      {imageUrl && (
-        <div>
-          <h3>Processed Image:</h3>
-          <img src={imageUrl} alt="Composite" />
-        </div>
-      )}
     </div>
   );
 }
