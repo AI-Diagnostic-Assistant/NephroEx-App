@@ -13,3 +13,15 @@ export function formatDateToNo(dateString: string): string {
     year: "numeric",
   });
 }
+
+export function roundListToThreeSignificantDigits(nums: number[]): number[] {
+  return nums.map((num) => {
+    if (num === 0) return 0;
+    const factor = Math.pow(10, 3);
+    return Math.round(num * factor) / factor;
+  });
+}
+
+export function decimalToPercentage(decimal: number): number {
+  return Number((decimal * 100).toFixed(1));
+}
