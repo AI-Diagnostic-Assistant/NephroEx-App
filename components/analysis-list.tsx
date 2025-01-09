@@ -10,10 +10,13 @@ import { getAnalyses } from "@/lib/data-fetch";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import camelcaseKeys from "camelcase-keys";
+import { usePathname } from "next/navigation";
+import { isActive } from "@/lib/utils";
 
 export default function AnalysisList() {
   const [analysisData, setAnalysisData] = useState<any[]>([]);
   const supabase = createClient();
+  const path = usePathname();
 
   supabase
     .channel("custom-insert-channel")
@@ -42,7 +45,7 @@ export default function AnalysisList() {
     <SidebarMenu>
       {analysisData.map((item) => (
         <SidebarMenuItem key={item.id}>
-          <SidebarMenuButton>
+          <SidebarMenuButton isActive={isActive(path, String(item.id))}>
             <AnalysisCard analysis={item} />
           </SidebarMenuButton>
         </SidebarMenuItem>

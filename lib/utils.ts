@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Analysis } from "@/lib/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -25,3 +26,5 @@ export function roundListToThreeSignificantDigits(nums: number[]): number[] {
 export function decimalToPercentage(decimal: number): number {
   return Number((decimal * 100).toFixed(1));
 }
+
+export const isActive = (a: string, b: string) => a.endsWith("analysis/" + b);
