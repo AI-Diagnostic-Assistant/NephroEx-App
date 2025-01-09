@@ -22,7 +22,7 @@ export default function AnalysisCard(props: AnalysisCardProps) {
       href={`/analysis/${analysis.id}`}
       className="flex justify-between w-full"
     >
-      <p> Stage {analysis.ckdStagePrediction} </p>
+      <p> Stage {analysis.ckdStagePrediction + 1} </p>
       <p className="text-gray-700"> {formattedDate}</p>
     </a>
   );
