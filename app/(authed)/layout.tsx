@@ -18,14 +18,14 @@ export default async function Layout({
     return redirect("/sign-in");
   }
   return (
-    <div className="flex gap-9">
+    <div className="flex gap-3">
       <div className="flex flex-col gap-2">
         <SidebarProvider>
           <AppSidebar user={user} />
           <SidebarTrigger />
         </SidebarProvider>
       </div>
-      <div className="flex flex-1 justify-center items-center">
+      <div className="w-full pt-8 pr-8">
         <div>{children}</div>
       </div>
     </div>
