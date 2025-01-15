@@ -9,30 +9,39 @@ type XAITechnique = "LIME" | "SHAP" | "GradCAM" | "Textual";
 
 type XAIType = "Visual" | "Textual";
 
-export type CompositeImage = {
-  id: number;
+export type Classification = {
+  id: string;
+  type: string;
+  confidence: number[];
   createdAt: string;
-  imageUrl: string;
-};
+  prediction: string;
+  analysisId: number;
+  explanation: Explanation[];
+}
+
+export type Explanation = {
+  id: number;
+  type: XAIType;
+  technique: XAITechnique;
+  roiActivity: number[][];
+  description: string;
+  classificationId: number
+}
 
 export type Analysis = {
   id: number;
   createdAt: string;
-  probabilities: number[];
-  userId: string | null;
   ckdStagePrediction: number;
-};
+  userId: string | null;
+  probabilities: number[];
+  classification: Classification[];
+}
 
 export type AnalysisWithExplanation = Analysis & {
   explanation: Explanation[];
 };
 
-export type Explanation = {
-  id: number;
-  createdAt: string;
-  technique: XAITechnique;
-  type: XAIType;
-};
+
 
 export function isAnalysis(obj: any): obj is Analysis {
   return (

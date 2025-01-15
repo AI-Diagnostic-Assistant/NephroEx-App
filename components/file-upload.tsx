@@ -23,7 +23,7 @@ export default function FileUpload({ token }: { token: string }) {
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/classify", {
+      const response = await fetch("http://127.0.0.1:5000/classify_svm", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -39,6 +39,8 @@ export default function FileUpload({ token }: { token: string }) {
       alert("An error occurred during upload.");
     }
   };
+
+
 
   return (
     <div className="flex flex-col gap-5">

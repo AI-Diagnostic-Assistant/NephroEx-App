@@ -8,16 +8,21 @@ export default function ProbabilityDistribution({
   distribution: number[];
   prediction: number;
 }) {
+
+
   return (
     <div className="flex items-center gap-8 bg-primary-foreground px-3 py-2 rounded-lg">
-      <h1>{prediction + 1}</h1>
-      <div className="flex-1">
+        <h1> {prediction === 0 ? "Healthy" : prediction === 1 ? "Sick" : prediction } </h1>
+
+        <div className="flex-1">
         {distribution.map((value, index) => (
-          <div key={value + index} className="flex items-center gap-3">
-            <div className="w-10 text-center">{index + 1}</div>
+          <div key={value + index} className="flex items-center gap-6">
+            <div className="w-10 text-center">
+                {index === 0 ? "Healthy" : index === 1 ? "Sick" : index}
+            </div>
             <Progress value={decimalToPercentage(value)} className="h-2" />
-            <div className="w-20 text-right">
-              {decimalToPercentage(value)} %
+            <div className="text-right">
+              {decimalToPercentage(value)}%
             </div>
           </div>
         ))}
