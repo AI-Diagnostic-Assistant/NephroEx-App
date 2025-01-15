@@ -29,3 +29,9 @@ export const createClient = async () => {
     },
   );
 };
+
+export async function isLoggedIn() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+  return !!(!error && data?.user);
+}
