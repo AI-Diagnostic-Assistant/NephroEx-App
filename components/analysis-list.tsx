@@ -6,7 +6,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import AnalysisCard from "@/components/analysis-card";
-import { getAnalyses } from "@/lib/data-fetch";
+import { getAnalyses } from "@/lib/data-access";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import camelcaseKeys from "camelcase-keys";
