@@ -17,3 +17,32 @@ export const signInFormSchema = z.object({
   email: z.string().email({ message: "Invalid email" }),
   password: z.string().min(1, { message: "Password is required" }),
 });
+
+export const analysisFormSchema = z
+  .object({
+    dicomImages: z
+      .instanceof(File, { message: "You must select a file" })
+      .refine((file) => file.type === "application/dicom", {
+        message: "You must select a DICOM file",
+      }),
+    patientId: z.string().optional(),
+    patientName: z.string().optional(),
+    email: z.string().email("Invalid email format").optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.patientId && (data.patientName || data.email)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["patientId"],
+        message: "Cannot provide both Patient ID and Name/Email.",
+      });
+    }
+
+    if (!data.patientId && !data.patientName) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["patientName"],
+        message: "You must provide either Patient ID or Patient Name.",
+      });
+    }
+  });

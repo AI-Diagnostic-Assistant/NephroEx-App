@@ -1,9 +1,15 @@
-import { signInFormSchema, signUpFormSchema } from "@/lib/schemas";
+import {
+  analysisFormSchema,
+  signInFormSchema,
+  signUpFormSchema,
+} from "@/lib/schemas";
 import { z } from "zod";
 
 export type SignUpFormValues = z.infer<typeof signUpFormSchema>;
 
 export type SignInFormValues = z.infer<typeof signInFormSchema>;
+
+export type AnalysisFormValues = z.infer<typeof analysisFormSchema>;
 
 type XAITechnique = "LIME" | "SHAP" | "GradCAM" | "Textual";
 

@@ -15,5 +15,9 @@ export default async function Page() {
 
   const accessToken = session.access_token;
 
-  return <FileUpload token={accessToken} />;
+  return (
+    <div className="flex h-[calc(100vh-32px)] justify-center items-center">
+      <FileUpload token={accessToken} />
+    </div>
+  );
 }
