@@ -1,6 +1,6 @@
 import { formatDateToNo } from "@/lib/utils";
 import AnalysisTabs from "@/components/analysis-tabs";
-import { getAnalysisData } from "@/lib/data-access";
+import {getAnalysisData, getSignedUrls} from "@/lib/data-access";
 
 export default async function Analysis({
   params,
@@ -20,6 +20,8 @@ export default async function Analysis({
 
   const { createdAt, classification } = data;
 
+  const publicUrls = await getSignedUrls(data.dicomStorageIds);
+
   return (
     <div>
       <div className="mb-8 p-4 pt-24">
@@ -30,14 +32,26 @@ export default async function Analysis({
         </p>
       </div>
       <div className="flex flex-col gap-9 p-4">
-        <div className="bg-white border border-gray-100 p-4">
+        <div className="bg-white border border-gray-100 p-4 shadow-sm">
           <AnalysisTabs classifications={classification} />
         </div>
-        <div className="bg-white border border-gray-100 p-4">
-          <h2>Excretion timeline</h2>
-          <div>Her skal DICOM bilder vises</div>
+        <div className="bg-white border border-gray-100 p-4 shadow-sm">
+          <h2>Radiotracer flow</h2>
+          <div className="flex gap-1 flex-wrap">
+            {publicUrls?.map((publicUrl, index) => (
+                <div key={index}>
+                    <img
+                    src={publicUrl.signedUrl}
+                    alt="Excretion timeline"
+                    className="w-36"
+                    />
+                </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
+

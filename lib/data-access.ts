@@ -71,3 +71,20 @@ export async function getAllPatients() {
 
   return { data: formattedData, error };
 }
+
+
+export async function getSignedUrls (dicomStorageId: string[])  {
+  const supabase = await createClient();
+
+    const { data, error} = await supabase.storage.from('grouped-dicom-frames').createSignedUrls(dicomStorageId, 3600);
+
+    if(error) {
+      throw new Error(`Failed to fetch signed urls: ${error.message}`);
+
+    }
+
+    return data
+  }
+
+
+

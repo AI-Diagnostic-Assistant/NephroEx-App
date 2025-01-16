@@ -40,6 +40,7 @@ export type Analysis = {
   ckdStagePrediction: number;
   userId: string | null;
   probabilities: number[];
+  dicomStorageIds: string[];
   classification: Classification[];
 }
 
