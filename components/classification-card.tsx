@@ -3,7 +3,6 @@ import { Classification } from "@/lib/types";
 import {ExplanationCard} from "@/components/explanation-card";
 
 
-
 interface ClassificationCardProps {
     classification: Classification;
 }
@@ -12,7 +11,7 @@ export async function ClassificationCard(props: ClassificationCardProps) {
     const { classification} = props
 
     return (
-        <div className="flex gap-28">
+        <div className="flex gap-28 w-full">
             <div className="flex flex-col gap-4 xl:min-w-96">
                 <h2>Classification Result</h2>
                 <div className="flex gap-4">
@@ -35,10 +34,10 @@ export async function ClassificationCard(props: ClassificationCardProps) {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col gap-4 xl:min-w-96">
+            <div className="flex flex-col gap-4 xl:min-w-96 w-full">
                 <h2>Explanation</h2>
                 {classification.explanation?.map((explanation, index) => (
-                    <div key={index} className="flex flex-col gap-4">
+                    <div key={index} className="flex flex-col gap-4 w-full">
                         <ExplanationCard explanation={explanation}/>
                     </div>
                 ))}

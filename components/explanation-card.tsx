@@ -10,11 +10,11 @@ export async function ExplanationCard(props: ExplanationCardProps) {
 
     return (
         <div className="flex flex-col gap-4">
-            <div>
-                {explanation.roiActivity.length && (
-                    <div className="bg-primary-foreground px-3 py-2 rounded-lg">
+            <div className="w-full">
+                {explanation.roiActivity?.length > 0 && (
+                    <div className="bg-primary-foreground px-3 py-2 rounded-lg w-full">
                         <h3> Renogram </h3>
-                        <div className="">
+                        <div className="w-full">
                             <RenogramChart
                                 datasets={[
                                     {

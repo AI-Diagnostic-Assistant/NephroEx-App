@@ -24,7 +24,7 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
                 <LineChart data={chartData}>
                     <CartesianGrid vertical={false} />
                     <XAxis
-                        dataKey="frame"
+                        dataKey="time"
                         label={{ value: 'Frames', position: 'insideBottom', offset: -5 }}
                         interval={15}
                     />
