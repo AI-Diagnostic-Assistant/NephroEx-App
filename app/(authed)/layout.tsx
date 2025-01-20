@@ -24,7 +24,7 @@ export default async function Layout({
           <AppSidebar user={user} />
         </SidebarProvider>
       </div>
-      <div className="w-full bg-gray-50">
+      <div className="w-full">
         <div>{children}</div>
       </div>
     </div>

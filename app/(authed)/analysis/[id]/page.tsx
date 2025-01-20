@@ -1,6 +1,6 @@
 import { formatDateToNo } from "@/lib/utils";
 import AnalysisTabs from "@/components/analysis-tabs";
-import {getAnalysisData, getSignedUrls} from "@/lib/data-access";
+import { getAnalysisData, getSignedUrls } from "@/lib/data-access";
 
 export default async function Analysis({
   params,
@@ -24,7 +24,7 @@ export default async function Analysis({
 
   return (
     <div>
-      <div className="mb-8 p-4 pt-24">
+      <div className="mb-8 px-4 pt-20">
         <p className="text-primary-brand">{formatDateToNo(createdAt)}</p>
         <h1>Analysis #{id}</h1>
         <p className="text-sidebar-foreground/70">
@@ -32,20 +32,20 @@ export default async function Analysis({
         </p>
       </div>
       <div className="flex flex-col gap-9 p-4">
-        <div className="bg-white border border-gray-100 p-4 shadow-sm">
+        <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md">
           <AnalysisTabs classifications={classification} />
         </div>
-        <div className="bg-white border border-gray-100 p-4 shadow-sm">
+        <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md">
           <h2>Radiotracer flow</h2>
           <div className="flex gap-1 flex-wrap">
             {publicUrls?.map((publicUrl, index) => (
-                <div key={index}>
-                    <img
-                    src={publicUrl.signedUrl}
-                    alt="Excretion timeline"
-                    className="w-36"
-                    />
-                </div>
+              <div key={index}>
+                <img
+                  src={publicUrl.signedUrl}
+                  alt="Excretion timeline"
+                  className="w-36"
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -53,5 +53,3 @@ export default async function Analysis({
     </div>
   );
 }
-
-
