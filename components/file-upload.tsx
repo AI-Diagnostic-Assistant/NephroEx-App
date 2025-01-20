@@ -31,12 +31,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { analysisFormSchema } from "@/lib/schemas";
 import { AnalysisFormValues } from "@/lib/types";
-import { createClient } from "@/utils/supabase/client";
 import useSWR from "swr";
-import { getAllPatients } from "@/lib/data-access";
+import { createPatient, getAllPatients } from "@/lib/data-access";
 
 export default function FileUpload({ token }: { token: string }) {
-  const supabase = createClient();
   const router = useRouter();
   const form = useForm<AnalysisFormValues>({
     resolver: zodResolver(analysisFormSchema),
