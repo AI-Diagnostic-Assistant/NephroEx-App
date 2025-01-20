@@ -107,7 +107,7 @@ export default function FileUpload({ token }: { token: string }) {
                     render={({ field }) => {
                       return (
                         <FormItem>
-                          <FormLabel>ID</FormLabel>
+                          <FormLabel>Patient</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
@@ -115,7 +115,7 @@ export default function FileUpload({ token }: { token: string }) {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select a verified email to display" />
+                                <SelectValue placeholder="Select a patient to create the analysis for" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
