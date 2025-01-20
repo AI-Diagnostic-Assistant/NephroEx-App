@@ -54,11 +54,19 @@ export default function FileUpload({ token }: { token: string }) {
     formData.append("file", data.dicomImages);
 
     if (data.patientId) {
-      // Perform action with Patient ID
       console.log("Performing action with Patient ID:", data.patientId);
       formData.append("patientId", data.patientId);
     } else if (data.patientName) {
-      // create new patient
+      console.log("Performing action with Patient Name:", data);
+      const { data: patientData, error } = await createPatient(
+        data.patientName,
+        data.email ?? null,
+      );
+      if (error || !patientData) {
+        alert("An error occurred while creating the patient.");
+        return;
+      }
+      formData.append("patientId", patientData.id);
     }
 
     try {

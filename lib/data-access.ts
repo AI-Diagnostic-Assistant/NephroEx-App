@@ -72,19 +72,32 @@ export async function getAllPatients() {
   return { data: formattedData, error };
 }
 
-
-export async function getSignedUrls (dicomStorageId: string[])  {
+export async function getSignedUrls(dicomStorageId: string[]) {
   const supabase = await createClient();
 
-    const { data, error} = await supabase.storage.from('grouped-dicom-frames').createSignedUrls(dicomStorageId, 3600);
+  const { data, error } = await supabase.storage
+    .from("grouped-dicom-frames")
+    .createSignedUrls(dicomStorageId, 3600);
 
-    if(error) {
-      throw new Error(`Failed to fetch signed urls: ${error.message}`);
-
-    }
-
-    return data
+  if (error) {
+    throw new Error(`Failed to fetch signed urls: ${error.message}`);
   }
 
+  return data;
+}
 
+export async function createPatient(name: string, email: string | null) {
+  if (!(await isLoggedIn())) redirect("/login");
 
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("patient")
+    .insert({ name: name, email: email })
+    .select("id")
+    .single();
+
+  let formattedData = data ? camelcaseKeys(data, { deep: true }) : null;
+
+  return { data: formattedData, error };
+}
