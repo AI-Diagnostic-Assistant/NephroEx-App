@@ -38,6 +38,7 @@ export type Database = {
         Row: {
           ckd_stage_prediction: number;
           created_at: string;
+          dicom_storage_ids: string[] | null;
           id: number;
           patient_id: string | null;
           probabilities: number[];
@@ -47,6 +48,7 @@ export type Database = {
         Insert: {
           ckd_stage_prediction: number;
           created_at?: string;
+          dicom_storage_ids?: string[] | null;
           id?: number;
           patient_id?: string | null;
           probabilities: number[];
@@ -56,6 +58,7 @@ export type Database = {
         Update: {
           ckd_stage_prediction?: number;
           created_at?: string;
+          dicom_storage_ids?: string[] | null;
           id?: number;
           patient_id?: string | null;
           probabilities?: number[];
@@ -176,21 +179,21 @@ export type Database = {
       };
       patient: {
         Row: {
-          clinician_id: string;
+          clinician_id: string | null;
           created_at: string;
           email: string | null;
           id: string;
           name: string;
         };
         Insert: {
-          clinician_id: string;
+          clinician_id?: string | null;
           created_at?: string;
           email?: string | null;
           id?: string;
           name: string;
         };
         Update: {
-          clinician_id?: string;
+          clinician_id?: string | null;
           created_at?: string;
           email?: string | null;
           id?: string;
