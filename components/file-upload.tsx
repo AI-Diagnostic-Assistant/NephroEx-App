@@ -9,6 +9,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import {
   Select,
@@ -126,6 +127,13 @@ export default function FileUpload({ token }: { token: string }) {
                               ))}
                             </SelectContent>
                           </Select>
+                          {patientName && (
+                            <FormDescription>
+                              Cannot select patient when trying to create a new
+                              one. Remove the name in the &#34;New patient&#34;
+                              tab.
+                            </FormDescription>
+                          )}
                           <FormMessage />
                         </FormItem>
                       );
@@ -148,6 +156,12 @@ export default function FileUpload({ token }: { token: string }) {
                               {...field}
                             ></Input>
                           </FormControl>
+                          {patientId && (
+                            <FormDescription>
+                              Cannot create patient when patient is already
+                              selected. Refresh the page to reset.
+                            </FormDescription>
+                          )}
                           <FormMessage />
                         </FormItem>
                       );
