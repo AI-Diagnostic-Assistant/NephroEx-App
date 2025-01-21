@@ -23,7 +23,7 @@ export type Classification = {
   prediction: string;
   analysisId: number;
   explanation: Explanation[];
-}
+};
 
 export type Explanation = {
   id: number;
@@ -31,8 +31,8 @@ export type Explanation = {
   technique: XAITechnique;
   roiActivity: number[][];
   description: string;
-  classificationId: number
-}
+  classificationId: number;
+};
 
 export type Analysis = {
   id: number;
@@ -42,13 +42,11 @@ export type Analysis = {
   probabilities: number[];
   dicomStorageIds: string[];
   classification: Classification[];
-}
+};
 
 export type AnalysisWithExplanation = Analysis & {
   explanation: Explanation[];
 };
-
-
 
 export function isAnalysis(obj: any): obj is Analysis {
   return (
