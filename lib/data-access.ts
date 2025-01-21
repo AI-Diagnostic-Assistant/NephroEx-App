@@ -59,8 +59,6 @@ export async function getAnalysisData(id: string) {
 
   if (error) {
     console.error("Error fetching data:", error);
-  } else {
-    console.log("Fetched data:", data);
   }
 
   let formattedData = data ? camelcaseKeys(data, { deep: true }) : null;

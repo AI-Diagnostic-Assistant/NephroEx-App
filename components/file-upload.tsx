@@ -54,10 +54,8 @@ export default function FileUpload({ token }: { token: string }) {
     formData.append("file", data.dicomImages);
 
     if (data.patientId) {
-      console.log("Performing action with Patient ID:", data.patientId);
       formData.append("patientId", data.patientId);
     } else if (data.patientName) {
-      console.log("Performing action with Patient Name:", data);
       const { data: patientData, error } = await createPatient(
         data.patientName,
         data.email ?? null,
@@ -79,7 +77,6 @@ export default function FileUpload({ token }: { token: string }) {
       });
 
       const data = await response.json();
-      console.log("Upload successful:", data.id);
       router.push(`/analysis/${data.id}`);
     } catch (error) {
       console.error("Upload failed:", error);
