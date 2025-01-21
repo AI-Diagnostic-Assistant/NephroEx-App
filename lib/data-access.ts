@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { isAnalysis } from "@/lib/types";
 
 export async function getPatientsWithAnalyses() {
-  if (!(await isLoggedIn())) redirect("/login");
+  if (!(await isLoggedIn())) redirect("/sign-in");
 
   const supabase = await createClient();
 
@@ -35,6 +35,7 @@ export async function getPatientsWithAnalyses() {
 }
 
 export async function getAnalysisData(id: string) {
+  if (!(await isLoggedIn())) redirect("/sign-in");
   const supabase = await createClient();
 
   //const { data, error } = await supabase
@@ -71,7 +72,7 @@ export async function getAnalysisData(id: string) {
 }
 
 export async function getAllPatients() {
-  if (!(await isLoggedIn())) redirect("/login");
+  if (!(await isLoggedIn())) redirect("/sign-in");
 
   const supabase = await createClient();
 
@@ -83,6 +84,7 @@ export async function getAllPatients() {
 }
 
 export async function getSignedUrls(dicomStorageId: string[]) {
+  if (!(await isLoggedIn())) redirect("/sign-in");
   const supabase = await createClient();
 
   const { data, error } = await supabase.storage
@@ -107,7 +109,7 @@ export async function getSignedUrl(fileName: string, bucketName: string) {
 }
 
 export async function createPatient(name: string, email: string | null) {
-  if (!(await isLoggedIn())) redirect("/login");
+  if (!(await isLoggedIn())) redirect("/sign-in");
 
   const supabase = await createClient();
 
