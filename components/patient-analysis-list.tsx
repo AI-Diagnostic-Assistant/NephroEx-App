@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/sidebar";
 import { getPatientsWithAnalyses } from "@/lib/data-access";
 import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import camelcaseKeys from "camelcase-keys";
 import { usePathname } from "next/navigation";
 import { formatDateToNo, isActive } from "@/lib/utils";
 import {
@@ -23,23 +21,7 @@ import { ChevronRight } from "lucide-react";
 
 export default function PatientAnalysisList() {
   const [patientData, setPatientData] = useState<any[]>([]);
-  const supabase = createClient();
   const path = usePathname();
-
-  supabase
-    .channel("custom-insert-channel")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "analysis" },
-      (payload) => {
-        console.log("Change received!", payload);
-        setPatientData((prev) => [
-          ...prev,
-          camelcaseKeys(payload.new, { deep: true }),
-        ]);
-      },
-    )
-    .subscribe();
 
   useEffect(() => {
     const fetchData = async () => {
