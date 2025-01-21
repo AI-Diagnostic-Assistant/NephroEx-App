@@ -5,19 +5,31 @@ import camelcaseKeys from "camelcase-keys";
 import { redirect } from "next/navigation";
 import { isAnalysis } from "@/lib/types";
 
-export async function getAnalyses() {
+export async function getPatientsWithAnalyses() {
   if (!(await isLoggedIn())) redirect("/login");
 
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from("analysis")
-    .select()
+    .from("patient")
+    .select(
+      `
+        *,
+        analysis (*)
+    `,
+    )
     .order("created_at", { ascending: false });
 
   if (error) {
     throw new Error(`Failed to fetch data: ${error.message}`);
   }
+
+  data?.map((patient) =>
+    patient.analysis.sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    ),
+  );
 
   return data ? camelcaseKeys(data, { deep: true }) : [];
 }

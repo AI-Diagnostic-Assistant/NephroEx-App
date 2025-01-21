@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { createClient } from "@/utils/supabase/server";
 import { ThemeSwitcher } from "@/components/theme-switcher";
-import AnalysisList from "@/components/analysis-list";
+import PatientAnalysisList from "@/components/patient-analysis-list";
 
 type AppSidebarProps = {
   user: User;
@@ -72,9 +72,9 @@ export async function AppSidebar(props: AppSidebarProps) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>History</SidebarGroupLabel>
+          <SidebarGroupLabel>Patients</SidebarGroupLabel>
           <SidebarGroupContent>
-            <AnalysisList />
+            <PatientAnalysisList />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
