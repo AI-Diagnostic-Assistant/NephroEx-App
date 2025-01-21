@@ -32,7 +32,7 @@ export default async function Analysis({
         </p>
       </div>
       <div className="flex flex-col gap-9 p-4">
-        <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md">
+        <div className="bg-white border border-gray-100 py-4 shadow-sm rounded-md">
           <AnalysisTabs classifications={classification} />
         </div>
         <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md">
