@@ -37,10 +37,14 @@ import {
   createPatient,
   getAllPatients,
 } from "@/lib/data-access";
+import {useState} from "react";
+import {Spinner} from "@/components/ui/spinner";
 
 export default function FileUpload({ token }: { token: string }) {
   const router = useRouter();
-  const form = useForm<AnalysisFormValues>({
+    const [isLoading, setIsLoading] = useState(false); // Loading state
+
+    const form = useForm<AnalysisFormValues>({
     resolver: zodResolver(analysisFormSchema),
     defaultValues: {
       patientId: "",
@@ -54,6 +58,7 @@ export default function FileUpload({ token }: { token: string }) {
   const patientName = form.watch("patientName");
 
   const handleUpload = async (data: AnalysisFormValues) => {
+      setIsLoading(true);
     const formData = new FormData();
     formData.append("file", data.dicomImages);
 
@@ -66,7 +71,8 @@ export default function FileUpload({ token }: { token: string }) {
       );
       if (error || !patientData) {
         alert("An error occurred while creating the patient.");
-        return;
+          setIsLoading(false); // Reset loading state
+          return;
       }
       formData.append("patientId", patientData.id);
     }
@@ -77,6 +83,8 @@ export default function FileUpload({ token }: { token: string }) {
       console.error("Upload failed:", error);
       alert("An error occurred during upload.");
     } else router.push(`/analysis/${classifyData.id}`);
+
+    setIsLoading(false)
   };
 
   return (
@@ -212,9 +220,13 @@ export default function FileUpload({ token }: { token: string }) {
                     );
                   }}
                 />
-                <Button className="mt-8 w-full" type="submit">
-                  Legg til prosjekt
-                </Button>
+                  <Button className="mt-8 w-full" type="submit" disabled={isLoading}>
+                      {isLoading ? (
+                          <span className="flex items-center gap-2">
+                            Uploading
+                            <Spinner size="sm" className="bg-white" />
+                        </span>): "Upload"}
+                  </Button>
               </form>
             </Form>
           </CardContent>
