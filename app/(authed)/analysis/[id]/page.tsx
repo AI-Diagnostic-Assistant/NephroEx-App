@@ -3,7 +3,6 @@ import AnalysisTabs from "@/components/analysis-tabs";
 import {
   getAnalysisData,
   getPublicUrl,
-  getSignedUrl,
   getSignedUrls,
 } from "@/lib/data-access";
 import { DicomViewer } from "@/components/dicom-viewer";
@@ -25,14 +24,16 @@ export default async function Analysis({
     return <div>No data found for Analysis #{id}</div>;
   }
 
-  const publicUrl = await getPublicUrl(data?.roiContourObjectPath);
-  console.log(publicUrl);
-
   const { createdAt, classification } = data;
 
   const summed_frames_signed_urls = await getSignedUrls(data.dicomStorageIds);
 
-  const total_patient_dicom_signed_url = await getSignedUrl(
+  const publicUrl = await getPublicUrl(
+    data?.roiContourObjectPath,
+    "roi_contours",
+  );
+
+  const total_patient_dicom_public_url = await getPublicUrl(
     data.patientDicomStorageId,
     "patient-dicom-files",
   );
@@ -53,17 +54,17 @@ export default async function Analysis({
         <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md flex flex-col gap-9">
           <h2>Radiotracer flow</h2>
           <div className="flex gap-1 flex-wrap">
-            {summed_frames_signed_urls?.map((publicUrl, index) => (
+            {summed_frames_signed_urls?.map((signedUrl, index) => (
               <div key={index} className="relative">
                 <img
-                  src={publicUrl.signedUrl}
+                  src={signedUrl.signedUrl}
                   alt="Excretion timeline"
                   className="w-36"
                 />
                 {publicUrl && (
                   <Image
                     src={publicUrl}
-                    alt="Excretion timeline"
+                    alt="ROI contour"
                     width={144}
                     height={144}
                     className="absolute top-0 left-0 z-50"
@@ -76,7 +77,7 @@ export default async function Analysis({
             <div>
               <h2>Patient DICOM</h2>
               <DicomViewer
-                dicomUrl={`wadouri:${total_patient_dicom_signed_url.publicUrl}`}
+                dicomUrl={`wadouri:${total_patient_dicom_public_url}`}
               />
             </div>
           )}
