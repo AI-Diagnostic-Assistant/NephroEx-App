@@ -27,4 +27,8 @@ export function decimalToPercentage(decimal: number): number {
   return Number((decimal * 100).toFixed(1));
 }
 
+export function capitalizeFirstLetter(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export const isActive = (a: string, b: string) => a.endsWith("analysis/" + b);
