@@ -101,11 +101,20 @@ export async function getSignedUrls(dicomStorageId: string[]) {
 export async function getSignedUrl(fileName: string, bucketName: string) {
   const supabase = await createClient();
 
-  const { data } =  supabase.storage
-      .from(bucketName)
-      .getPublicUrl(fileName);
+  const { data } = supabase.storage.from(bucketName).getPublicUrl(fileName);
 
   return data;
+}
+
+export async function getPublicUrl(path: string | null) {
+  if (!(await isLoggedIn())) redirect("/sign-in");
+  const supabase = await createClient();
+
+  if (!path) return null;
+
+  const { data } = supabase.storage.from("roi_contours").getPublicUrl(path);
+
+  return data.publicUrl;
 }
 
 export async function createPatient(name: string, email: string | null) {

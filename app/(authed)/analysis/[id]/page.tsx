@@ -1,7 +1,13 @@
 import { formatDateToNo } from "@/lib/utils";
 import AnalysisTabs from "@/components/analysis-tabs";
-import {getAnalysisData, getSignedUrl, getSignedUrls} from "@/lib/data-access";
-import {DicomViewer} from "@/components/dicom-viewer";
+import {
+  getAnalysisData,
+  getPublicUrl,
+  getSignedUrl,
+  getSignedUrls,
+} from "@/lib/data-access";
+import { DicomViewer } from "@/components/dicom-viewer";
+import Image from "next/image";
 
 export default async function Analysis({
   params,
@@ -19,11 +25,17 @@ export default async function Analysis({
     return <div>No data found for Analysis #{id}</div>;
   }
 
+  const publicUrl = await getPublicUrl(data?.roiContourObjectPath);
+  console.log(publicUrl);
+
   const { createdAt, classification } = data;
 
   const summed_frames_signed_urls = await getSignedUrls(data.dicomStorageIds);
 
-  const total_patient_dicom_signed_url = await getSignedUrl(data.patientDicomStorageId, "patient-dicom-files");
+  const total_patient_dicom_signed_url = await getSignedUrl(
+    data.patientDicomStorageId,
+    "patient-dicom-files",
+  );
 
   return (
     <div>
@@ -42,20 +54,31 @@ export default async function Analysis({
           <h2>Radiotracer flow</h2>
           <div className="flex gap-1 flex-wrap">
             {summed_frames_signed_urls?.map((publicUrl, index) => (
-                <div key={index}>
-                  <img
-                      src={publicUrl.signedUrl}
-                      alt="Excretion timeline"
-                      className="w-36"
+              <div key={index} className="relative">
+                <img
+                  src={publicUrl.signedUrl}
+                  alt="Excretion timeline"
+                  className="w-36"
+                />
+                {publicUrl && (
+                  <Image
+                    src={publicUrl}
+                    alt="Excretion timeline"
+                    width={144}
+                    height={144}
+                    className="absolute top-0 left-0 z-50"
                   />
-                </div>
+                )}
+              </div>
             ))}
           </div>
           {data.patientDicomStorageId && (
-              <div>
-                <h2>Patient DICOM</h2>
-                <DicomViewer dicomUrl={`wadouri:${total_patient_dicom_signed_url.publicUrl}`} />
-              </div>
+            <div>
+              <h2>Patient DICOM</h2>
+              <DicomViewer
+                dicomUrl={`wadouri:${total_patient_dicom_signed_url.publicUrl}`}
+              />
+            </div>
           )}
         </div>
       </div>
