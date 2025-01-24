@@ -96,6 +96,16 @@ export async function getSignedUrls(dicomStorageId: string[]) {
   return data;
 }
 
+export async function getSignedUrl(fileName: string, bucketName: string) {
+  const supabase = await createClient();
+
+  const { data } =  supabase.storage
+      .from(bucketName)
+      .getPublicUrl(fileName);
+
+  return data;
+}
+
 export async function createPatient(name: string, email: string | null) {
   if (!(await isLoggedIn())) redirect("/login");
 

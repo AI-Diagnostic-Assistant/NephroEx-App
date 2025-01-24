@@ -41,6 +41,7 @@ export type Analysis = {
   userId: string | null;
   probabilities: number[];
   dicomStorageIds: string[];
+  patientDicomStorageId: string;
   classification: Classification[];
 };
 
