@@ -32,7 +32,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { analysisFormSchema } from "@/lib/schemas";
 import { AnalysisFormValues } from "@/lib/types";
 import useSWR from "swr";
-import { createPatient, getAllPatients } from "@/lib/data-access";
+import {
+  classifyImages,
+  createPatient,
+  getAllPatients,
+} from "@/lib/data-access";
 
 export default function FileUpload({ token }: { token: string }) {
   const router = useRouter();
@@ -67,21 +71,12 @@ export default function FileUpload({ token }: { token: string }) {
       formData.append("patientId", patientData.id);
     }
 
-    try {
-      const response = await fetch("http://127.0.0.1:5000/classify", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+    const { data: classifyData, error } = await classifyImages(formData, token);
 
-      const data = await response.json();
-      router.push(`/analysis/${data.id}`);
-    } catch (error) {
+    if (error) {
       console.error("Upload failed:", error);
       alert("An error occurred during upload.");
-    }
+    } else router.push(`/analysis/${classifyData.id}`);
   };
 
   return (
