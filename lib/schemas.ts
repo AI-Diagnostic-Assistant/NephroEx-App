@@ -27,7 +27,10 @@ export const analysisFormSchema = z
       }),
     patientId: z.string().optional(),
     patientName: z.string().optional(),
-    email: z.string().email("Invalid email format").optional(),
+    email: z.preprocess(
+      (val) => (val === "" ? undefined : val),
+      z.string().email("Invalid email format").optional(),
+    ),
   })
   .superRefine((data, ctx) => {
     if (data.patientId && (data.patientName || data.email)) {

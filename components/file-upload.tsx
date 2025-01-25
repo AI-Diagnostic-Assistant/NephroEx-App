@@ -47,6 +47,7 @@ export default function FileUpload({ token }: { token: string }) {
     defaultValues: {
       patientId: "",
       patientName: "",
+      email: "",
     },
   });
 
