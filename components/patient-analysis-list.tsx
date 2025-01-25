@@ -8,7 +8,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { getPatientsWithAnalyses } from "@/lib/data-access";
+import { getPatientsWithAnalyses } from "@/lib/data-access/analysis";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { formatDateToNo, isActive } from "@/lib/utils";

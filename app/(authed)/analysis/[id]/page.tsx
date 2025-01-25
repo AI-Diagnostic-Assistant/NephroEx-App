@@ -1,12 +1,10 @@
 import { formatDateToNo } from "@/lib/utils";
 import AnalysisTabs from "@/components/analysis-tabs";
-import {
-  getAnalysisData,
-  getPublicUrl,
-  getSignedUrls,
-} from "@/lib/data-access";
+
 import { DicomViewer } from "@/components/dicom-viewer";
 import Image from "next/image";
+import { getAnalysisData } from "@/lib/data-access/analysis";
+import { getPublicUrl, getSignedUrls } from "@/lib/data-access/utils";
 
 export default async function Analysis({
   params,
@@ -56,35 +54,34 @@ export default async function Analysis({
             <h2>Radiotracer Flow</h2>
             <div className="flex gap-1 flex-wrap">
               {summed_frames_signed_urls?.map((signedUrl, index) => (
-                  <div key={index} className="relative">
-                    <img
-                        src={signedUrl.signedUrl}
-                        alt="Excretion timeline"
-                        className="w-36"
+                <div key={index} className="relative">
+                  <img
+                    src={signedUrl.signedUrl}
+                    alt="Excretion timeline"
+                    className="w-36"
+                  />
+                  {publicUrl && (
+                    <Image
+                      src={publicUrl}
+                      alt="ROI contour"
+                      width={144}
+                      height={144}
+                      className="absolute top-0 left-0 z-50"
                     />
-                    {publicUrl && (
-                        <Image
-                            src={publicUrl}
-                            alt="ROI contour"
-                            width={144}
-                            height={144}
-                            className="absolute top-0 left-0 z-50"
-                        />
-                    )}
-                  </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
           <div>
             {data.patientDicomStorageId && (
-                <div>
-                  <h2>DICOM Viewer</h2>
-                  <DicomViewer
-                      dicomUrl={`wadouri:${total_patient_dicom_public_url}`}
-                  />
-                </div>
+              <div>
+                <h2>DICOM Viewer</h2>
+                <DicomViewer
+                  dicomUrl={`wadouri:${total_patient_dicom_public_url}`}
+                />
+              </div>
             )}
-
           </div>
         </div>
       </div>

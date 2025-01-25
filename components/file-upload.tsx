@@ -32,13 +32,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { analysisFormSchema } from "@/lib/schemas";
 import { AnalysisFormValues } from "@/lib/types";
 import useSWR from "swr";
-import {
-  classifyImages,
-  createPatient,
-  getAllPatients,
-} from "@/lib/data-access";
+import { getAllPatients } from "@/lib/data-access/patient";
 import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
+import { toast } from "sonner";
+import { createAnalysis } from "@/lib/data-access/analysis";
 
 export default function FileUpload({ token }: { token: string }) {
   const router = useRouter();
@@ -59,32 +57,18 @@ export default function FileUpload({ token }: { token: string }) {
 
   const handleUpload = async (data: AnalysisFormValues) => {
     setIsLoading(true);
-    const formData = new FormData();
-    formData.append("file", data.dicomImages);
-
-    if (data.patientId) {
-      formData.append("patientId", data.patientId);
-    } else if (data.patientName) {
-      const { data: patientData, error } = await createPatient(
-        data.patientName,
-        data.email ?? null,
-      );
-      if (error || !patientData) {
-        alert("An error occurred while creating the patient.");
-        setIsLoading(false); // Reset loading state
-        return;
-      }
-      formData.append("patientId", patientData.id);
-    }
-
-    const { data: classifyData, error } = await classifyImages(formData, token);
-
-    if (error) {
-      console.error("Upload failed:", error);
-      alert("An error occurred during upload.");
-    } else router.push(`/analysis/${classifyData.id}`);
-
-    setIsLoading(false);
+    toast.promise(createAnalysis(data, token), {
+      loading: "Creating analysis...",
+      success: (data) => {
+        setIsLoading(false);
+        router.push(`/analysis/${data.id}`);
+        return "Analysis created successfully";
+      },
+      error: (error) => {
+        setIsLoading(false);
+        return `An error occurred: ${error.message}`;
+      },
+    });
   };
 
   return (
