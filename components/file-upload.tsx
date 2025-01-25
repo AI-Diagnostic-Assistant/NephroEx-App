@@ -37,14 +37,14 @@ import {
   createPatient,
   getAllPatients,
 } from "@/lib/data-access";
-import {useState} from "react";
-import {Spinner} from "@/components/ui/spinner";
+import { useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function FileUpload({ token }: { token: string }) {
   const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
-    const form = useForm<AnalysisFormValues>({
+  const form = useForm<AnalysisFormValues>({
     resolver: zodResolver(analysisFormSchema),
     defaultValues: {
       patientId: "",
@@ -58,7 +58,7 @@ export default function FileUpload({ token }: { token: string }) {
   const patientName = form.watch("patientName");
 
   const handleUpload = async (data: AnalysisFormValues) => {
-      setIsLoading(true);
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("file", data.dicomImages);
 
@@ -71,8 +71,8 @@ export default function FileUpload({ token }: { token: string }) {
       );
       if (error || !patientData) {
         alert("An error occurred while creating the patient.");
-          setIsLoading(false); // Reset loading state
-          return;
+        setIsLoading(false); // Reset loading state
+        return;
       }
       formData.append("patientId", patientData.id);
     }
@@ -84,7 +84,7 @@ export default function FileUpload({ token }: { token: string }) {
       alert("An error occurred during upload.");
     } else router.push(`/analysis/${classifyData.id}`);
 
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   return (
@@ -105,7 +105,7 @@ export default function FileUpload({ token }: { token: string }) {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(handleUpload)}
-                className="flex flex-col gap-4"
+                className="flex flex-col gap-8"
               >
                 <TabsContent value="existing">
                   <FormField
@@ -146,7 +146,7 @@ export default function FileUpload({ token }: { token: string }) {
                     }}
                   />
                 </TabsContent>
-                <TabsContent className="space-y-2" value="new">
+                <TabsContent className="space-y-8" value="new">
                   <FormField
                     control={form.control}
                     name="patientName"
@@ -180,7 +180,12 @@ export default function FileUpload({ token }: { token: string }) {
                     render={({ field }) => {
                       return (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel className="flex gap-1 items-center">
+                            Email{" "}
+                            <p className="text-xs text-muted-foreground">
+                              (optional)
+                            </p>
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="email@example.com"
@@ -201,7 +206,12 @@ export default function FileUpload({ token }: { token: string }) {
                   render={({ field }) => {
                     return (
                       <FormItem>
-                        <FormLabel>Images</FormLabel>
+                        <FormLabel className="flex gap-1 items-center">
+                          Images{" "}
+                          <p className="text-xs text-primary-brand">
+                            (required)
+                          </p>
+                        </FormLabel>
                         <FormControl>
                           <Input
                             placeholder="DICOM images"
@@ -220,13 +230,20 @@ export default function FileUpload({ token }: { token: string }) {
                     );
                   }}
                 />
-                  <Button className="mt-8 w-full" type="submit" disabled={isLoading}>
-                      {isLoading ? (
-                          <span className="flex items-center gap-2">
-                            Uploading
-                            <Spinner size="sm" className="bg-white" />
-                        </span>): "Upload"}
-                  </Button>
+                <Button
+                  className="mt-8 w-full"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      Uploading
+                      <Spinner size="sm" className="bg-white" />
+                    </span>
+                  ) : (
+                    "Upload"
+                  )}
+                </Button>
               </form>
             </Form>
           </CardContent>
