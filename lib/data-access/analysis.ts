@@ -69,7 +69,7 @@ export async function getPatientsWithAnalyses() {
   return data ? camelcaseKeys(data, { deep: true }) : [];
 }
 
-export async function getAnalysisData(id: string) {
+export async function getAnalysisData(id: number) {
   if (!(await isLoggedIn())) redirect("/sign-in");
   const supabase = await createClient();
 
