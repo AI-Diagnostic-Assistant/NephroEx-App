@@ -3,7 +3,7 @@
 import { createClient, isLoggedIn } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import camelcaseKeys from "camelcase-keys";
-import { AnalysisFormValues, isAnalysis } from "@/lib/types";
+import {AnalysisFormValues, isAnalysis, isReport} from "@/lib/types";
 import { createPatient } from "@/lib/data-access/patient";
 import { classifyImages } from "@/lib/data-access/backend-service";
 
@@ -50,7 +50,7 @@ export async function getPatientsWithAnalyses() {
     .select(
       `
         *,
-        analysis (*)
+        report (*)
     `,
     )
     .order("created_at", { ascending: false });
@@ -60,7 +60,7 @@ export async function getPatientsWithAnalyses() {
   }
 
   data?.map((patient) =>
-    patient.analysis.sort(
+    patient.report.sort(
       (a, b) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
     ),
@@ -69,7 +69,7 @@ export async function getPatientsWithAnalyses() {
   return data ? camelcaseKeys(data, { deep: true }) : [];
 }
 
-export async function getAnalysisData(id: number) {
+export async function getReportData(id: number) {
   if (!(await isLoggedIn())) redirect("/sign-in");
   const supabase = await createClient();
 
@@ -80,18 +80,23 @@ export async function getAnalysisData(id: number) {
   //.single();
 
   const { data, error } = await supabase
-    .from("analysis")
-    .select(
-      `
+      .from("report")
+      .select(
+          `
+      *,
+        analyses:analysis (
         *,
-        classification (
+         classification (
             *,
             explanation (*)
         )
+        
+        )
+       
     `,
-    )
-    .eq("id", id)
-    .single();
+      )
+      .eq("id", id)
+      .single();
 
   if (error) {
     console.error("Error fetching data:", error);
@@ -99,7 +104,7 @@ export async function getAnalysisData(id: number) {
 
   let formattedData = data ? camelcaseKeys(data, { deep: true }) : null;
 
-  if (formattedData && !isAnalysis(formattedData)) {
+  if (formattedData && !isReport(formattedData)) {
     throw new Error("Data does not match the Analysis type");
   }
 

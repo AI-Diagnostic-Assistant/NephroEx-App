@@ -223,7 +223,6 @@ export default function FileUpload({ token }: { token: string }) {
                   {isLoading ? (
                     <span className="flex items-center gap-2">
                       Uploading
-                      <Spinner size="sm" className="bg-white" />
                     </span>
                   ) : (
                     "Upload"
