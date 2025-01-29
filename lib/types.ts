@@ -15,6 +15,34 @@ type XAITechnique = "LIME" | "SHAP" | "GradCAM" | "Textual";
 
 type XAIType = "Visual" | "Textual";
 
+type AnalysisCategoryType = "renogram" | "image";
+
+
+
+export type PatientReport = Patient & { report: Report[] };
+
+
+export type Report = {
+  id: number;
+  createdAt: string;
+  userId: string | null;
+  dicomStorageIds: string[];
+  patientDicomStorageId: string;
+  roiContourObjectPath: string;
+  analyses: Analysis[];
+};
+
+
+export type Analysis = {
+  id: number;
+  createdAt: string;
+  category: AnalysisCategoryType;
+  roiActivity: number[][];
+  classification: Classification[];
+  reportId: number;
+};
+
+
 export type Classification = {
   id: string;
   type: string;
@@ -27,23 +55,24 @@ export type Classification = {
 
 export type Explanation = {
   id: number;
+  createdAt: string
   type: XAIType;
   technique: XAITechnique;
-  roiActivity: number[][];
   description: string;
+  shapValuesCurve: number[];
   classificationId: number;
 };
 
-export type Analysis = {
+
+export type Patient = {
   id: number;
   createdAt: string;
-  ckdStagePrediction: number;
-  userId: string | null;
-  probabilities: number[];
-  dicomStorageIds: string[];
-  patientDicomStorageId: string;
-  classification: Classification[];
+  name: string;
+  email: string;
+  clinicianId: number
+
 };
+
 
 export type AnalysisWithExplanation = Analysis & {
   explanation: Explanation[];
@@ -59,5 +88,15 @@ export function isAnalysis(obj: any): obj is Analysis {
     obj.probabilities.every((prob: any) => typeof prob === "number") &&
     (typeof obj.userId === "string" || obj.userId === null) &&
     typeof obj.ckdStagePrediction === "number"
+  );
+}
+
+export function isReport(obj: any): obj is Report {
+  return (
+      typeof obj === "object" &&
+      obj !== null &&
+      typeof obj.id === "number" &&
+      typeof obj.createdAt === "string" &&
+      (typeof obj.userId === "string" || obj.userId === null)
   );
 }

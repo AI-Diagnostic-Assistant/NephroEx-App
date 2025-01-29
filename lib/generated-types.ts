@@ -36,54 +36,39 @@ export type Database = {
     Tables: {
       analysis: {
         Row: {
-          ckd_stage_prediction: number
+          category: Database["public"]["Enums"]["analysis_category"] | null
           created_at: string
-          dicom_storage_ids: string[] | null
-          id: number
-          patient_dicom_storage_id: string | null
-          patient_id: string | null
-          probabilities: number[]
-          roi_activities: number[] | null
-          roi_contour_object_path: string | null
-          user_id: string | null
+          id: string
+          report_id: number | null
+          roi_activity: number[] | null
         }
         Insert: {
-          ckd_stage_prediction: number
+          category?: Database["public"]["Enums"]["analysis_category"] | null
           created_at?: string
-          dicom_storage_ids?: string[] | null
-          id?: number
-          patient_dicom_storage_id?: string | null
-          patient_id?: string | null
-          probabilities: number[]
-          roi_activities?: number[] | null
-          roi_contour_object_path?: string | null
-          user_id?: string | null
+          id?: string
+          report_id?: number | null
+          roi_activity?: number[] | null
         }
         Update: {
-          ckd_stage_prediction?: number
+          category?: Database["public"]["Enums"]["analysis_category"] | null
           created_at?: string
-          dicom_storage_ids?: string[] | null
-          id?: number
-          patient_dicom_storage_id?: string | null
-          patient_id?: string | null
-          probabilities?: number[]
-          roi_activities?: number[] | null
-          roi_contour_object_path?: string | null
-          user_id?: string | null
+          id?: string
+          report_id?: number | null
+          roi_activity?: number[] | null
         }
         Relationships: [
           {
-            foreignKeyName: "analysis_patient_id_fkey"
-            columns: ["patient_id"]
+            foreignKeyName: "analysis_report_id_fkey"
+            columns: ["report_id"]
             isOneToOne: false
-            referencedRelation: "patient"
+            referencedRelation: "report"
             referencedColumns: ["id"]
           },
         ]
       }
       classification: {
         Row: {
-          analysis_id: number
+          analysis_id: string | null
           confidence: number[] | null
           created_at: string
           id: string
@@ -91,7 +76,7 @@ export type Database = {
           type: Database["public"]["Enums"]["classification_type"]
         }
         Insert: {
-          analysis_id: number
+          analysis_id?: string | null
           confidence?: number[] | null
           created_at?: string
           id?: string
@@ -99,7 +84,7 @@ export type Database = {
           type: Database["public"]["Enums"]["classification_type"]
         }
         Update: {
-          analysis_id?: number
+          analysis_id?: string | null
           confidence?: number[] | null
           created_at?: string
           id?: string
@@ -123,6 +108,7 @@ export type Database = {
           description: string | null
           id: number
           roi_activity: number[] | null
+          shap_values_curve: number[] | null
           technique: Database["public"]["Enums"]["xai_technique"] | null
           type: Database["public"]["Enums"]["xai_type"] | null
         }
@@ -132,6 +118,7 @@ export type Database = {
           description?: string | null
           id?: number
           roi_activity?: number[] | null
+          shap_values_curve?: number[] | null
           technique?: Database["public"]["Enums"]["xai_technique"] | null
           type?: Database["public"]["Enums"]["xai_type"] | null
         }
@@ -141,6 +128,7 @@ export type Database = {
           description?: string | null
           id?: number
           roi_activity?: number[] | null
+          shap_values_curve?: number[] | null
           technique?: Database["public"]["Enums"]["xai_technique"] | null
           type?: Database["public"]["Enums"]["xai_type"] | null
         }
@@ -150,35 +138,6 @@ export type Database = {
             columns: ["classification_id"]
             isOneToOne: false
             referencedRelation: "classification"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      masked_composite_image: {
-        Row: {
-          created_at: string
-          explanation_id: number | null
-          id: number
-          image_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          explanation_id?: number | null
-          id?: number
-          image_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          explanation_id?: number | null
-          id?: number
-          image_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "masked_composite_image_explanation_id_fkey"
-            columns: ["explanation_id"]
-            isOneToOne: false
-            referencedRelation: "explanation"
             referencedColumns: ["id"]
           },
         ]
@@ -224,6 +183,47 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      report: {
+        Row: {
+          created_at: string
+          dicom_storage_ids: string[] | null
+          id: number
+          patient_dicom_storage_id: string | null
+          patient_id: string | null
+          roi_activities: number[] | null
+          roi_contour_object_path: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          dicom_storage_ids?: string[] | null
+          id?: number
+          patient_dicom_storage_id?: string | null
+          patient_id?: string | null
+          roi_activities?: number[] | null
+          roi_contour_object_path?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          dicom_storage_ids?: string[] | null
+          id?: number
+          patient_dicom_storage_id?: string | null
+          patient_id?: string | null
+          roi_activities?: number[] | null
+          roi_contour_object_path?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analysis_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patient"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       role_permissions: {
         Row: {
@@ -288,6 +288,7 @@ export type Database = {
       }
     }
     Enums: {
+      analysis_category: "renogram" | "image"
       app_permission:
         | "analysis.delete"
         | "analysis.insert"
@@ -295,9 +296,9 @@ export type Database = {
         | "analysis.select"
         | "patient.select"
       app_role: "admin" | "clinician"
-      classification_type: "cnn" | "svm"
+      classification_type: "cnn" | "svm" | "decision_tree"
       health_status: "sick" | "healthy"
-      xai_technique: "Grad-CAM" | "LIME" | "LRP"
+      xai_technique: "Grad-CAM" | "LIME" | "LRP" | "SHAP"
       xai_type: "Visual" | "Textual"
     }
     CompositeTypes: {
