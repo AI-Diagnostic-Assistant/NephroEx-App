@@ -11,28 +11,20 @@ export async function ExplanationCard(props: ExplanationCardProps) {
     const { explanation } = props
 
     return (
-        <div className="flex flex-col gap-4 p-4">
-            <div className="flex flex-col">
-                <h2>Explanation</h2>
-                <p> The charts show the importance distribution of the features. This is what the model used to base its decision on.</p>
-            </div>
+        <div className="flex flex-col gap-4 p-4 px-3 py-2 rounded-lg ">
             <div>
                 {explanation.shapValuesCurve && (
-                    <div className="flex flex-wrap">
-                        <div className="w-1/2">
+                    <div className="flex flex-wrap gap-4 w-full">
+                        <div className="bg-primary-foreground px-3 py-2 rounded-lg w-full">
                             <BarChartShap shapValues={explanation.shapValuesCurve}/>
                         </div>
-                        <div className="w-1/2">
-                            <WaterfallPlot shapValues={explanation.shapValuesCurve}/>
-                        </div>
                     </div>
-
                 )}
             </div>
             <div>
-            {explanation.description && (
+                {explanation.description && (
                     <div className="bg-primary-foreground px-3 py-2 rounded-lg">
-                        <h3>Reasoning</h3>
+                    <h3>Reasoning</h3>
                         <p>{explanation.description}</p>
                     </div>
                 )}

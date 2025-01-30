@@ -1,11 +1,13 @@
-import { formatDateToNo } from "@/lib/utils";
-import AnalysisTabs from "@/components/analysis-tabs";
 import {
   getPublicUrl, getReportData,
   getSignedUrls,
 } from "@/lib/data-access";
 import { DicomViewer } from "@/components/dicom-viewer";
 import Image from "next/image";
+import { Tabs} from "@/components/ui/tabs";
+import React from "react";
+import AnalysisTabsContent from "@/components/analysis-tabs-content";
+import AnalysisTabsHeader from "@/components/analysis-tabs-header";
 
 export default async function Analysis({
   params,
@@ -37,20 +39,14 @@ export default async function Analysis({
     "patient-dicom-files",
   );
 
-  console.log("data", data);
 
   return (
     <div>
-      <div className="mb-8 px-4 pt-20 flex gap-9 bg-white">
-        <div className="flex flex-col">
-          <p className="text-primary-brand">{formatDateToNo(createdAt)}</p>
-          <h1>Analysis #{id}</h1>
-        </div>
-      </div>
+      <Tabs defaultValue={analyses[0]?.category} className="w-full">
+        <AnalysisTabsHeader analyses={analyses} createdAt={createdAt} id={id} />
+        <AnalysisTabsContent analyses={analyses} />
+      </Tabs>
       <div className="flex flex-col gap-9 p-4">
-        <div>
-          <AnalysisTabs analyses={analyses} />
-        </div>
         <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md flex flex-col gap-9">
           <div>
             <h2>Radiotracer Flow</h2>

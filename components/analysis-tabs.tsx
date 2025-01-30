@@ -24,7 +24,7 @@ const AnalysisTabs = ({
 
   return (
     <Tabs defaultValue={analyses[0]?.category} className="w-full">
-      <RadixTabsList className="px-4">
+      <RadixTabsList className="px-4 bg-white flex">
         {analyses.map((analysis: Analysis) => (
           <RadixTabsTrigger
             key={analysis.id}

@@ -28,7 +28,7 @@ const RadixTabsList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
-    className={cn("flex flex-shrink-0 border-b border-b-gray-100", className)}
+    className={cn("flex flex-shrink-0", className)}
     {...props}
   />
 ));
