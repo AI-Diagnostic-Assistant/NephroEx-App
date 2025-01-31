@@ -17,10 +17,7 @@ type XAIType = "Visual" | "Textual";
 
 type AnalysisCategoryType = "renogram" | "image";
 
-
-
 export type PatientReport = Patient & { report: Report[] };
-
 
 export type Report = {
   id: number;
@@ -32,7 +29,6 @@ export type Report = {
   analyses: Analysis[];
 };
 
-
 export type Analysis = {
   id: number;
   createdAt: string;
@@ -41,7 +37,6 @@ export type Analysis = {
   classification: Classification[];
   reportId: number;
 };
-
 
 export type Classification = {
   id: string;
@@ -55,24 +50,22 @@ export type Classification = {
 
 export type Explanation = {
   id: number;
-  createdAt: string
+  createdAt: string;
   type: XAIType;
   technique: XAITechnique;
   description: string;
   shapValuesCurve: number[];
+  heatmapObjectPath: string | null;
   classificationId: number;
 };
-
 
 export type Patient = {
   id: number;
   createdAt: string;
   name: string;
   email: string;
-  clinicianId: number
-
+  clinicianId: number;
 };
-
 
 export type AnalysisWithExplanation = Analysis & {
   explanation: Explanation[];
@@ -93,10 +86,10 @@ export function isAnalysis(obj: any): obj is Analysis {
 
 export function isReport(obj: any): obj is Report {
   return (
-      typeof obj === "object" &&
-      obj !== null &&
-      typeof obj.id === "number" &&
-      typeof obj.createdAt === "string" &&
-      (typeof obj.userId === "string" || obj.userId === null)
+    typeof obj === "object" &&
+    obj !== null &&
+    typeof obj.id === "number" &&
+    typeof obj.createdAt === "string" &&
+    (typeof obj.userId === "string" || obj.userId === null)
   );
 }
