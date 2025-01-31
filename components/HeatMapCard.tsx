@@ -27,6 +27,7 @@ export default async function HeatMapCard({
       {publicUrl ? (
         <div className="bg-primary-foreground w-full rounded-lg p-3">
           <Image
+            quality={100}
             src={publicUrl}
             width={500}
             height={500}
