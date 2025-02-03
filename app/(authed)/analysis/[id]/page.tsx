@@ -5,6 +5,7 @@ import { Tabs } from "@/components/ui/tabs";
 import React from "react";
 import AnalysisTabsContent from "@/components/analysis-tabs-content";
 import AnalysisTabsHeader from "@/components/analysis-tabs-header";
+import RadioTracerFlow from "@/components/radiotracer-flow";
 
 export default async function Analysis({
   params,
@@ -45,27 +46,7 @@ export default async function Analysis({
       <div className="flex flex-col gap-9 p-4">
         <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md flex flex-col gap-9">
           <div>
-            <h2>Radiotracer Flow</h2>
-            <div className="flex gap-1 flex-wrap">
-              {summed_frames_signed_urls?.map((signedUrl, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={signedUrl.signedUrl}
-                    alt="Excretion timeline"
-                    className="w-36"
-                  />
-                  {publicUrl && (
-                    <Image
-                      src={publicUrl}
-                      alt="ROI contour"
-                      width={144}
-                      height={144}
-                      className="absolute top-0 left-0 z-50"
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
+            <RadioTracerFlow summedFramesSignedUrls={summed_frames_signed_urls} publicUrl={publicUrl} />
           </div>
           <div>
             {data.patientDicomStorageId && (

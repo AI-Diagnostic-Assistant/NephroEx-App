@@ -10,6 +10,7 @@ export async function ExplanationCard(props: ExplanationCardProps) {
 
     const { explanation } = props
 
+
     return (
         <div className="flex flex-col gap-4 p-4 px-3 py-2 rounded-lg ">
             <div>
