@@ -41,12 +41,13 @@ export type Analysis = {
 export type Classification = {
   id: string;
   type: string;
-  confidence: number[];
+  confidence: number;
   createdAt: string;
   prediction: string;
   analysisId: number;
   explanation: Explanation[];
 };
+
 
 export type Explanation = {
   id: number;
@@ -54,7 +55,7 @@ export type Explanation = {
   type: XAIType;
   technique: XAITechnique;
   description: string;
-  shapValuesCurve: number[];
+  shapValuesRenogram: number[][];
   heatmapObjectPath: string | null;
   classificationId: number;
 };

@@ -26,18 +26,12 @@ export default function ClassificationResultCard(props: ClassificationResultCard
                     <div className="flex flex-col flex-1 bg-primary-foreground px-3 py-2 rounded-lg">
                         <h3>Confidence</h3>
                         <h2>
-                            {decimalToPercentage(
-                                roundListToThreeSignificantDigits([
-                                    classification.confidence[0],
-                                ])[0],
-                            )}{" "}
+                            {decimalToPercentage(classification.confidence)}{" "}
                             %
                         </h2>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
     )
