@@ -1,9 +1,8 @@
 import BarChartShap from "@/components/bar-chart-shap";
 import WaterfallChartShap from "@/components/waterfall-plot";
-import { Explanation } from "@/lib/types";
 
 type Props = {
-  shapValuesRenogram: Explanation["shapValuesRenogram"];
+  shapValuesRenogram: number[][];
   confidence: number;
 };
 
