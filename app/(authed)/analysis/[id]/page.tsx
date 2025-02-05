@@ -49,10 +49,12 @@ export default async function Analysis({
       <div className="flex flex-col gap-9 p-4">
         <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md flex flex-col gap-9">
           <div>
-            <RadioTracerFlow
-              summedFramesSignedUrls={summed_frames_signed_urls}
-              publicUrl={publicUrl}
-            />
+            {summed_frames_signed_urls && (
+              <RadioTracerFlow
+                summedFramesSignedUrls={summed_frames_signed_urls}
+                publicUrl={publicUrl}
+              />
+            )}
           </div>
           <div>
             {data.patientDicomStorageId && (
