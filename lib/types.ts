@@ -4,6 +4,40 @@ import {
   signUpFormSchema,
 } from "@/lib/schemas";
 import { z } from "zod";
+import { Database as DatabaseGenerated } from "./generated-types";
+import { MergeDeep } from "type-fest";
+
+type Database = MergeDeep<
+  DatabaseGenerated,
+  {
+    public: {
+      Tables: {
+        analysis: {
+          Row: {
+            roi_activity: number[][] | null;
+          };
+        };
+      };
+    };
+  }
+>;
+
+// Utility to convert snake_case keys to camelCase
+type CamelCase<S extends string> = S extends `${infer T}_${infer U}`
+  ? `${T}${Capitalize<CamelCase<U>>}`
+  : S;
+
+// Convert object keys from snake_case to camelCase
+type CamelCaseKeys<T> = {
+  [K in keyof T as CamelCase<K & string>]: T[K];
+};
+
+// Automatically generate camelCase versions of Supabase tables
+type CamelCaseTables = {
+  [K in keyof Database["public"]["Tables"] as K]: CamelCaseKeys<
+    Database["public"]["Tables"][K]["Row"]
+  >;
+};
 
 export type SignUpFormValues = z.infer<typeof signUpFormSchema>;
 
@@ -11,65 +45,23 @@ export type SignInFormValues = z.infer<typeof signInFormSchema>;
 
 export type AnalysisFormValues = z.infer<typeof analysisFormSchema>;
 
-type XAITechnique = "LIME" | "SHAP" | "GradCAM" | "Textual";
-
-type XAIType = "Visual" | "Textual";
-
-type AnalysisCategoryType = "renogram" | "image";
-
 export type PatientReport = Patient & { report: Report[] };
 
-export type Report = {
-  id: number;
-  createdAt: string;
-  userId: string | null;
-  dicomStorageIds: string[];
-  patientDicomStorageId: string;
-  roiContourObjectPath: string;
+export type Report = CamelCaseTables["report"] & {
   analyses: Analysis[];
 };
 
-export type Analysis = {
-  id: number;
-  createdAt: string;
-  category: AnalysisCategoryType;
-  roiActivity: number[][];
+export type Classification = CamelCaseTables["classification"] & {
+  explanation: Explanation[];
+};
+
+export type Analysis = CamelCaseTables["analysis"] & {
   classification: Classification[];
-  reportId: number;
 };
 
-export type Classification = {
-  id: string;
-  type: string;
-  confidence: number;
-  createdAt: string;
-  prediction: string;
-  analysisId: number;
-  explanation: Explanation[];
-};
+export type Explanation = CamelCaseTables["explanation"];
 
-export type Explanation = {
-  id: number;
-  createdAt: string;
-  type: XAIType;
-  technique: XAITechnique;
-  description: string;
-  shapValuesRenogram: number[][];
-  heatmapObjectPaths: string[] | null;
-  classificationId: number;
-};
-
-export type Patient = {
-  id: number;
-  createdAt: string;
-  name: string;
-  email: string;
-  clinicianId: number;
-};
-
-export type AnalysisWithExplanation = Analysis & {
-  explanation: Explanation[];
-};
+export type Patient = CamelCaseTables["patient"];
 
 export function isAnalysis(obj: any): obj is Analysis {
   return (
