@@ -3,8 +3,6 @@ import BarChartShap from "@/components/bar-chart-shap";
 import WaterfallChartShap from "@/components/waterfall-plot";
 import Image from "next/image";
 import { getSignedUrls } from "@/lib/data-access";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
 
 interface ExplanationCardProps {
   explanation: Explanation;
@@ -14,14 +12,10 @@ interface ExplanationCardProps {
 export async function ExplanationCard(props: ExplanationCardProps) {
   const { explanation, confidence, key } = props;
 
-  console.log(explanation, explanation);
-
   const signedUrls = await getSignedUrls(
     explanation.heatmapObjectPaths,
     "heatmaps",
   );
-
-  console.log("Signed urls", signedUrls);
 
   return (
     <div key={key} className="flex flex-col gap-4 p-4 px-3 py-2 rounded-lg ">
