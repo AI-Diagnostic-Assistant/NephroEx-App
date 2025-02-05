@@ -44,7 +44,11 @@ export async function ClassificationCard(props: ClassificationCardProps) {
         </div>
         <div>
           {classification.explanation?.map((explanation, index) => (
-            <ExplanationCard explanation={explanation} key={index} confidence={classification.confidence} />
+            <ExplanationCard
+              explanation={explanation}
+              key={index}
+              confidence={classification.confidence}
+            />
           ))}
         </div>
       </div>
