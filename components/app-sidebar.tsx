@@ -1,4 +1,4 @@
-import { LogOut, Activity, ChevronsUpDown } from "lucide-react";
+import { LogOut, Activity, ChevronsUpDown, Plus } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -24,6 +24,8 @@ import {
 import { createClient } from "@/utils/supabase/server";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import PatientAnalysisList from "@/components/patient-analysis-list";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type AppSidebarProps = {
   user: User;
@@ -57,15 +59,18 @@ export async function AppSidebar(props: AppSidebarProps) {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="bg-white flex items-center justify-center p-4 border border-gray-300 rounded"
+              className={cn(
+                buttonVariants({ variant: "default", size: "default" }),
+                "bg-primary-brand hover:bg-primary-brand/70 hover:text-white hover:cursor-pointer flex items-center justify-center p-4 border border-gray-300 rounded",
+              )}
             >
-              <a
-                href={"/"}
-                className="text-black font-medium w-full text-center"
-              >
-                {" "}
-                New Analysis{" "}
-              </a>
+              <div className="flex justify-center">
+                <Plus />
+                <a href={"/"} className="font-medium text-center">
+                  {" "}
+                  New Report
+                </a>
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
