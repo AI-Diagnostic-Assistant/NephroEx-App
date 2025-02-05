@@ -47,13 +47,18 @@ export async function getReportData(id: number) {
   return { data: formattedData, error };
 }
 
-export async function getSignedUrls(dicomStorageId: string[]) {
+export async function getSignedUrls(
+  objectPaths: string[] | null,
+  bucket: string,
+) {
   if (!(await isLoggedIn())) redirect("/sign-in");
   const supabase = await createClient();
 
+  if (!objectPaths) return null;
+
   const { data, error } = await supabase.storage
-    .from("grouped-dicom-frames")
-    .createSignedUrls(dicomStorageId, 3600);
+    .from(bucket)
+    .createSignedUrls(objectPaths, 3600);
 
   if (error) {
     throw new Error(`Failed to fetch signed urls: ${error.message}`);

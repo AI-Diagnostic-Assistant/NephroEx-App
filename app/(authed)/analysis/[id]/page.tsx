@@ -25,8 +25,10 @@ export default async function Analysis({
 
   const { createdAt, analyses } = data;
 
-  const summed_frames_signed_urls = await getSignedUrls(data.dicomStorageIds);
-
+  const summed_frames_signed_urls = await getSignedUrls(
+    data.dicomStorageIds,
+    "grouped-dicom-frames",
+  );
 
   const publicUrl = await getPublicUrl(
     data?.roiContourObjectPath,
@@ -47,7 +49,10 @@ export default async function Analysis({
       <div className="flex flex-col gap-9 p-4">
         <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md flex flex-col gap-9">
           <div>
-            <RadioTracerFlow summedFramesSignedUrls={summed_frames_signed_urls} publicUrl={publicUrl} />
+            <RadioTracerFlow
+              summedFramesSignedUrls={summed_frames_signed_urls}
+              publicUrl={publicUrl}
+            />
           </div>
           <div>
             {data.patientDicomStorageId && (
