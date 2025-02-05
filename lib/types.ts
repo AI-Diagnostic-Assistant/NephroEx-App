@@ -48,7 +48,6 @@ export type Classification = {
   explanation: Explanation[];
 };
 
-
 export type Explanation = {
   id: number;
   createdAt: string;
@@ -56,7 +55,7 @@ export type Explanation = {
   technique: XAITechnique;
   description: string;
   shapValuesRenogram: number[][];
-  heatmapObjectPath: string | null;
+  heatmapObjectPaths: string[] | null;
   classificationId: number;
 };
 
