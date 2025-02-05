@@ -3,7 +3,6 @@ import { ExplanationCard } from "@/components/explanation-card";
 import ClassificationResultCard from "@/components/classification-result-card";
 import React from "react";
 import RenogramChartCard from "@/components/renogram-chart-card";
-import HeatMapCard from "@/components/HeatMapCard";
 
 interface ClassificationCardProps {
   classification: Classification;
@@ -26,11 +25,7 @@ export async function ClassificationCard(props: ClassificationCardProps) {
             title="Renogram: Activities Over Time"
           />
         ) : (
-          <>
-            {classification.explanation?.map((explanation, index) => (
-              <HeatMapCard explanation={explanation} key={index} />
-            ))}
-          </>
+          <div>Her kommer dicom viewer</div>
         )}
       </div>
       <div className="flex flex-col gap-9 bg-white p-4 xl:min-w-96 border border-gray-100 shadow-sm rounded-md">
