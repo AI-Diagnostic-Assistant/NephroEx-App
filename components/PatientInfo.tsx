@@ -35,22 +35,23 @@ export default function PatientInfo() {
         <User className="text-muted-foreground" />
         <h4 className="font-medium text-sm">Patient Information</h4>
       </div>
-      <div className="flex flex-col gap-1 px-3 py-2">
-        <p className="text-xs text-gray-500">Name</p>
-        <p className="text-sm font-medium">{patient.name}</p>
-      </div>
-      <div className="flex flex-col gap-1  px-3 py-2">
-        <p className="text-xs text-gray-500">Age</p>
-        <p className="text-sm font-medium">{patient.age} years</p>
-      </div>
-      <div className="flex flex-col gap-1  px-3 py-2">
-        <p className="text-xs text-gray-500">Email</p>
-        <p className="text-sm font-medium">{patient.email}</p>
-      </div>
-      <div className="flex flex-col gap-1  px-3 py-2">
-        <p className="text-xs text-gray-500">Medical ID</p>
-        <p className="text-sm font-medium">{patient.id}</p>
-      </div>
+      <Item label={"Name"} value={patient.name} />
+      <Item label={"Age"} value={patient.age} />
+      <Item label={"Email"} value={patient.email} />
+      <Item label={"Medical ID"} value={patient.id} />
     </div>
   );
 }
+
+const Item = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | number | null;
+}) => (
+  <div className="flex flex-col gap-1  px-3 py-2">
+    <p className="text-xs text-gray-500">{label}</p>
+    <p className="text-sm font-medium">{value ?? "-"}</p>
+  </div>
+);
