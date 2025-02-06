@@ -25,7 +25,6 @@ export default async function ClassificationResultCard(
           </div>
         </div>
         <p className="text-muted-foreground">
-          {" "}
           Analysis of kidney function based on DICOM images uploaded.
         </p>
       </div>
