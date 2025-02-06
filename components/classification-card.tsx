@@ -54,8 +54,7 @@ export async function ClassificationCard(props: ClassificationCardProps) {
       <div className="flex flex-col gap-9 bg-white p-4 xl:min-w-96 border border-gray-100 shadow-sm rounded-md">
         <div className="flex flex-col">
           <h2>Explanation</h2>
-          <p>
-            {" "}
+          <p className="text-muted-foreground">
             The charts show the importance distribution of the features. This is
             what the model used to base its decision on.
           </p>

@@ -14,7 +14,7 @@ export default async function ClassificationResultCard(
     <div className="bg-white p-4 flex flex-col gap-4 xl:min-w-96 border border-gray-100 shadow-sm rounded-md">
       <div className="flex flex-col">
         <h2>Classification Result</h2>
-        <p className="text-xs text-gray-400">
+        <p className="text-muted-foreground">
           {" "}
           Analysis of kidney function based on DICOM images uploaded.
         </p>
