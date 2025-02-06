@@ -5,6 +5,7 @@ import React from "react";
 import RenogramChartCard from "@/components/renogram-chart-card";
 import { DicomViewer } from "@/components/dicom-viewer";
 import { getPublicUrl } from "@/lib/data-access";
+import { ChartBarBig } from "lucide-react";
 
 type ClassificationCardProps = {
   classification: Classification;
@@ -53,7 +54,10 @@ export async function ClassificationCard(props: ClassificationCardProps) {
       </div>
       <div className="flex flex-col gap-9 bg-white p-4 xl:min-w-96 border border-gray-100 shadow-sm rounded-md">
         <div className="flex flex-col">
-          <h2>Explanation</h2>
+          <div className="flex gap-1">
+            <ChartBarBig className="text-primary-brand" />
+            <h2>Explanation</h2>
+          </div>
           <p className="text-muted-foreground">
             The charts show the importance distribution of the features. This is
             what the model used to base its decision on.

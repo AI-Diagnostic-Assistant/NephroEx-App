@@ -2,6 +2,7 @@ import { Classification } from "@/lib/types";
 import { capitalizeFirstLetter, decimalToPercentage } from "@/lib/utils";
 import PatientInfo from "@/components/PatientInfo";
 import { Badge } from "@/components/ui/badge";
+import { Dna } from "lucide-react";
 
 interface ClassificationResultCardProps {
   classification: Classification;
@@ -12,13 +13,16 @@ export default async function ClassificationResultCard(
   const { classification } = props;
 
   return (
-    <div className="bg-white p-4 flex flex-col gap-4 xl:min-w-96 border border-gray-100 shadow-sm rounded-md">
+    <div className="bg-white p-4 flex flex-col gap-4 xl:min-w-fit border border-gray-100 shadow-sm rounded-md">
       <div className="flex flex-col">
-        <div className="flex justify-between items-center">
-          <h2>Classification Result</h2>
-          <Badge variant="outline" className="h-min">
-            {decimalToPercentage(classification.confidence)}% Confidence
-          </Badge>
+        <div className="flex gap-1">
+          <Dna className="text-primary-brand" />
+          <div className="flex justify-between w-full items-center">
+            <h2>Classification Result</h2>
+            <Badge variant="outline" className="h-min">
+              {decimalToPercentage(classification.confidence)}% Confidence
+            </Badge>
+          </div>
         </div>
         <p className="text-muted-foreground">
           {" "}

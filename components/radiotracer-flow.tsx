@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { Switch } from "@/components/ui/switch";
+import { Image as ImageIcon } from "lucide-react";
 
 interface RadioTracerFlowProps {
   summedFramesSignedUrls: {
@@ -19,7 +20,10 @@ export default function RadioTracerFlow(props: RadioTracerFlowProps) {
 
   return (
     <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md flex flex-col gap-4">
-      <h2>Radiotracer Flow</h2>
+      <div className="flex gap-1">
+        <ImageIcon className="text-primary-brand" />
+        <h2>Radiotracer Flow</h2>
+      </div>
       <div>
         <div className="flex items-center gap-2 mb-4">
           <Switch
