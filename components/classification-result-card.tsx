@@ -13,7 +13,7 @@ export default async function ClassificationResultCard(
   const { classification } = props;
 
   return (
-    <div className="bg-white p-4 flex flex-col gap-4 xl:min-w-fit border border-gray-100 shadow-sm rounded-md">
+    <div className="bg-white p-4 flex flex-col gap-4 xl:min-w-[400px] border border-gray-100 shadow-sm rounded-md">
       <div className="flex flex-col">
         <div className="flex gap-1">
           <Dna className="text-primary-brand" />
