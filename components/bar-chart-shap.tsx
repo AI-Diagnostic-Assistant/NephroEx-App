@@ -5,16 +5,12 @@ import {Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis} from "r
 
 interface BarChartProps {
     shapValues: number[];
-    featureValues: number[];
+    featureNames: string[];
 }
 
 export default function BarChartShap(props: BarChartProps) {
 
-    const featureNames = [
-        "Mean", "Variance", "Skewness", "Kurtosis"
-    ];
-
-    const { shapValues, featureValues } = props;
+    const { shapValues, featureNames } = props;
 
     const data = featureNames.map((feature, index) => ({
         name: feature ,

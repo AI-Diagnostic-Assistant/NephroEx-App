@@ -7,12 +7,12 @@ interface BarChartProps {
     featureValues: number[];
     baseValue: number;
     confidence: number;
+    featureNames: string[];
 }
 
 export default function WaterfallChartShap(props: BarChartProps) {
-    const featureNames = ["Mean", "Variance", "Skewness", "Kurtosis"];
 
-    const { shapValues, featureValues, baseValue, confidence } = props;
+    const { shapValues, featureValues, baseValue, confidence, featureNames } = props;
 
     // Sort indices by absolute SHAP values in descending order (largest SHAP effect at top)
     const sortedIndices = shapValues
@@ -39,38 +39,37 @@ export default function WaterfallChartShap(props: BarChartProps) {
     // Reverse back so that largest SHAP is displayed at the top
     const data = orderedData.reverse();
 
+    const minX = Math.min(...orderedData.map(d => d.pv), baseValue);
+    const maxX = Math.max(...orderedData.map(d => d.pv + d.uv), confidence);
+
+    const buffer = (maxX - minX) * 0.1; // 10% buffer
+    const adjustedMinX = minX - buffer;
+    const adjustedMaxX = maxX + buffer;
+
     return (
         <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={data} layout="vertical" margin={{ top: 20, bottom: 10}}>
-                <XAxis type="number" />
+            <BarChart data={data} layout="vertical" margin={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+                <XAxis type="number" domain={[adjustedMinX, adjustedMaxX]} allowDataOverflow />
                 <YAxis dataKey="name" type="category" width={250} />
                 <Tooltip />
-
-                {/* Transparent base bars for floating effect */}
                 <Bar dataKey="pv" stackId="a" fill="transparent" />
-
-                {/* Waterfall bars */}
                 <Bar dataKey="uv" stackId="a" barSize={20}>
                     {data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.uv >= 0 ? "#ef4444" : "#3b82f6"} />
                     ))}
                     <LabelList dataKey="shapValue" position="inside" fill="white" fontSize={12} />
                 </Bar>
-
-                {/* Base expectation line */}
                 <ReferenceLine
                     x={baseValue}
                     stroke="black"
                     strokeDasharray="3 3"
-                    label={{ value: `E[f(x)] = ${baseValue.toFixed(2)}`, position: "bottom" }} // Position at bottom
+                    label={{ value: `E[f(x)] = ${baseValue.toFixed(2)}`, position: "top" }}
                 />
-
-                {/* Dotted line for final prediction */}
                 <ReferenceLine
                     x={confidence}
                     stroke="black"
                     strokeDasharray="4 4"
-                    label={{ value: `f(x) = ${confidence.toFixed(2)}`, position: "top" }} // Position at top
+                    label={{ value: `f(x) = ${confidence.toFixed(2)}`, position: "middle" }}
                 />
             </BarChart>
         </ResponsiveContainer>

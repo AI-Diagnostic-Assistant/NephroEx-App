@@ -20,6 +20,7 @@ type Database = MergeDeep<
         explanation: {
           Row: {
             shap_values_renogram: number[][];
+            shap_values_renogram_summed: number[][];
           };
         };
       };
