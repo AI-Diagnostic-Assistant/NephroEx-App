@@ -109,6 +109,7 @@ export type Database = {
           heatmap_object_paths: string[] | null
           id: number
           shap_values_renogram: number[] | null
+          shap_values_renogram_summed: number[] | null
           technique: Database["public"]["Enums"]["xai_technique"] | null
           type: Database["public"]["Enums"]["xai_type"] | null
         }
@@ -119,6 +120,7 @@ export type Database = {
           heatmap_object_paths?: string[] | null
           id?: number
           shap_values_renogram?: number[] | null
+          shap_values_renogram_summed?: number[] | null
           technique?: Database["public"]["Enums"]["xai_technique"] | null
           type?: Database["public"]["Enums"]["xai_type"] | null
         }
@@ -129,6 +131,7 @@ export type Database = {
           heatmap_object_paths?: string[] | null
           id?: number
           shap_values_renogram?: number[] | null
+          shap_values_renogram_summed?: number[] | null
           technique?: Database["public"]["Enums"]["xai_technique"] | null
           type?: Database["public"]["Enums"]["xai_type"] | null
         }
@@ -144,6 +147,7 @@ export type Database = {
       }
       patient: {
         Row: {
+          age: number | null
           clinician_id: string | null
           created_at: string
           email: string | null
@@ -151,6 +155,7 @@ export type Database = {
           name: string
         }
         Insert: {
+          age?: number | null
           clinician_id?: string | null
           created_at?: string
           email?: string | null
@@ -158,6 +163,7 @@ export type Database = {
           name: string
         }
         Update: {
+          age?: number | null
           clinician_id?: string | null
           created_at?: string
           email?: string | null
