@@ -17,6 +17,11 @@ type Database = MergeDeep<
             roi_activity: number[][] | null;
           };
         };
+        explanation: {
+          Row: {
+            shap_values_renogram: number[][];
+          };
+        };
       };
     };
   }
