@@ -3,12 +3,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ClassificationCard } from "@/components/classification-card";
 import React from "react";
 
-interface ReportContentProps {
+type ReportContentProps = {
   analyses: Analysis[];
-}
+  patientDicomStorageId?: string | null;
+};
 
 export default function AnalysisTabsContent(props: ReportContentProps) {
-  const { analyses } = props;
+  const { analyses, patientDicomStorageId } = props;
 
   const typeMapper = (category: string): string => {
     const mapping: { [key: string]: string } = {
@@ -64,6 +65,7 @@ export default function AnalysisTabsContent(props: ReportContentProps) {
                   classification={classification}
                   analysis={analysis}
                   key={classification.id}
+                  patientDicomStorageId={patientDicomStorageId}
                 />
               ))}
             </div>

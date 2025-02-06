@@ -1,6 +1,4 @@
 import { getPublicUrl, getReportData, getSignedUrls } from "@/lib/data-access";
-import { DicomViewer } from "@/components/dicom-viewer";
-import Image from "next/image";
 import { Tabs } from "@/components/ui/tabs";
 import React from "react";
 import AnalysisTabsContent from "@/components/analysis-tabs-content";
@@ -23,7 +21,7 @@ export default async function Analysis({
     return <div>No data found for Analysis #{id}</div>;
   }
 
-  const { createdAt, analyses } = data;
+  const { createdAt, analyses, patientDicomStorageId } = data;
 
   const summed_frames_signed_urls = await getSignedUrls(
     data.dicomStorageIds,
@@ -35,16 +33,14 @@ export default async function Analysis({
     "roi_contours",
   );
 
-  const total_patient_dicom_public_url = await getPublicUrl(
-    data.patientDicomStorageId,
-    "patient-dicom-files",
-  );
-
   return (
     <div>
       <Tabs defaultValue={analyses[0]?.category} className="w-full">
         <AnalysisTabsHeader analyses={analyses} createdAt={createdAt} id={id} />
-        <AnalysisTabsContent analyses={analyses} />
+        <AnalysisTabsContent
+          analyses={analyses}
+          patientDicomStorageId={patientDicomStorageId}
+        />
       </Tabs>
       <div className="flex flex-col gap-9 p-4">
         <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md flex flex-col gap-9">
@@ -54,16 +50,6 @@ export default async function Analysis({
                 summedFramesSignedUrls={summed_frames_signed_urls}
                 publicUrl={publicUrl}
               />
-            )}
-          </div>
-          <div>
-            {data.patientDicomStorageId && (
-              <div>
-                <h2>DICOM Viewer</h2>
-                <DicomViewer
-                  dicomUrl={`wadouri:${total_patient_dicom_public_url}`}
-                />
-              </div>
             )}
           </div>
         </div>
