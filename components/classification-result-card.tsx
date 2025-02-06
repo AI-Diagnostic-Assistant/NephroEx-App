@@ -1,6 +1,7 @@
 import { Classification } from "@/lib/types";
 import { capitalizeFirstLetter, decimalToPercentage } from "@/lib/utils";
 import PatientInfo from "@/components/PatientInfo";
+import { Badge } from "@/components/ui/badge";
 
 interface ClassificationResultCardProps {
   classification: Classification;
@@ -13,7 +14,12 @@ export default async function ClassificationResultCard(
   return (
     <div className="bg-white p-4 flex flex-col gap-4 xl:min-w-96 border border-gray-100 shadow-sm rounded-md">
       <div className="flex flex-col">
-        <h2>Classification Result</h2>
+        <div className="flex justify-between items-center">
+          <h2>Classification Result</h2>
+          <Badge variant="outline" className="h-min">
+            {decimalToPercentage(classification.confidence)}% Confidence
+          </Badge>
+        </div>
         <p className="text-muted-foreground">
           {" "}
           Analysis of kidney function based on DICOM images uploaded.
