@@ -69,6 +69,7 @@ export async function ClassificationCard(props: ClassificationCardProps) {
               key={explanation.id}
               explanation={explanation}
               confidence={classification.confidence}
+              totalActivities={analysis.roiActivity ? analysis.roiActivity[2] : []}
             />
           ))}
         </div>
