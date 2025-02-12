@@ -40,7 +40,7 @@ export async function ClassificationCard(props: ClassificationCardProps) {
         ) : (
           <>
             {patientDicomStorageId && (
-              <div className="bg-white w-full p-4 flex flex-col gap-4 border border-gray-100 shadow-sm rounded-md">
+              <div className="bg-white w-full p-4 flex flex-col gap-4 border rounded-md">
                 <div>
                   <h2>DICOM Viewer</h2>
                   <p className="text-muted-foreground">
@@ -56,7 +56,7 @@ export async function ClassificationCard(props: ClassificationCardProps) {
           </>
         )}
       </div>
-      <div className="flex flex-col gap-9 bg-white p-4 xl:min-w-96 border border-gray-100 shadow-sm rounded-md">
+      <div className="flex flex-col gap-9 bg-white p-4 xl:min-w-96 border shadow-sm rounded-md">
         <div className="flex flex-col">
           <div className="flex gap-1">
             <ChartBarBig className="text-primary-brand" />

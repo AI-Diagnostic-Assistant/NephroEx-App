@@ -30,7 +30,7 @@ export default function AnalysisTabsContent(props: ReportContentProps) {
           {analysis.category === "renogram" ? (
             <>
               <Tabs defaultValue={analysis.classification[0]?.type}>
-                <TabsList className="rounded-t-md rounded-b-none bg-white border-x border-t border-gray-100">
+                <TabsList className="rounded-t-md rounded-b-none bg-white border-x border-t">
                   {analysis.classification.map(
                     (classification: Classification) => (
                       <TabsTrigger

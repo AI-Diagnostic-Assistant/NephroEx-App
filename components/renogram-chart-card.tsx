@@ -10,7 +10,7 @@ export default function RenogramChartCard(props: RenogramChartCardProps) {
   const { datasets, title } = props;
 
   return (
-    <div className="bg-white xl:min-w-96 border border-gray-100 shadow-sm rounded-md p-4 flex flex-col gap-4 w-full">
+    <div className="bg-white xl:min-w-96 border rounded-md p-4 flex flex-col gap-4 w-full">
       <div className="flex gap-1">
         <ChartLine className="text-primary-brand" />
         <h2>Renogram</h2>

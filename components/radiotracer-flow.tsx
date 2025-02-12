@@ -19,7 +19,7 @@ export default function RadioTracerFlow(props: RadioTracerFlowProps) {
   const [showROI, setShowROI] = useState(true);
 
   return (
-    <div className="bg-white border border-gray-100 p-4 shadow-sm rounded-md flex flex-col gap-4">
+    <div className="bg-white border p-4 rounded-md flex flex-col gap-4">
       <div className="flex gap-1">
         <ImageIcon className="text-primary-brand" />
         <h2>Radiotracer Flow</h2>

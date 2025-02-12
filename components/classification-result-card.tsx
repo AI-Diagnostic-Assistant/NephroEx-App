@@ -16,7 +16,7 @@ export default async function ClassificationResultCard(
   return (
     <div
       className={cn(
-        "bg-white p-4 flex flex-col gap-4 xl:min-w-[400px] border border-gray-100 rounded-md",
+        "bg-white p-4 flex flex-col gap-4 xl:min-w-[400px] border rounded-md",
         className,
       )}
     >
