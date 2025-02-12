@@ -11,10 +11,11 @@ type ClassificationCardProps = {
   classification: Classification;
   analysis: Analysis;
   patientDicomStorageId?: string | null;
+  className?: string;
 };
 
 export async function ClassificationCard(props: ClassificationCardProps) {
-  const { classification, analysis, patientDicomStorageId } = props;
+  const { classification, analysis, patientDicomStorageId, className } = props;
 
   const total_patient_dicom_public_url = patientDicomStorageId
     ? await getPublicUrl(patientDicomStorageId, "patient-dicom-files")
@@ -23,7 +24,10 @@ export async function ClassificationCard(props: ClassificationCardProps) {
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex gap-4 w-full">
-        <ClassificationResultCard classification={classification} />
+        <ClassificationResultCard
+          classification={classification}
+          className={className}
+        />
         {analysis.roiActivity ? (
           <RenogramChartCard
             datasets={[

@@ -1,19 +1,25 @@
 import { Classification } from "@/lib/types";
-import { capitalizeFirstLetter, decimalToPercentage } from "@/lib/utils";
+import { capitalizeFirstLetter, cn, decimalToPercentage } from "@/lib/utils";
 import PatientInfo from "@/components/PatientInfo";
 import { Badge } from "@/components/ui/badge";
 import { Dna } from "lucide-react";
 
 interface ClassificationResultCardProps {
   classification: Classification;
+  className?: string;
 }
 export default async function ClassificationResultCard(
   props: ClassificationResultCardProps,
 ) {
-  const { classification } = props;
+  const { classification, className } = props;
 
   return (
-    <div className="bg-white p-4 flex flex-col gap-4 xl:min-w-[400px] border border-gray-100 shadow-sm rounded-md">
+    <div
+      className={cn(
+        "bg-white p-4 flex flex-col gap-4 xl:min-w-[400px] border border-gray-100 rounded-md",
+        className,
+      )}
+    >
       <div className="flex flex-col">
         <div className="flex gap-1">
           <Dna className="text-primary-brand" />

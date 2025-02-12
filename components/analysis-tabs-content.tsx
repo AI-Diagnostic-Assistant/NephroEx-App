@@ -30,12 +30,13 @@ export default function AnalysisTabsContent(props: ReportContentProps) {
           {analysis.category === "renogram" ? (
             <>
               <Tabs defaultValue={analysis.classification[0]?.type}>
-                <TabsList className="px-4">
+                <TabsList className="rounded-t-md rounded-b-none bg-white border-x border-t border-gray-100">
                   {analysis.classification.map(
                     (classification: Classification) => (
                       <TabsTrigger
                         key={classification.id}
                         value={classification.type}
+                        className="data-[state=active]:bg-muted data-[state=active]:text-foreground"
                       >
                         {typeMapper(classification.type)}
                       </TabsTrigger>
@@ -47,11 +48,12 @@ export default function AnalysisTabsContent(props: ReportContentProps) {
                     <TabsContent
                       key={classification.id}
                       value={classification.type}
-                      className="py-4"
+                      className="pb-4 mt-0 pt-0"
                     >
                       <ClassificationCard
                         classification={classification}
                         analysis={analysis}
+                        className="rounded-tl-none"
                       />
                     </TabsContent>
                   ),
