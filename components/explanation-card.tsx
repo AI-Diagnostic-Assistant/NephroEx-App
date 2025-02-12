@@ -21,27 +21,34 @@ export async function ExplanationCard(props: ExplanationCardProps) {
     <div className="flex flex-col gap-4 p-4 px-3 py-2 rounded-lg ">
       {explanation.shapValuesRenogram && (
         <RenogramCharts
-            shapValuesRenogram={explanation.shapValuesRenogram}
-            confidence={confidence}
-            featureNames={[
-                "Mean", "Variance", "Skewness", "Kurtosis"
-            ]}
+          shapValuesRenogram={explanation.shapValuesRenogram}
+          confidence={confidence}
+          featureNames={["Mean", "Variance", "Skewness", "Kurtosis"]}
         />
       )}
       {explanation.shapValuesRenogramSummed && (
-          <>
-            <RenogramCharts
-              shapValuesRenogram={explanation.shapValuesRenogramSummed}
-              confidence={confidence}
-              featureNames={[
-                "Group 1", "Group 2", "Group 3", "Group 4", "Group 5", "Group 6", "Group 7", "Group 8", "Group 9", "Group 10"
-              ]}
-            />
-            <HighlightedRenogramChart
-                shapValues={explanation.shapValuesRenogramSummed[0]}
-                totalData={totalActivities}
-            />
-          </>
+        <>
+          <RenogramCharts
+            shapValuesRenogram={explanation.shapValuesRenogramSummed}
+            confidence={confidence}
+            featureNames={[
+              "Group 1",
+              "Group 2",
+              "Group 3",
+              "Group 4",
+              "Group 5",
+              "Group 6",
+              "Group 7",
+              "Group 8",
+              "Group 9",
+              "Group 10",
+            ]}
+          />
+          <HighlightedRenogramChart
+            shapValues={explanation.shapValuesRenogramSummed[0]}
+            totalData={totalActivities}
+          />
+        </>
       )}
       {signedUrls && <HeatMaps signedUrls={signedUrls} />}
       {explanation.description && (

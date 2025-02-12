@@ -43,7 +43,7 @@ export default function SignInForm() {
       >
         <h1 className="text-2xl font-medium">Sign in</h1>
         <p className="text-sm text-foreground">
-          Don't have an account?{" "}
+          Don&#39;t have an account?{" "}
           <Link
             className="text-foreground font-medium underline"
             href="/sign-up"

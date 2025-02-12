@@ -3,7 +3,7 @@
 import { createClient, isLoggedIn } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import camelcaseKeys from "camelcase-keys";
-import {AnalysisFormValues, isAnalysis, isReport} from "@/lib/types";
+import { AnalysisFormValues, isReport } from "@/lib/types";
 import { createPatient } from "@/lib/data-access/patient";
 import { classifyImages } from "@/lib/data-access/backend-service";
 
@@ -80,9 +80,9 @@ export async function getReportData(id: number) {
   //.single();
 
   const { data, error } = await supabase
-      .from("report")
-      .select(
-          `
+    .from("report")
+    .select(
+      `
       *,
         analyses:analysis (
         *,
@@ -94,9 +94,9 @@ export async function getReportData(id: number) {
         )
        
     `,
-      )
-      .eq("id", id)
-      .single();
+    )
+    .eq("id", id)
+    .single();
 
   if (error) {
     console.error("Error fetching data:", error);

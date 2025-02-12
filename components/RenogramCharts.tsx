@@ -8,27 +8,27 @@ type RenogramChartProps = {
 };
 
 export default function RenogramCharts(props: RenogramChartProps) {
-    const { shapValuesRenogram, confidence, featureNames } = props;
+  const { shapValuesRenogram, confidence, featureNames } = props;
 
-   console.log("conf", confidence);
+  console.log("conf", confidence);
 
-    return (
-        <div className="flex flex-wrap gap-4 w-full">
-            <div className="bg-primary-foreground px-3 py-10 rounded-lg w-full">
-                <BarChartShap
-                    shapValues={shapValuesRenogram[0]}
-                    featureNames={featureNames}
-                />
-            </div>
-            <div className="bg-primary-foreground px-3 py-10 rounded-lg w-full">
-                <WaterfallChartShap
-                    shapValues={shapValuesRenogram[0]}
-                    featureValues={shapValuesRenogram[1]}
-                    baseValue={shapValuesRenogram[2][0]}
-                    confidence={confidence}
-                    featureNames={featureNames}
-                />
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex flex-wrap gap-4 w-full">
+      <div className="bg-primary-foreground px-3 py-10 rounded-lg w-full">
+        <BarChartShap
+          shapValues={shapValuesRenogram[0]}
+          featureNames={featureNames}
+        />
+      </div>
+      <div className="bg-primary-foreground px-3 py-10 rounded-lg w-full">
+        <WaterfallChartShap
+          shapValues={shapValuesRenogram[0]}
+          featureValues={shapValuesRenogram[1]}
+          baseValue={shapValuesRenogram[2][0]}
+          confidence={confidence}
+          featureNames={featureNames}
+        />
+      </div>
+    </div>
+  );
 }

@@ -11,7 +11,7 @@ type Props = {
 export default function HeatMaps({ signedUrls }: Props) {
   return (
     <div className="flex gap-1 flex-wrap">
-      {signedUrls?.map((signedUrl, index) => (
+      {signedUrls?.map((signedUrl) => (
         <div key={signedUrl.signedUrl}>
           {signedUrls && (
             <Image

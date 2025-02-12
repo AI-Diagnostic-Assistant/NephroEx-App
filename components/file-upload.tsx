@@ -34,7 +34,6 @@ import { AnalysisFormValues } from "@/lib/types";
 import useSWR from "swr";
 import { getAllPatients } from "@/lib/data-access/patient";
 import { useState } from "react";
-import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
 import { createAnalysis } from "@/lib/data-access/analysis";
 
@@ -221,9 +220,7 @@ export default function FileUpload({ token }: { token: string }) {
                   disabled={isLoading}
                 >
                   {isLoading ? (
-                    <span className="flex items-center gap-2">
-                      Uploading
-                    </span>
+                    <span className="flex items-center gap-2">Uploading</span>
                   ) : (
                     "Upload"
                   )}

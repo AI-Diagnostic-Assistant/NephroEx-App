@@ -3,7 +3,6 @@
 import { createClient, isLoggedIn } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import camelcaseKeys from "camelcase-keys";
-import { PostgrestError } from "@supabase/supabase-js";
 
 export async function getAllPatients() {
   if (!(await isLoggedIn())) redirect("/sign-in");

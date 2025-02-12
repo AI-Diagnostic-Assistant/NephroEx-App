@@ -64,12 +64,14 @@ export async function ClassificationCard(props: ClassificationCardProps) {
           </p>
         </div>
         <div>
-          {classification.explanation?.map((explanation, index) => (
+          {classification.explanation?.map((explanation) => (
             <ExplanationCard
               key={explanation.id}
               explanation={explanation}
               confidence={classification.confidence}
-              totalActivities={analysis.roiActivity ? analysis.roiActivity[2] : []}
+              totalActivities={
+                analysis.roiActivity ? analysis.roiActivity[2] : []
+              }
             />
           ))}
         </div>
