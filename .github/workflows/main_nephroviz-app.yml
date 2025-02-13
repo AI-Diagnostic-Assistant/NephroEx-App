@@ -70,5 +70,5 @@ jobs:
         with:
           app-name: 'nephroviz-app'
           slot-name: 'Production'
-          package: .
+          package: ./build/standalone
           
