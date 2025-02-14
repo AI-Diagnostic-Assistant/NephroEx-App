@@ -22,6 +22,7 @@ export default function RadioTracerFlow(props: RadioTracerFlowProps) {
   return (
     <ModuleCard
       title="Radiotracer Flow"
+      description="Summed frames over every 2 minutes of the entire DICOM sequence. The ROI Contour shows the segmented kidneys by the AI model."
       icon={<ImageIcon className="text-primary-brand" />}
     >
       <div>
