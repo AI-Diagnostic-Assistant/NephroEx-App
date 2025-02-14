@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Image as ImageIcon } from "lucide-react";
+import ModuleCard from "@/components/module-card";
 
 interface RadioTracerFlowProps {
   summedFramesSignedUrls: {
@@ -19,11 +20,10 @@ export default function RadioTracerFlow(props: RadioTracerFlowProps) {
   const [showROI, setShowROI] = useState(true);
 
   return (
-    <div className="bg-white border p-4 rounded-md flex flex-col gap-4">
-      <div className="flex gap-1">
-        <ImageIcon className="text-primary-brand" />
-        <h2>Radiotracer Flow</h2>
-      </div>
+    <ModuleCard
+      title="Radiotracer Flow"
+      icon={<ImageIcon className="text-primary-brand" />}
+    >
       <div>
         <div className="flex items-center gap-2 mb-4">
           <Switch
@@ -36,17 +36,17 @@ export default function RadioTracerFlow(props: RadioTracerFlowProps) {
         <div className="flex gap-1 flex-wrap">
           {summedFramesSignedUrls?.map((signedUrl, index) => (
             <div key={index} className="relative">
-              <img
+              <Image
                 src={signedUrl.signedUrl}
                 alt="Excretion timeline"
-                className="w-36"
+                width={144}
+                height={144}
               />
               {showROI && publicUrl && (
                 <Image
                   src={publicUrl}
                   alt="ROI contour"
-                  width={144}
-                  height={144}
+                  fill
                   className="absolute top-0 left-0 z-50"
                 />
               )}
@@ -54,6 +54,6 @@ export default function RadioTracerFlow(props: RadioTracerFlowProps) {
           ))}
         </div>
       </div>
-    </div>
+    </ModuleCard>
   );
 }

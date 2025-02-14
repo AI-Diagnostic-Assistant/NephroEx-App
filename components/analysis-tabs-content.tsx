@@ -53,7 +53,6 @@ export default function AnalysisTabsContent(props: ReportContentProps) {
                       <ClassificationCard
                         classification={classification}
                         analysis={analysis}
-                        className="rounded-tl-none"
                       />
                     </TabsContent>
                   ),

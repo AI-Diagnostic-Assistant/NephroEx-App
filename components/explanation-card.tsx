@@ -18,7 +18,7 @@ export async function ExplanationCard(props: ExplanationCardProps) {
   );
 
   return (
-    <div className="flex flex-col gap-4 p-4 px-3 py-2 rounded-lg ">
+    <div className="flex flex-col gap-4 py-2 rounded-lg ">
       {explanation.shapValuesRenogram && (
         <RenogramCharts
           shapValuesRenogram={explanation.shapValuesRenogram}
@@ -52,7 +52,7 @@ export async function ExplanationCard(props: ExplanationCardProps) {
       )}
       {signedUrls && <HeatMaps signedUrls={signedUrls} />}
       {explanation.description && (
-        <div className="bg-primary-foreground px-3 py-2 rounded-lg">
+        <div className="bg-primary-foreground px-3 py-2 rounded-lg text-foreground">
           <h3>Reasoning</h3>
           <p>{explanation.description}</p>
         </div>
