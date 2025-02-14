@@ -17,7 +17,6 @@ h1 {
 h2 {
   font-size: 1.25rem;
   font-weight: 600;
-  @apply mb-1.5;
 }
 
 h3 {
