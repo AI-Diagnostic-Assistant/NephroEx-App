@@ -8,7 +8,7 @@ export async function classifyImages(formData: FormData, token: string) {
   if (!(await isLoggedIn())) redirect("/sign-in");
 
   try {
-    const response = await fetch("http://127.0.0.1:5000/classify", {
+    const response = await fetch("http://127.0.0.1:8080/classify", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
