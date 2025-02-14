@@ -8,9 +8,10 @@ interface ExplanationCardProps {
   explanation: Explanation;
   confidence: number;
   totalActivities: number[];
+  prediction: string;
 }
 export async function ExplanationCard(props: ExplanationCardProps) {
-  const { explanation, confidence, totalActivities } = props;
+  const { explanation, confidence, totalActivities, prediction } = props;
 
   const signedUrls = await getSignedUrls(
     explanation.heatmapObjectPaths,
@@ -23,6 +24,7 @@ export async function ExplanationCard(props: ExplanationCardProps) {
         <RenogramCharts
           shapValuesRenogram={explanation.shapValuesRenogram}
           confidence={confidence}
+          prediction={prediction}
           featureNames={["Mean", "Variance", "Skewness", "Kurtosis"]}
         />
       )}
@@ -31,6 +33,7 @@ export async function ExplanationCard(props: ExplanationCardProps) {
           <RenogramCharts
             shapValuesRenogram={explanation.shapValuesRenogramSummed}
             confidence={confidence}
+            prediction={prediction}
             featureNames={[
               "Group 1",
               "Group 2",

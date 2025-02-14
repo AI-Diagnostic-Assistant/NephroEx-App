@@ -9,14 +9,16 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { shapColorMapper } from "@/lib/utils";
 
 interface BarChartProps {
   shapValues: number[];
   featureNames: string[];
+  prediction: string;
 }
 
 export default function BarChartShap(props: BarChartProps) {
-  const { shapValues, featureNames } = props;
+  const { shapValues, featureNames, prediction } = props;
 
   const data = featureNames.map((feature, index) => ({
     name: feature,
@@ -41,7 +43,7 @@ export default function BarChartShap(props: BarChartProps) {
           {data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
-              fill={entry.shapValue >= 0 ? "#ef4444" : "#3b82f6"}
+              fill={shapColorMapper(entry.shapValue, prediction)}
             />
           ))}
         </Bar>

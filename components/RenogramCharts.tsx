@@ -5,10 +5,11 @@ type RenogramChartProps = {
   shapValuesRenogram: number[][];
   confidence: number;
   featureNames: string[];
+  prediction: string;
 };
 
 export default function RenogramCharts(props: RenogramChartProps) {
-  const { shapValuesRenogram, confidence, featureNames } = props;
+  const { shapValuesRenogram, confidence, featureNames, prediction } = props;
 
   console.log("conf", confidence);
 
@@ -18,6 +19,7 @@ export default function RenogramCharts(props: RenogramChartProps) {
         <BarChartShap
           shapValues={shapValuesRenogram[0]}
           featureNames={featureNames}
+          prediction={prediction}
         />
       </div>
       <div className="bg-primary-foreground px-3 py-10 rounded-lg w-full">
@@ -26,6 +28,7 @@ export default function RenogramCharts(props: RenogramChartProps) {
           featureValues={shapValuesRenogram[1]}
           baseValue={shapValuesRenogram[2][0]}
           confidence={confidence}
+          prediction={prediction}
           featureNames={featureNames}
         />
       </div>

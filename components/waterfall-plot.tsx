@@ -11,6 +11,7 @@ import {
   ReferenceLine,
   LabelList,
 } from "recharts";
+import { shapColorMapper } from "@/lib/utils";
 
 interface BarChartProps {
   shapValues: number[];
@@ -18,11 +19,18 @@ interface BarChartProps {
   baseValue: number;
   confidence: number;
   featureNames: string[];
+  prediction: string;
 }
 
 export default function WaterfallChartShap(props: BarChartProps) {
-  const { shapValues, featureValues, baseValue, confidence, featureNames } =
-    props;
+  const {
+    shapValues,
+    featureValues,
+    baseValue,
+    confidence,
+    featureNames,
+    prediction,
+  } = props;
 
   // Sort indices by absolute SHAP values in descending order (largest SHAP effect at top)
   const sortedIndices = shapValues
@@ -76,7 +84,7 @@ export default function WaterfallChartShap(props: BarChartProps) {
           {data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
-              fill={entry.uv >= 0 ? "#ef4444" : "#3b82f6"}
+              fill={shapColorMapper(entry.uv, prediction)}
             />
           ))}
           <LabelList
