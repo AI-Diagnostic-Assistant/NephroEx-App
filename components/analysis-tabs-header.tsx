@@ -1,4 +1,4 @@
-import { formatDateToNo } from "@/lib/utils";
+import { formatDateToNo, typeMapper } from "@/lib/utils";
 import { RadixTabsList, RadixTabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import { Analysis } from "@/lib/types";
@@ -10,14 +10,6 @@ interface ReportHeaderProps {
 }
 export default function AnalysisTabsHeader(props: ReportHeaderProps) {
   const { createdAt, analyses, id } = props;
-
-  const typeMapper = (category: string): string => {
-    const mapping: { [key: string]: string } = {
-      image: "Image analysis",
-      renogram: "Renogram analysis",
-    };
-    return mapping[category] || "Unknown Type";
-  };
 
   return (
     <div className="bg-white flex items-end gap-9 mb-4 px-4 pt-20 border-b">

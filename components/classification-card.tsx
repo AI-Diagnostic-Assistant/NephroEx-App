@@ -8,6 +8,7 @@ import { getPublicUrl } from "@/lib/data-access";
 import { ChartBarBig } from "lucide-react";
 import ModuleCard from "@/components/module-card";
 import { Image as ImageIcon } from "lucide-react";
+import { explanationDescriptionMapper } from "@/lib/utils";
 
 type ClassificationCardProps = {
   classification: Classification;
@@ -55,8 +56,7 @@ export async function ClassificationCard(props: ClassificationCardProps) {
       </div>
       <ModuleCard
         title="Explanation"
-        description="The charts show the importance distribution of the features. This is
-            what the model used to base its decision on."
+        description={explanationDescriptionMapper(analysis.category)}
         icon={<ChartBarBig className="text-primary-brand" />}
         className="w-full xl:min-w-96"
       >

@@ -31,3 +31,21 @@ export function capitalizeFirstLetter(string: string): string {
 }
 
 export const isActive = (a: string, b: string) => a.endsWith("analysis/" + b);
+
+export const explanationDescriptionMapper = (type: string): string => {
+  const mapping: { [key: string]: string } = {
+    renogram:
+      "The charts show the importance distribution of the features. This is what the model used to base its decision on.",
+    image:
+      "The images show the highlighted regions of interest on each 2 minute summed frame. The model used these to base its decision on.",
+  };
+  return mapping[type] || "The model used these to base its decision on.";
+};
+
+export const typeMapper = (category: string): string => {
+  const mapping: { [key: string]: string } = {
+    image: "Image analysis",
+    renogram: "Renogram analysis",
+  };
+  return mapping[category] || "Unknown Type";
+};
