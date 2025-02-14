@@ -8,13 +8,16 @@ export async function classifyImages(formData: FormData, token: string) {
   if (!(await isLoggedIn())) redirect("/sign-in");
 
   try {
-    const response = await fetch("http://127.0.0.1:8080/classify", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_API_URL! + "/classify",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
       },
-      body: formData,
-    });
+    );
 
     const data = await response.json();
     let formattedData = data ? camelcaseKeys(data, { deep: true }) : null;
