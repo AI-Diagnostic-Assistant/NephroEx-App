@@ -1,5 +1,5 @@
 import { Classification } from "@/lib/types";
-import { capitalizeFirstLetter, decimalToPercentage } from "@/lib/utils";
+import { capitalizeFirstLetter, cn, decimalToPercentage } from "@/lib/utils";
 import PatientInfo from "@/components/PatientInfo";
 import { Badge } from "@/components/ui/badge";
 import { Dna } from "lucide-react";
@@ -29,7 +29,14 @@ export default async function ClassificationResultCard(
         <div className="flex gap-4">
           <div className="flex flex-col flex-1 bg-primary-foreground px-3 py-2 rounded-lg">
             <h3>CKD status</h3>
-            <h2 className="text-primary-brand">
+            <h2
+              className={cn(
+                "text-primary-brand",
+                classification.prediction === "healthy"
+                  ? "text-primary-green"
+                  : "text-red-500",
+              )}
+            >
               {capitalizeFirstLetter(classification.prediction)}
             </h2>
           </div>
