@@ -50,14 +50,6 @@ export const typeMapper = (category: string): string => {
   return mapping[category] || "Unknown Type";
 };
 
-export const predictionColorMapper = (prediction: string): string => {
-  const mapping: { [key: string]: string } = {
-    healthy: "text-primary-green",
-    sick: "text-red-500",
-  };
-  return mapping[prediction] || "text-primary-brand";
-};
-
 export const shapColorMapper = (shapValue: number, prediction: string) => {
   if (prediction === "healthy") {
     return shapValue >= 0 ? "#4EBD7F" : "#EF4444";
