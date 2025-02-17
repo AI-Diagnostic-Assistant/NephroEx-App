@@ -12,6 +12,7 @@ import {
   LabelList,
 } from "recharts";
 import { shapColorMapper } from "@/lib/utils";
+import { CustomTooltip } from "@/components/custom-tooltip";
 
 interface BarChartProps {
   shapValues: number[];
@@ -74,7 +75,15 @@ export default function WaterfallChartShap(props: BarChartProps) {
           allowDataOverflow
         />
         <YAxis dataKey="name" type="category" width={250} />
-        <Tooltip />
+        <Tooltip
+          content={({ active, payload, label }) => (
+            <CustomTooltip
+              active={active}
+              payload={payload?.[1]?.value}
+              label={label}
+            />
+          )}
+        />
         <Bar dataKey="pv" stackId="a" fill="transparent" />
         <Bar dataKey="uv" stackId="a" barSize={20}>
           {data.map((entry, index) => (

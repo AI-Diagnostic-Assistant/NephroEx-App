@@ -10,6 +10,7 @@ import {
   YAxis,
 } from "recharts";
 import { shapColorMapper } from "@/lib/utils";
+import { CustomTooltip } from "@/components/custom-tooltip";
 
 interface BarChartProps {
   shapValues: number[];
@@ -42,7 +43,15 @@ export default function BarChartShap(props: BarChartProps) {
           }}
         />
         <YAxis dataKey="name" type="category" width={200} />
-        <Tooltip />
+        <Tooltip
+          content={({ active, payload, label }) => (
+            <CustomTooltip
+              active={active}
+              payload={payload?.[0]?.value}
+              label={label}
+            />
+          )}
+        />
         <Bar dataKey="shapValue" barSize={20}>
           {data.map((entry, index) => (
             <Cell
