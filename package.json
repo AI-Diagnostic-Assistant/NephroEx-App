@@ -54,6 +54,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.20.0",
     "@types/cornerstone-core": "^2.3.3",
     "@types/d3": "^7.4.3",
     "@types/node": "20.10.6",
