@@ -37,8 +37,6 @@ export async function getPatientByReportId(id: number) {
 
   const supabase = await createClient();
 
-  console.log("id", id);
-
   const { data, error } = await supabase
     .from("report")
     .select(
