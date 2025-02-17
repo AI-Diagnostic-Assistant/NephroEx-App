@@ -29,6 +29,7 @@ export default [
           varsIgnorePattern: "^_",
         },
       ],
+      "no-console": ["error", { allow: ["warn", "error"] }],
     },
   },
 ];
