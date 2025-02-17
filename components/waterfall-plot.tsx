@@ -32,18 +32,15 @@ export default function WaterfallChartShap(props: BarChartProps) {
     prediction,
   } = props;
 
-  // Sort indices by absolute SHAP values in descending order (largest SHAP effect at top)
   const sortedIndices = shapValues
     .map((value, index) => ({ index, absValue: Math.abs(value) }))
     .sort((a, b) => b.absValue - a.absValue) // Highest absolute SHAP value first
     .map((item) => item.index);
 
-  // Compute cumulative values **in increasing order of absolute SHAP values**
   let cumulativeValue = baseValue;
-  const orderedData = []; // Temporary array to store correctly ordered values
+  const orderedData = [];
 
   for (const index of sortedIndices.reverse()) {
-    // Reverse so that smallest SHAP starts first
     const prevValue = cumulativeValue;
     cumulativeValue += shapValues[index];
 
@@ -55,7 +52,6 @@ export default function WaterfallChartShap(props: BarChartProps) {
     });
   }
 
-  // Reverse back so that largest SHAP is displayed at the top
   const data = orderedData.reverse();
 
   const minX = Math.min(...orderedData.map((d) => d.pv), baseValue);

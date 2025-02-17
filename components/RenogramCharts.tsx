@@ -11,8 +11,6 @@ type RenogramChartProps = {
 export default function RenogramCharts(props: RenogramChartProps) {
   const { shapValuesRenogram, confidence, featureNames, prediction } = props;
 
-  console.log("conf", confidence);
-
   return (
     <div className="flex flex-wrap gap-4 w-full">
       <div className="bg-primary-foreground px-3 py-10 rounded-lg w-full">
