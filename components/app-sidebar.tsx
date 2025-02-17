@@ -26,6 +26,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 import PatientAnalysisList from "@/components/patient-analysis-list";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type AppSidebarProps = {
   user: User;
@@ -64,13 +65,9 @@ export async function AppSidebar(props: AppSidebarProps) {
                 "bg-primary-brand hover:bg-primary-brand/70 hover:text-white hover:cursor-pointer flex items-center justify-center p-4 border border-gray-300 rounded",
               )}
             >
-              <div className="flex justify-center">
-                <Plus />
-                <a href={"/"} className="font-medium text-center">
-                  {" "}
-                  New Report
-                </a>
-              </div>
+              <Link href={"/"} className="font-medium text-center">
+                <Plus /> New Report
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
