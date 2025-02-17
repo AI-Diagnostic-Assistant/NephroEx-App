@@ -81,3 +81,11 @@ export function generateTimeIntervals(
 
   return { segmentStartFrames, segmentLabelPositions, segmentLabels };
 }
+
+export const cleanString = (input: string): string => {
+  const parts = input.split("=");
+  if (parts.length > 1) {
+    return parts[1].trim();
+  }
+  return input.trim();
+};
