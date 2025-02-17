@@ -1,5 +1,5 @@
-import {type ClassValue, clsx} from "clsx";
-import {twMerge} from "tailwind-merge";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -58,15 +58,19 @@ export const shapColorMapper = (shapValue: number, prediction: string) => {
   }
 };
 
-export function generateTimeIntervals(totalTime: number, intervalSize: number, frameRate: number) {
+export function generateTimeIntervals(
+  totalTime: number,
+  intervalSize: number,
+  frameRate: number,
+) {
   const framesPerInterval = intervalSize / frameRate;
   const segmentStartFrames = Array.from(
-      { length: Math.ceil(totalTime / intervalSize) },
-      (_, index) => index * framesPerInterval + 1
+    { length: Math.ceil(totalTime / intervalSize) },
+    (_, index) => index * framesPerInterval + 1,
   );
 
   const segmentLabelPositions = segmentStartFrames.map(
-      (frame) => frame + framesPerInterval / 2,
+    (frame) => frame + framesPerInterval / 2,
   );
 
   const segmentLabels = segmentLabelPositions.map((_, index) => {
@@ -77,8 +81,3 @@ export function generateTimeIntervals(totalTime: number, intervalSize: number, f
 
   return { segmentStartFrames, segmentLabelPositions, segmentLabels };
 }
-
-
-
-
-

@@ -27,7 +27,11 @@ export default function BarChartShap(props: BarChartProps) {
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <BarChart data={data} layout="vertical" margin={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+      <BarChart
+        data={data}
+        layout="vertical"
+        margin={{ top: 20, bottom: 20, left: 20, right: 20 }}
+      >
         <XAxis
           type="number"
           label={{

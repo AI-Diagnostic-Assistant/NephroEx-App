@@ -3,7 +3,7 @@ import { getSignedUrls } from "@/lib/data-access";
 import HeatMaps from "@/components/HeatMaps";
 import RenogramCharts from "@/components/RenogramCharts";
 import HighlightedRenogramChart from "@/components/highlighted-renogram-chart";
-import {generateTimeIntervals} from "@/lib/utils";
+import { generateTimeIntervals } from "@/lib/utils";
 
 interface ExplanationCardProps {
   explanation: Explanation;
@@ -23,7 +23,11 @@ export async function ExplanationCard(props: ExplanationCardProps) {
   const intervalSize = 3 * 60; // 3-minute intervals in seconds
   const frameRate = 10; // 10 seconds per frame
 
-  const { segmentLabels } = generateTimeIntervals(totalImagingTime, intervalSize, frameRate);
+  const { segmentLabels } = generateTimeIntervals(
+    totalImagingTime,
+    intervalSize,
+    frameRate,
+  );
 
   return (
     <div className="flex flex-col gap-4 py-2 rounded-lg ">
@@ -45,8 +49,8 @@ export async function ExplanationCard(props: ExplanationCardProps) {
           />
           <div className="bg-primary-foreground px-3 py-10 rounded-lg w-full">
             <HighlightedRenogramChart
-                shapValues={explanation.shapValuesRenogramSummed[0]}
-                totalData={totalActivities}
+              shapValues={explanation.shapValuesRenogramSummed[0]}
+              totalData={totalActivities}
             />
           </div>
         </>
