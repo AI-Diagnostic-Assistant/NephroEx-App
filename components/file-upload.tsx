@@ -80,9 +80,9 @@ export default function FileUpload({ token }: { token: string }) {
         </TabsList>
         <Card className="mt-2">
           <CardHeader>
-            <CardTitle>Create new analysis</CardTitle>
+            <CardTitle>Create new report</CardTitle>
             <CardDescription>
-              Create and perform an analysis on a new or existing patient.
+              Create a report on a new or existing patient.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -106,7 +106,7 @@ export default function FileUpload({ token }: { token: string }) {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select a patient to create the analysis for" />
+                                <SelectValue placeholder="Select a patient to create the report for" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
