@@ -58,11 +58,11 @@ export default function FileUpload({ token }: { token: string }) {
   const handleUpload = async (data: AnalysisFormValues) => {
     setIsLoading(true);
     toast.promise(createAnalysis(data, token), {
-      loading: "Creating analysis...",
+      loading: "Creating report...",
       success: (data) => {
         setIsLoading(false);
         router.push(`/analysis/${data.id}`);
-        return "Analysis created successfully";
+        return "Report created successfully";
       },
       error: (error) => {
         setIsLoading(false);
@@ -144,7 +144,7 @@ export default function FileUpload({ token }: { token: string }) {
                               placeholder="Wendy Adams"
                               type="text"
                               {...field}
-                            ></Input>
+                            />
                           </FormControl>
                           {patientId && (
                             <FormDescription>
@@ -175,7 +175,7 @@ export default function FileUpload({ token }: { token: string }) {
                               placeholder="email@example.com"
                               type="text"
                               {...field}
-                            ></Input>
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -207,7 +207,7 @@ export default function FileUpload({ token }: { token: string }) {
                                 field.onChange(file);
                               }
                             }}
-                          ></Input>
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
