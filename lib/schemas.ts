@@ -31,6 +31,10 @@ export const analysisFormSchema = z
       (val) => (val === "" ? undefined : val),
       z.string().email("Invalid email format").optional(),
     ),
+    diuretic: z
+      .number({ message: "Must be a number" })
+      .min(0, "Must be a positive number")
+      .max(30, "Must be less than 30"),
   })
   .superRefine((data, ctx) => {
     if (data.patientId && (data.patientName || data.email)) {

@@ -12,6 +12,7 @@ export async function createAnalysis(data: AnalysisFormValues, token: string) {
 
   const formData = new FormData();
   formData.append("file", data.dicomImages);
+  formData.append("diuretic", data.diuretic.toString());
 
   if (data.patientId) {
     formData.append("patientId", data.patientId);

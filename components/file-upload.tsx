@@ -47,6 +47,7 @@ export default function FileUpload({ token }: { token: string }) {
       patientId: "",
       patientName: "",
       email: "",
+      diuretic: "" as unknown as number,
     },
   });
 
@@ -207,6 +208,36 @@ export default function FileUpload({ token }: { token: string }) {
                                 field.onChange(file);
                               }
                             }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
+                />
+                <FormField
+                  control={form.control}
+                  name="diuretic"
+                  render={({ field: { value, onChange, ...field } }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel className="flex gap-1 items-center">
+                          Time of diuretic{" "}
+                          <p className="text-xs text-primary-brand">
+                            (required)
+                          </p>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="20"
+                            type="number"
+                            value={value || ""}
+                            onChange={(e) =>
+                              onChange(
+                                e.target.value ? Number(e.target.value) : "",
+                              )
+                            }
+                            {...field}
                           />
                         </FormControl>
                         <FormMessage />

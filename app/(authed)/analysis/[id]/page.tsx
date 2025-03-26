@@ -4,6 +4,9 @@ import React from "react";
 import AnalysisTabsContent from "@/components/analysis-tabs-content";
 import AnalysisTabsHeader from "@/components/analysis-tabs-header";
 import RadioTracerFlow from "@/components/radiotracer-flow";
+import ModuleCard from "@/components/module-card";
+import { DicomViewer } from "@/components/dicom-viewer";
+import { ImageIcon } from "lucide-react";
 
 export default async function Analysis({
   params,
@@ -33,14 +36,15 @@ export default async function Analysis({
     "roi_contours",
   );
 
+  const total_patient_dicom_public_url = patientDicomStorageId
+    ? await getPublicUrl(patientDicomStorageId, "patient-dicom-files")
+    : null;
+
   return (
     <div>
-      <Tabs defaultValue={analyses[0]?.category} className="w-full">
+      <Tabs defaultValue="renogram" className="w-full">
         <AnalysisTabsHeader analyses={analyses} createdAt={createdAt} id={id} />
-        <AnalysisTabsContent
-          analyses={analyses}
-          patientDicomStorageId={patientDicomStorageId}
-        />
+        <AnalysisTabsContent analyses={analyses} />
       </Tabs>
       <div className="p-4">
         {summed_frames_signed_urls && (
@@ -49,6 +53,15 @@ export default async function Analysis({
             publicUrl={publicUrl}
           />
         )}
+        <ModuleCard
+          title="DICOM Viewer"
+          icon={<ImageIcon className="text-primary-brand" />}
+          description="Entire DICOM sequence uploaded is displayed here. Hint:
+                    Scroll on the image to switch DICOM frame."
+          className="w-full mt-4"
+        >
+          <DicomViewer dicomUrl={`wadouri:${total_patient_dicom_public_url}`} />
+        </ModuleCard>
       </div>
     </div>
   );

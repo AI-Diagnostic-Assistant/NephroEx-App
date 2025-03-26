@@ -44,8 +44,8 @@ export const explanationDescriptionMapper = (type: string): string => {
 
 export const typeMapper = (category: string): string => {
   const mapping: { [key: string]: string } = {
-    image: "Image analysis",
-    renogram: "Renogram analysis",
+    renogram: "Renogram Analysis",
+    feature: "Feature Analysis",
   };
   return mapping[category] || "Unknown Type";
 };

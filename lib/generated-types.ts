@@ -64,6 +64,13 @@ export type Database = {
             referencedRelation: "report";
             referencedColumns: ["id"];
           },
+          {
+            foreignKeyName: "analysis_report_id_fkey";
+            columns: ["report_id"];
+            isOneToOne: false;
+            referencedRelation: "report_with_classification";
+            referencedColumns: ["id"];
+          },
         ];
       };
       classification: {
@@ -72,6 +79,7 @@ export type Database = {
           confidence: number;
           created_at: string;
           id: string;
+          kidney_label: Database["public"]["Enums"]["kidney_label"];
           prediction: Database["public"]["Enums"]["health_status"];
           type: Database["public"]["Enums"]["classification_type"];
         };
@@ -80,6 +88,7 @@ export type Database = {
           confidence: number;
           created_at?: string;
           id?: string;
+          kidney_label?: Database["public"]["Enums"]["kidney_label"];
           prediction: Database["public"]["Enums"]["health_status"];
           type: Database["public"]["Enums"]["classification_type"];
         };
@@ -88,6 +97,7 @@ export type Database = {
           confidence?: number;
           created_at?: string;
           id?: string;
+          kidney_label?: Database["public"]["Enums"]["kidney_label"];
           prediction?: Database["public"]["Enums"]["health_status"];
           type?: Database["public"]["Enums"]["classification_type"];
         };
@@ -111,7 +121,6 @@ export type Database = {
           shap_values_renogram: number[] | null;
           shap_values_renogram_summed: number[] | null;
           technique: Database["public"]["Enums"]["xai_technique"] | null;
-          type: Database["public"]["Enums"]["xai_type"] | null;
         };
         Insert: {
           classification_id: string;
@@ -122,7 +131,6 @@ export type Database = {
           shap_values_renogram?: number[] | null;
           shap_values_renogram_summed?: number[] | null;
           technique?: Database["public"]["Enums"]["xai_technique"] | null;
-          type?: Database["public"]["Enums"]["xai_type"] | null;
         };
         Update: {
           classification_id?: string;
@@ -133,7 +141,6 @@ export type Database = {
           shap_values_renogram?: number[] | null;
           shap_values_renogram_summed?: number[] | null;
           technique?: Database["public"]["Enums"]["xai_technique"] | null;
-          type?: Database["public"]["Enums"]["xai_type"] | null;
         };
         Relationships: [
           {
@@ -274,7 +281,27 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      report_with_classification: {
+        Row: {
+          created_at: string | null;
+          dicom_storage_ids: string[] | null;
+          id: number | null;
+          patient_dicom_storage_id: string | null;
+          patient_id: string | null;
+          prediction: Database["public"]["Enums"]["health_status"] | null;
+          roi_contour_object_path: string | null;
+          user_id: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "analysis_patient_id_fkey";
+            columns: ["patient_id"];
+            isOneToOne: false;
+            referencedRelation: "patient";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Functions: {
       authorize: {
@@ -291,7 +318,7 @@ export type Database = {
       };
     };
     Enums: {
-      analysis_category: "renogram" | "image";
+      analysis_category: "renogram" | "image" | "feature";
       app_permission:
         | "analysis.delete"
         | "analysis.insert"
@@ -301,6 +328,7 @@ export type Database = {
       app_role: "admin" | "clinician";
       classification_type: "cnn" | "svm" | "decision_tree";
       health_status: "sick" | "healthy";
+      kidney_label: "left" | "right" | "default";
       xai_technique: "Grad-CAM" | "LIME" | "LRP" | "SHAP";
       xai_type: "Visual" | "Textual";
     };

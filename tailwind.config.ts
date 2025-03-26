@@ -22,13 +22,19 @@ const config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          blue: "hsl(var(--background-blue))",
+          purple: "hsl(var(--background-purple))",
+        },
         foreground: "var(--foreground)",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
           brand: "hsl(var(--primary-brand))",
           green: "hsl(var(--primary-green))",
+          blue: "hsl(var(--primary-blue))",
+          purple: "hsl(var(--primary-purple))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -103,10 +109,7 @@ const config = {
       },
     },
   },
-  plugins: [
-      require("tailwindcss-animate"),
-    require("@tailwindcss/typography")
-  ],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
 
 export default config;
