@@ -12,9 +12,9 @@ export default function AnalysisTabsHeader(props: ReportHeaderProps) {
   const { createdAt, analyses, id } = props;
 
   return (
-    <div className="bg-white flex items-end gap-9 mb-4 px-4 pt-20 border-b">
+    <div className="bg-white flex items-end gap-9 mb-4 px-4 pt-20 shadow-sm sticky z-50 top-0">
       <div className="flex flex-col">
-        <p className="text-primary-brand">{formatDateToNo(createdAt)}</p>
+        <p className="text-muted-foreground">{formatDateToNo(createdAt)}</p>
         <h1>Report #{id}</h1>
       </div>
       <RadixTabsList className="flex space-x-4 bg-transparent">

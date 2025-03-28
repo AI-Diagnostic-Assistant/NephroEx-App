@@ -19,12 +19,12 @@ type Props = {
 export default function ModuleCard(props: Props) {
   const { title, icon, description, children, className, badge } = props;
   return (
-    <Card className={cn("shadow-none", className)}>
+    <Card className={cn("border-none rounded-lg", className)}>
       <CardHeader className="p-4">
         <CardTitle className="flex gap-1 items-center text-foreground">
           {icon}
           <div className="flex justify-between w-full items-center">
-            <h2>{title}</h2>
+            <h3>{title}</h3>
             {badge}
           </div>
         </CardTitle>

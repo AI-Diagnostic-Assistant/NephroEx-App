@@ -4,6 +4,8 @@ import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { getPatientByReportId } from "@/lib/data-access/patient";
 import { User } from "lucide-react";
+import { cn } from "@/lib/utils";
+import ModuleCard from "@/components/module-card";
 
 export default function PatientInfo() {
   const params = useParams();
@@ -30,28 +32,30 @@ export default function PatientInfo() {
   }
 
   return (
-    <div className="flex flex-col divide-y border rounded-md">
-      <div className="flex gap-2 px-6 py-6 items-center">
-        <User className="text-muted-foreground" />
-        <h4 className="font-medium text-sm">Patient Information</h4>
-      </div>
+    <ModuleCard
+      className="shrink-0 w-[390px]"
+      title="Patien Information"
+      icon={<User className="text-primary-brand" />}
+    >
       <Item label={"Name"} value={patient.name} />
       <Item label={"Age"} value={patient.age} />
-      <Item label={"Email"} value={patient.email} />
-      <Item label={"Medical ID"} value={patient.id} />
-    </div>
+      <Item label={"Email"} value={patient.email} small />
+      <Item label={"Medical ID"} value={patient.id} small />
+    </ModuleCard>
   );
 }
 
 const Item = ({
   label,
   value,
+  small,
 }: {
   label: string;
   value: string | number | null;
+  small?: boolean;
 }) => (
-  <div className="flex flex-col gap-1  px-3 py-2">
-    <p className="text-xs text-gray-500">{label}</p>
-    <p className="text-sm font-medium">{value ?? "-"}</p>
+  <div className="flex flex-col gap-1 py-2">
+    <p className="text-xs text-muted-foreground">{label}</p>
+    <p className={cn(small && "text-xs", "font-medium")}>{value ?? "-"}</p>
   </div>
 );

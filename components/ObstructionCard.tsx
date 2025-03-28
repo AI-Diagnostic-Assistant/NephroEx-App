@@ -2,58 +2,55 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { InfoIcon, ShieldAlert, ShieldCheck } from "lucide-react";
 import { Classification } from "@/lib/types";
-import { cn, decimalToPercentage } from "@/lib/utils";
+import { decimalToPercentage } from "@/lib/utils";
+import { JSX } from "react";
 
 type Props = {
   classification: Classification;
 };
 
-const predictionColorMapper = (prediction: string): string => {
-  const mapping: { [key: string]: string } = {
-    healthy: "text-primary-green",
-    sick: "text-red-500",
+type KidneyStatus = {
+  title: string;
+  message: string;
+  icon: JSX.Element;
+  textColor: string;
+};
+
+const getKidneyStatus = (prediction: string): KidneyStatus => {
+  const isHealthy = prediction === "healthy";
+  return {
+    title: isHealthy ? "Normal" : "Obstructed",
+    message: isHealthy
+      ? "No signs of urinary tract obstruction detected"
+      : "AI detected patterns consistent with urinary tract obstruction",
+    icon: isHealthy ? (
+      <ShieldCheck className="text-primary-green" />
+    ) : (
+      <ShieldAlert className="text-red-500" />
+    ),
+    textColor: isHealthy ? "text-primary-green" : "text-red-500",
   };
-  return mapping[prediction] || "text-primary-brand";
-};
-
-const predictionMapper = (prediction: string): boolean => {
-  return prediction === "healthy";
-};
-
-const isLeftKidney = (kidneyLabel: string | null): boolean => {
-  return kidneyLabel === "left";
 };
 
 export default function ObstructionCard({ classification }: Props) {
   const { prediction, confidence, kidneyLabel } = classification;
+  const status = getKidneyStatus(prediction);
+  const isLeft = kidneyLabel === "left";
   return (
-    <Card className="shadow-none w-full min-w-[400px]">
+    <Card className="border-gray-100 w-full rounded-lg">
       <CardContent className="p-4 flex flex-col gap-3">
         <div className="flex justify-between">
-          {isLeftKidney(kidneyLabel) ? (
-            <Badge variant="left" className="h-min border-none">
-              LEFT KIDNEY
-            </Badge>
-          ) : (
-            <Badge variant="right" className="h-min border-none">
-              RIGHT KIDNEY
-            </Badge>
-          )}
-          {predictionMapper(prediction) ? (
-            <ShieldCheck className="text-primary-green" />
-          ) : (
-            <ShieldAlert className="text-red-500" />
-          )}
-        </div>
-        <div className="flex justify-between items-center">
-          <h2
-            className={cn(
-              "text-2xl font-semibold",
-              predictionColorMapper(prediction),
-            )}
+          <Badge
+            variant={isLeft ? "left" : "right"}
+            className="h-min border-none font-medium"
           >
-            Obstructed
-          </h2>
+            {isLeft ? "LEFT" : "RIGHT"} KIDNEY
+          </Badge>
+          {status.icon}
+        </div>
+
+        <div className="flex justify-between items-center">
+          <h2 className={status.textColor}>{status.title}</h2>
           <div className="flex flex-col items-end">
             <p className="text-muted-foreground">Confidence</p>
             <h4 className="text-lg font-semibold">
@@ -61,17 +58,10 @@ export default function ObstructionCard({ classification }: Props) {
             </h4>
           </div>
         </div>
+
         <div className="flex gap-x-2.5 items-center pt-3 border-t">
           <InfoIcon size={12} />
-          {predictionMapper(prediction) ? (
-            <p className="text-muted-foreground text-xs">
-              No signs of urinary tract obstruction detected
-            </p>
-          ) : (
-            <p className="text-muted-foreground text-xs">
-              AI detected patterns consistent with urinary tract obstruction
-            </p>
-          )}
+          <p className="text-muted-foreground text-xs">{status.message}</p>
         </div>
       </CardContent>
     </Card>

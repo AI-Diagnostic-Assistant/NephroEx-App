@@ -16,13 +16,13 @@ h1 {
 
 h2 {
   font-size: 1.25rem;
-  font-weight: 600;
+  @apply font-bold;
 }
 
 h3 {
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  @apply text-lg;
 }
 
 p {
