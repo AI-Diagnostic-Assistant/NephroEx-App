@@ -20,12 +20,19 @@ interface RenogramChartProps {
   title: string;
 }
 
+function formatTime(minutes: number): string {
+  const mins = Math.floor(minutes);
+  const secs = Math.round((minutes - mins) * 60);
+  return `${mins}m ${secs}s`;
+}
+
 export default function RenogramChart({ datasets }: RenogramChartProps) {
   const params = useParams();
   const reportId = params.id;
   const maxLength = Math.max(...datasets.map((d) => d.data.length));
   const chartData = Array.from({ length: maxLength }, (_, index) => {
-    const dataPoint: any = { time: index + 1 };
+    const minutes = ((index + 1) * 10) / 60;
+    const dataPoint: any = { time: minutes };
     datasets.forEach((dataset) => {
       dataPoint[dataset.label] = dataset.data[index] || 0;
     });
@@ -45,24 +52,33 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
           <XAxis
             dataKey="time"
             label={{
-              value: "Frames",
+              value: "Time (minutes)",
               position: "insideBottomRight",
               offset: -5,
             }}
-            interval={15}
           />
           <YAxis
             label={{ value: "Activity", angle: -90, position: "insideLeft" }}
           />
-          <Tooltip />
+          <Tooltip labelFormatter={formatTime} />
           <Legend />
-          {data && <ReferenceLine x={data.diureticTiming} stroke="red" />}
+          {data && (
+            <ReferenceLine
+              x={data.diureticTiming}
+              stroke="#EF4444"
+              label={{
+                value: `Diuretic at ${data.diureticTiming}m`,
+                position: "insideTopLeft",
+                fill: "#EF4444",
+              }}
+            />
+          )}
           {datasets.map((dataset, index) => (
             <Line
               key={index}
               type="monotone"
               dataKey={dataset.label}
-              stroke={`rgba(${75 + index * 50}, ${192 - index * 50}, ${192}, 1)`}
+              stroke={index === 0 ? "#2563EB" : "#4F46E5"}
               strokeWidth={2}
               dot={false}
             />
