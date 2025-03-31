@@ -14,6 +14,7 @@ import {
 import { getDiureticTiming } from "@/lib/data-access";
 import useSWR from "swr";
 import { useParams } from "next/navigation";
+import React from "react";
 
 interface RenogramChartProps {
   datasets: { label: string; data: number[] }[];
@@ -24,6 +25,15 @@ function formatTime(minutes: number): string {
   const mins = Math.floor(minutes);
   const secs = Math.round((minutes - mins) * 60);
   return `${mins}m ${secs}s`;
+}
+
+function findPeakTime(data: any[], key: string): number {
+  const peakIndex = data.reduce(
+    (maxIndex, item, index, arr) =>
+      item[key] > arr[maxIndex][key] ? index : maxIndex,
+    0,
+  );
+  return data[peakIndex].time;
 }
 
 export default function RenogramChart({ datasets }: RenogramChartProps) {
@@ -73,6 +83,27 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
               }}
             />
           )}
+          {datasets.map((dataset, index) => {
+            const peakTimes = datasets.map((d) =>
+              findPeakTime(chartData, d.label),
+            );
+            const isLaterPeak =
+              index === peakTimes.indexOf(Math.max(...peakTimes));
+
+            return (
+              <ReferenceLine
+                key={`ref-${index}`}
+                x={findPeakTime(chartData, dataset.label)}
+                stroke={index === 0 ? "#2563EB" : "#4F46E5"}
+                strokeDasharray="3 3"
+                label={{
+                  value: `${dataset.label.replace(" Activities", "")}: ${formatTime(findPeakTime(chartData, dataset.label))}`,
+                  position: isLaterPeak ? "insideTopLeft" : "insideTopRight",
+                  fill: index === 0 ? "#2563EB" : "#4F46E5",
+                }}
+              />
+            );
+          })}
           {datasets.map((dataset, index) => (
             <Line
               key={index}
