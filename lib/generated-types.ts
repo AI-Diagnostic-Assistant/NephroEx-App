@@ -201,6 +201,7 @@ export type Database = {
         Row: {
           created_at: string;
           dicom_storage_ids: string[] | null;
+          diuretic_timing: number;
           id: number;
           patient_dicom_storage_id: string | null;
           patient_id: string | null;
@@ -210,6 +211,7 @@ export type Database = {
         Insert: {
           created_at?: string;
           dicom_storage_ids?: string[] | null;
+          diuretic_timing: number;
           id?: number;
           patient_dicom_storage_id?: string | null;
           patient_id?: string | null;
@@ -219,6 +221,7 @@ export type Database = {
         Update: {
           created_at?: string;
           dicom_storage_ids?: string[] | null;
+          diuretic_timing?: number;
           id?: number;
           patient_dicom_storage_id?: string | null;
           patient_id?: string | null;
