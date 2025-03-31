@@ -47,6 +47,23 @@ export async function getReportData(id: number) {
   return { data: formattedData, error };
 }
 
+export async function getDiureticTiming(id: number) {
+  if (!(await isLoggedIn())) redirect("/sign-in");
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("report")
+    .select("diuretic_timing")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to fetch diuretic timing: ${error.message}`);
+  }
+
+  return data ? camelcaseKeys(data, { deep: true }) : null;
+}
+
 export async function getSignedUrls(
   objectPaths: string[] | null,
   bucket: string,

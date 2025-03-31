@@ -9,7 +9,11 @@ import {
   Legend,
   ResponsiveContainer,
   CartesianGrid,
+  ReferenceLine,
 } from "recharts";
+import { getDiureticTiming } from "@/lib/data-access";
+import useSWR from "swr";
+import { useParams } from "next/navigation";
 
 interface RenogramChartProps {
   datasets: { label: string; data: number[] }[];
@@ -17,6 +21,8 @@ interface RenogramChartProps {
 }
 
 export default function RenogramChart({ datasets }: RenogramChartProps) {
+  const params = useParams();
+  const reportId = params.id;
   const maxLength = Math.max(...datasets.map((d) => d.data.length));
   const chartData = Array.from({ length: maxLength }, (_, index) => {
     const dataPoint: any = { time: index + 1 };
@@ -26,6 +32,11 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
     return dataPoint;
   });
 
+  const { data } = useSWR(
+    reportId ? ["/report/", reportId] : null,
+    ([_, reportId]) => getDiureticTiming(Number(reportId)),
+  );
+
   return (
     <div style={{ width: "100%", height: 400 }}>
       <ResponsiveContainer>
@@ -33,7 +44,11 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
           <CartesianGrid vertical={false} />
           <XAxis
             dataKey="time"
-            label={{ value: "Frames", position: "insideBottom", offset: -5 }}
+            label={{
+              value: "Frames",
+              position: "insideBottomRight",
+              offset: -5,
+            }}
             interval={15}
           />
           <YAxis
@@ -41,6 +56,7 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
           />
           <Tooltip />
           <Legend />
+          {data && <ReferenceLine x={data.diureticTiming} stroke="red" />}
           {datasets.map((dataset, index) => (
             <Line
               key={index}
