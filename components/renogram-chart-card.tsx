@@ -13,7 +13,7 @@ export default function RenogramChartCard(props: RenogramChartCardProps) {
   return (
     <ModuleCard
       title="Renogram"
-      description="Activities over time for the left, right and total kidneys over the entire DICOM sequence."
+      description="Activities over time for the left and right kidneys over the entire DICOM sequence in minutes."
       icon={<ChartLine className="text-primary-brand" />}
       className="w-full"
     >
