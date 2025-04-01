@@ -1,5 +1,7 @@
 import BarChartShap from "@/components/bar-chart-shap";
 import WaterfallChartShap from "@/components/waterfall-plot";
+import ExplanationModule from "@/components/explanation-module";
+import { ChartLine } from "lucide-react";
 
 type RenogramChartProps = {
   shapValuesRenogram: number[][];
@@ -12,15 +14,23 @@ export default function RenogramCharts(props: RenogramChartProps) {
   const { shapValuesRenogram, confidence, featureNames, prediction } = props;
 
   return (
-    <div className="flex flex-wrap gap-4 w-full">
-      <div className="bg-primary-foreground px-3 py-10 rounded-lg w-full">
+    <div className="flex flex-col gap-4 w-full">
+      <ExplanationModule
+        title="Bar Plot"
+        description="The bar plot shows the impact of each feature on the model's prediction."
+        icon={<ChartLine className="text-primary-brand" />}
+      >
         <BarChartShap
           shapValues={shapValuesRenogram[0]}
           featureNames={featureNames}
           prediction={prediction}
         />
-      </div>
-      <div className="bg-primary-foreground px-3 py-10 rounded-lg w-full">
+      </ExplanationModule>
+      <ExplanationModule
+        title="Waterfall Chart"
+        description="The waterfall chart shows the contribution of each feature to the model's prediction."
+        icon={<ChartLine className="text-primary-brand" />}
+      >
         <WaterfallChartShap
           shapValues={shapValuesRenogram[0]}
           featureValues={shapValuesRenogram[1]}
@@ -29,7 +39,7 @@ export default function RenogramCharts(props: RenogramChartProps) {
           prediction={prediction}
           featureNames={featureNames}
         />
-      </div>
+      </ExplanationModule>
     </div>
   );
 }

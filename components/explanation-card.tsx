@@ -41,7 +41,7 @@ export async function ExplanationCard({
       className="w-full xl:min-w-96"
     >
       <Tabs defaultValue="left">
-        <TabsList className="rounded-lg">
+        <TabsList className="rounded-lg mb-4">
           {classifications.map((classification: Classification) => (
             <TabsTrigger
               key={classification.id}
@@ -56,11 +56,11 @@ export async function ExplanationCard({
           <TabsContent
             key={classification.id}
             value={classification.kidneyLabel}
-            className="px-4 py-4"
+            className=""
           >
-            <div className="flex flex-col gap-4 py-2 rounded-lg ">
+            <div className="rounded-lg ">
               {classification.explanation.map((explanation) => (
-                <div key={explanation.id}>
+                <div key={explanation.id} className="space-y-4">
                   {explanation.shapValuesRenogram && (
                     <RenogramCharts
                       key={explanation.id}
@@ -76,7 +76,7 @@ export async function ExplanationCard({
                     />
                   )}
                   {explanation.shapValuesRenogramSummed && (
-                    <>
+                    <div className="space-y-4">
                       <RenogramCharts
                         shapValuesRenogram={
                           explanation.shapValuesRenogramSummed
@@ -85,16 +85,17 @@ export async function ExplanationCard({
                         prediction={classification.prediction}
                         featureNames={segmentLabels}
                       />
-                      <div className="bg-primary-foreground px-3 py-10 rounded-lg w-full">
-                        <HighlightedRenogramChart
-                          shapValues={explanation.shapValuesRenogramSummed[0]}
-                          totalData={totalActivities?.[index] || []}
-                        />
-                      </div>
-                    </>
+                      <HighlightedRenogramChart
+                        shapValues={explanation.shapValuesRenogramSummed[0]}
+                        totalData={totalActivities?.[index] || []}
+                      />
+                    </div>
                   )}
                   {explanation.description && (
-                    <TextualExplanation explanation={explanation} />
+                    <TextualExplanation
+                      description={explanation.description}
+                      kidneyLabel={classification.kidneyLabel}
+                    />
                   )}
                 </div>
               ))}

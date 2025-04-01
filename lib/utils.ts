@@ -58,6 +58,8 @@ export const shapColorMapper = (shapValue: number, prediction: string) => {
   }
 };
 
+export const isLeftKidney = (kidneyLabel: string) => kidneyLabel === "left";
+
 export function generateTimeIntervals(
   totalTime: number,
   intervalSize: number,

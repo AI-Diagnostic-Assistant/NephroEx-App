@@ -17,7 +17,7 @@ export default function RenogramChartCard(props: RenogramChartCardProps) {
       icon={<ChartLine className="text-primary-brand" />}
       className="w-full"
     >
-      <div className="bg-primary-foreground px-3 py-2 rounded-lg">
+      <div className="px-3 py-2 rounded-lg">
         <RenogramChart datasets={datasets} title={title} />
       </div>
     </ModuleCard>

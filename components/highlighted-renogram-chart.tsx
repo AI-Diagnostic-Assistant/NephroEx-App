@@ -11,6 +11,8 @@ import {
 } from "recharts";
 import * as d3 from "d3";
 import { generateTimeIntervals } from "@/lib/utils";
+import ExplanationModule from "@/components/explanation-module";
+import { ChartLine } from "lucide-react";
 
 interface HighlightedRenogramChartProps {
   totalData: number[];
@@ -62,65 +64,75 @@ export default function HighlightedRenogramChart({
   });
 
   return (
-    <div className="flex items-center">
-      <div className="flex flex-col items-center">
-        <span className="text-xs">High</span>
-        <svg width="20" height="150">
-          <defs>
-            <linearGradient id="colorScale" x1="0" x2="0" y1="1" y2="0">
-              {Array.from({ length: 10 }, (_, i) => {
-                const offset = i * 10;
-                const color = getHeatmapColor(i / 9);
-                return (
-                  <stop key={offset} offset={`${offset}%`} stopColor={color} />
-                );
-              })}
-            </linearGradient>
-          </defs>
-          <rect width="20" height="150" fill="url(#colorScale)" />
-        </svg>
-        <span className="text-xs">Low</span>
-      </div>
+    <ExplanationModule
+      title="Highlighted Renogram"
+      description="Highlighting the areas of the renogram that contribute most to the classification."
+      icon={<ChartLine className="text-primary-brand" />}
+    >
+      <div className="flex items-center">
+        <div className="flex flex-col items-center">
+          <span className="text-xs">High</span>
+          <svg width="20" height="150">
+            <defs>
+              <linearGradient id="colorScale" x1="0" x2="0" y1="1" y2="0">
+                {Array.from({ length: 10 }, (_, i) => {
+                  const offset = i * 10;
+                  const color = getHeatmapColor(i / 9);
+                  return (
+                    <stop
+                      key={offset}
+                      offset={`${offset}%`}
+                      stopColor={color}
+                    />
+                  );
+                })}
+              </linearGradient>
+            </defs>
+            <rect width="20" height="150" fill="url(#colorScale)" />
+          </svg>
+          <span className="text-xs">Low</span>
+        </div>
 
-      <div style={{ width: "100%", height: 400 }}>
-        <ResponsiveContainer>
-          <LineChart margin={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              type="number"
-              dataKey="frame"
-              domain={[1, totalData.length]}
-              label={{
-                value: "Time (min)",
-                position: "insideBottom",
-                offset: -5,
-              }}
-              ticks={segmentLabelPositions} // Centered tick positions
-              tickFormatter={(value, index) => segmentLabels[index] || ""}
-            />
-            <YAxis label={{ angle: -90, position: "insideLeft" }} />
-            {segmentStartFrames.map((frame) => (
-              <ReferenceLine
-                key={`ref-${frame}`}
-                x={frame}
-                stroke="gray"
-                strokeDasharray="3 3"
+        <div style={{ width: "100%", height: 400 }}>
+          <ResponsiveContainer>
+            <LineChart margin={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                type="number"
+                dataKey="frame"
+                domain={[1, totalData.length]}
+                label={{
+                  value: "Time (min)",
+                  position: "insideBottom",
+                  offset: -5,
+                }}
+                ticks={segmentLabelPositions} // Centered tick positions
+                tickFormatter={(value, index) => segmentLabels[index] || ""}
               />
-            ))}
-            {lineSegments.map(({ data, color, key }) => (
-              <Line
-                key={key}
-                type="monotone"
-                data={data}
-                dataKey="value"
-                stroke={color}
-                strokeWidth={3}
-                dot={false}
-              />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
+              <YAxis label={{ angle: -90, position: "insideLeft" }} />
+              {segmentStartFrames.map((frame) => (
+                <ReferenceLine
+                  key={`ref-${frame}`}
+                  x={frame}
+                  stroke="gray"
+                  strokeDasharray="3 3"
+                />
+              ))}
+              {lineSegments.map(({ data, color, key }) => (
+                <Line
+                  key={key}
+                  type="monotone"
+                  data={data}
+                  dataKey="value"
+                  stroke={color}
+                  strokeWidth={3}
+                  dot={false}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
-    </div>
+    </ExplanationModule>
   );
 }

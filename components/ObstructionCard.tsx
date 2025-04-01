@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { InfoIcon, ShieldAlert, ShieldCheck } from "lucide-react";
 import { Classification } from "@/lib/types";
-import { decimalToPercentage } from "@/lib/utils";
+import { decimalToPercentage, isLeftKidney } from "@/lib/utils";
 import { JSX } from "react";
 
 type Props = {
@@ -35,16 +35,15 @@ const getKidneyStatus = (prediction: string): KidneyStatus => {
 export default function ObstructionCard({ classification }: Props) {
   const { prediction, confidence, kidneyLabel } = classification;
   const status = getKidneyStatus(prediction);
-  const isLeft = kidneyLabel === "left";
   return (
     <Card className="border-gray-100 w-full rounded-lg">
       <CardContent className="p-4 flex flex-col gap-3">
         <div className="flex justify-between">
           <Badge
-            variant={isLeft ? "left" : "right"}
+            variant={isLeftKidney(kidneyLabel) ? "left" : "right"}
             className="h-min border-none font-medium"
           >
-            {isLeft ? "LEFT" : "RIGHT"} KIDNEY
+            {isLeftKidney(kidneyLabel) ? "LEFT" : "RIGHT"} KIDNEY
           </Badge>
           {status.icon}
         </div>
