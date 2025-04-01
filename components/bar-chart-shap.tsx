@@ -27,7 +27,7 @@ export default function BarChartShap(props: BarChartProps) {
   }));
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={650}>
       <BarChart
         data={data}
         layout="vertical"

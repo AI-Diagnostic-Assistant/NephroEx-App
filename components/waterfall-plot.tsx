@@ -49,7 +49,7 @@ export default function WaterfallChartShap(props: BarChartProps) {
       name: `${featureValues[index]} = ${featureNames[index]}`,
       uv: shapValues[index], // Waterfall bar height
       pv: prevValue, // Base position
-      shapValue: `${shapValues[index] >= 0 ? "+" : ""}${shapValues[index].toFixed(2)}`,
+      shapValue: `${shapValues[index] >= 0 ? "+" : ""}${shapValues[index].toFixed(4)}`,
     });
   }
 
@@ -63,7 +63,7 @@ export default function WaterfallChartShap(props: BarChartProps) {
   const adjustedMaxX = maxX + buffer;
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={800}>
       <BarChart
         data={data}
         layout="vertical"
@@ -95,7 +95,7 @@ export default function WaterfallChartShap(props: BarChartProps) {
           <LabelList
             dataKey="shapValue"
             position="inside"
-            fill="white"
+            fill="black"
             fontSize={12}
           />
         </Bar>

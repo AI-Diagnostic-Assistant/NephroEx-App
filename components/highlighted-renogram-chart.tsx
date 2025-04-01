@@ -17,11 +17,17 @@ import { ChartLine } from "lucide-react";
 interface HighlightedRenogramChartProps {
   totalData: number[];
   shapValues: number[];
+  imageAcquisitionValues: {
+    totalImagingTime: number;
+    intervalSize: number;
+    frameRate: number;
+  };
 }
 
 export default function HighlightedRenogramChart({
   totalData,
   shapValues,
+  imageAcquisitionValues,
 }: HighlightedRenogramChartProps) {
   const maxShap = Math.max(...shapValues);
   const minShap = Math.min(...shapValues);
@@ -29,12 +35,12 @@ export default function HighlightedRenogramChart({
     (val) => (val - minShap) / (maxShap - minShap),
   );
 
+  const totalImagingTime = imageAcquisitionValues.totalImagingTime;
+  const intervalSize = imageAcquisitionValues.intervalSize;
+  const frameRate = imageAcquisitionValues.frameRate;
+
   const getHeatmapColor = (normalizedValue: number) =>
     d3.interpolateWarm(1 - normalizedValue);
-
-  const totalImagingTime = 30 * 60; // 30 minutes in seconds
-  const intervalSize = 3 * 60; // 3-minute intervals in seconds
-  const frameRate = 10; // 10 seconds per frame
 
   const { segmentStartFrames, segmentLabelPositions, segmentLabels } =
     generateTimeIntervals(totalImagingTime, intervalSize, frameRate);
@@ -107,7 +113,10 @@ export default function HighlightedRenogramChart({
                   offset: -5,
                 }}
                 ticks={segmentLabelPositions} // Centered tick positions
-                tickFormatter={(value, index) => segmentLabels[index] || ""}
+                tickFormatter={(value) => {
+                  const tickIndex = segmentLabelPositions.indexOf(value);
+                  return tickIndex !== -1 ? segmentLabels[tickIndex] : "";
+                }}
               />
               <YAxis label={{ angle: -90, position: "insideLeft" }} />
               {segmentStartFrames.map((frame) => (

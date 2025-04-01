@@ -23,15 +23,30 @@ export async function ExplanationCard({
   category,
   totalActivities,
 }: ExplanationCardProps) {
-  const totalImagingTime = 30 * 60; // 30 minutes in seconds
-  const intervalSize = 3 * 60; // 3-minute intervals in seconds
-  const frameRate = 10; // 10 seconds per frame
+  //Can set it to 40 minutes since the models are padded to the longest sequence. So the all XAI techiques and models are using 240 elements.
+  const imageAcquisitionValues = {
+    totalImagingTime: 40 * 60,
+    intervalSize: 2 * 60,
+    frameRate: 10,
+  };
 
   const { segmentLabels } = generateTimeIntervals(
-    totalImagingTime,
-    intervalSize,
-    frameRate,
+    imageAcquisitionValues.totalImagingTime,
+    imageAcquisitionValues.intervalSize,
+    imageAcquisitionValues.frameRate,
   );
+
+  const quantitativeFeatureNames = [
+    "Mean",
+    "Variance",
+    "Skewness",
+    "Kurtosis",
+    "Time to Peak",
+    "Baseline Half Time",
+    "Diuretic Half Time",
+    "30 Min / Peak Ratio",
+    "30 min / 3 min Ratio",
+  ];
 
   return (
     <ModuleCard
@@ -67,12 +82,7 @@ export async function ExplanationCard({
                       shapValuesRenogram={explanation.shapValuesRenogram}
                       confidence={classification.confidence}
                       prediction={classification.prediction}
-                      featureNames={[
-                        "Mean",
-                        "Variance",
-                        "Skewness",
-                        "Kurtosis",
-                      ]}
+                      featureNames={quantitativeFeatureNames}
                     />
                   )}
                   {explanation.shapValuesRenogramSummed && (
@@ -88,6 +98,7 @@ export async function ExplanationCard({
                       <HighlightedRenogramChart
                         shapValues={explanation.shapValuesRenogramSummed[0]}
                         totalData={totalActivities?.[index] || []}
+                        imageAcquisitionValues={imageAcquisitionValues}
                       />
                     </div>
                   )}
