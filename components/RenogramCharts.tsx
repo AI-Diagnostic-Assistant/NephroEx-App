@@ -8,10 +8,19 @@ type RenogramChartProps = {
   confidence: number;
   featureNames: string[];
   prediction: string;
+  barPlotHeight?: number;
+  waterfallPlotHeight?: number;
 };
 
 export default function RenogramCharts(props: RenogramChartProps) {
-  const { shapValuesRenogram, confidence, featureNames, prediction } = props;
+  const {
+    shapValuesRenogram,
+    confidence,
+    featureNames,
+    prediction,
+    barPlotHeight,
+    waterfallPlotHeight,
+  } = props;
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -24,6 +33,7 @@ export default function RenogramCharts(props: RenogramChartProps) {
           shapValues={shapValuesRenogram[0]}
           featureNames={featureNames}
           prediction={prediction}
+          barPlotHeight={barPlotHeight}
         />
       </ExplanationModule>
       <ExplanationModule
@@ -38,6 +48,7 @@ export default function RenogramCharts(props: RenogramChartProps) {
           confidence={confidence}
           prediction={prediction}
           featureNames={featureNames}
+          waterfallPlotHeight={waterfallPlotHeight}
         />
       </ExplanationModule>
     </div>

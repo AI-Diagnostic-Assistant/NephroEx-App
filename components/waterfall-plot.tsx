@@ -21,6 +21,7 @@ interface BarChartProps {
   confidence: number;
   featureNames: string[];
   prediction: string;
+  waterfallPlotHeight?: number;
 }
 
 export default function WaterfallChartShap(props: BarChartProps) {
@@ -31,6 +32,7 @@ export default function WaterfallChartShap(props: BarChartProps) {
     confidence,
     featureNames,
     prediction,
+    waterfallPlotHeight,
   } = props;
 
   const sortedIndices = shapValues
@@ -63,18 +65,25 @@ export default function WaterfallChartShap(props: BarChartProps) {
   const adjustedMaxX = maxX + buffer;
 
   return (
-    <ResponsiveContainer width="100%" height={800}>
+    <ResponsiveContainer
+      width="100%"
+      height={waterfallPlotHeight}
+      className="text-xs"
+    >
       <BarChart
         data={data}
         layout="vertical"
-        margin={{ top: 20, bottom: 20, left: 20, right: 20 }}
+        margin={{ top: 20, bottom: 20, left: 0, right: 20 }}
       >
         <XAxis
           type="number"
-          domain={[adjustedMinX, adjustedMaxX]}
+          domain={[
+            Math.round(adjustedMinX * 1000) / 1000,
+            Math.round(adjustedMaxX * 1000) / 1000,
+          ]}
           allowDataOverflow
         />
-        <YAxis dataKey="name" type="category" width={250} />
+        <YAxis dataKey="name" type="category" width={150} />
         <Tooltip
           content={({ active, payload, label }) => (
             <CustomTooltip
@@ -85,7 +94,7 @@ export default function WaterfallChartShap(props: BarChartProps) {
           )}
         />
         <Bar dataKey="pv" stackId="a" fill="transparent" />
-        <Bar dataKey="uv" stackId="a" barSize={20}>
+        <Bar dataKey="uv" stackId="a" barSize={2000}>
           {data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
@@ -96,7 +105,7 @@ export default function WaterfallChartShap(props: BarChartProps) {
             dataKey="shapValue"
             position="inside"
             fill="black"
-            fontSize={12}
+            fontSize={10}
           />
         </Bar>
         <ReferenceLine

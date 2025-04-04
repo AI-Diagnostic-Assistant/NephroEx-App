@@ -14,7 +14,7 @@ export default function AnalysisTabsContent(props: ReportContentProps) {
   const { analyses } = props;
 
   return (
-    <div className="max-w-screen-xl mx-auto">
+    <div className="max-w-screen-lg mx-auto">
       {analyses.map((analysis: Analysis) => (
         <TabsContent
           key={analysis.id}

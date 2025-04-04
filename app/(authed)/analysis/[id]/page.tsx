@@ -46,7 +46,7 @@ export default async function Analysis({
         <AnalysisTabsHeader analyses={analyses} createdAt={createdAt} id={id} />
         <AnalysisTabsContent analyses={analyses} />
       </Tabs>
-      <div className="p-4 w-full max-w-screen-xl mx-auto">
+      <div className="p-4 w-full max-w-screen-lg mx-auto">
         {summed_frames_signed_urls && (
           <RadioTracerFlow
             summedFramesSignedUrls={summed_frames_signed_urls}

@@ -55,7 +55,7 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
   );
 
   return (
-    <div style={{ width: "100%", height: 400 }}>
+    <div style={{ width: "100%", height: 550 }} className="text-xs">
       <ResponsiveContainer>
         <LineChart data={chartData}>
           <CartesianGrid vertical={false} />
@@ -68,8 +68,14 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
             }}
           />
           <YAxis
-            label={{ value: "Activity", angle: -90, position: "insideLeft" }}
+            label={{
+              value: "Counts/sec",
+              angle: -90,
+              position: "insideLeft",
+            }}
+            tickCount={10} // Increase number of ticks
           />
+
           <Tooltip labelFormatter={formatTime} />
           <Legend />
           {data && (

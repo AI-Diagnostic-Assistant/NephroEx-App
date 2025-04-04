@@ -16,22 +16,34 @@ interface BarChartProps {
   shapValues: number[];
   featureNames: string[];
   prediction: string;
+  barPlotHeight?: number;
 }
 
 export default function BarChartShap(props: BarChartProps) {
-  const { shapValues, featureNames, prediction } = props;
+  const { shapValues, featureNames, prediction, barPlotHeight } = props;
 
   const data = featureNames.map((feature, index) => ({
     name: feature,
     shapValue: shapValues[index],
   }));
 
+  const minX = Math.min(...data.map((d) => d.shapValue));
+  const maxX = Math.max(...data.map((d) => d.shapValue));
+
+  const buffer = (maxX - minX) * 0.1; // 10% buffer
+  const adjustedMinX = minX - buffer;
+  const adjustedMaxX = maxX + buffer;
+
   return (
-    <ResponsiveContainer width="100%" height={650}>
+    <ResponsiveContainer
+      width="100%"
+      height={barPlotHeight}
+      className="text-xs"
+    >
       <BarChart
         data={data}
         layout="vertical"
-        margin={{ top: 20, bottom: 20, left: 20, right: 20 }}
+        margin={{ top: 20, bottom: 20, left: 0, right: 20 }}
       >
         <XAxis
           type="number"
@@ -41,8 +53,12 @@ export default function BarChartShap(props: BarChartProps) {
             offset: -4,
             style: { textAnchor: "middle" },
           }}
+          domain={[
+            Math.round(adjustedMinX * 1000) / 1000,
+            Math.round(adjustedMaxX * 1000) / 1000,
+          ]}
         />
-        <YAxis dataKey="name" type="category" width={200} />
+        <YAxis dataKey="name" type="category" width={120} />
         <Tooltip
           content={({ active, payload, label }) => (
             <CustomTooltip
@@ -52,7 +68,7 @@ export default function BarChartShap(props: BarChartProps) {
             />
           )}
         />
-        <Bar dataKey="shapValue" barSize={20}>
+        <Bar dataKey="shapValue" barSize={10}>
           {data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}

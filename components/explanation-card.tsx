@@ -42,10 +42,10 @@ export async function ExplanationCard({
     "Skewness",
     "Kurtosis",
     "Time to Peak",
-    "Baseline Half Time",
-    "Diuretic Half Time",
-    "30 Min / Peak Ratio",
-    "30 min / 3 min Ratio",
+    "Peak to 1/2 peak",
+    "Diuretic T1/2",
+    "30min/peak",
+    "30min/3min",
   ];
 
   return (
@@ -83,6 +83,8 @@ export async function ExplanationCard({
                       confidence={classification.confidence}
                       prediction={classification.prediction}
                       featureNames={quantitativeFeatureNames}
+                      barPlotHeight={300}
+                      waterfallPlotHeight={350}
                     />
                   )}
                   {explanation.shapValuesRenogramSummed && (
@@ -94,6 +96,8 @@ export async function ExplanationCard({
                         confidence={classification.confidence}
                         prediction={classification.prediction}
                         featureNames={segmentLabels}
+                        barPlotHeight={550}
+                        waterfallPlotHeight={650}
                       />
                       <HighlightedRenogramChart
                         shapValues={explanation.shapValuesRenogramSummed[0]}
