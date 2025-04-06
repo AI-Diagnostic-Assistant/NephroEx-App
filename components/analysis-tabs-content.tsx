@@ -29,8 +29,8 @@ export default function AnalysisTabsContent(props: ReportContentProps) {
             {analysis.roiActivity && (
               <RenogramChartCard
                 datasets={[
-                  { label: "Left Activities", data: analysis.roiActivity[0] },
-                  { label: "Right Activities", data: analysis.roiActivity[1] },
+                  { label: "Left Kidney-BKG", data: analysis.roiActivity[0] },
+                  { label: "Right Kidney-BKG", data: analysis.roiActivity[1] },
                 ]}
                 title="Renogram: Activities Over Time"
               />

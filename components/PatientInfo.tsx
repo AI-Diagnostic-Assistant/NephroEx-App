@@ -34,7 +34,7 @@ export default function PatientInfo() {
   return (
     <ModuleCard
       className="shrink-0 w-[390px]"
-      title="Patient Information"
+      title="Patient Details"
       icon={<User className="text-primary-brand" />}
     >
       <Item label={"Name"} value={patient.name} />

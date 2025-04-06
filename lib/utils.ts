@@ -35,16 +35,29 @@ export const isActive = (a: string, b: string) => a.endsWith("analysis/" + b);
 export const explanationDescriptionMapper = (type: string): string => {
   const mapping: { [key: string]: string } = {
     renogram:
-      "The charts show the importance distribution of the features. This is what the model used to base its decision on.",
-    image:
-      "The images show the highlighted regions of interest on each 2 minute summed frame. The model used these to base its decision on.",
+      "The charts below provide a comprehensive view of how different features contribute to the model’s predictions. They break down the feature importance distribution, revealing which factors had the most influence in driving the final decision. The model is trained on 2-min summed frames over the whole sequence.",
+    feature:
+      "The charts below provide a comprehensive view of how different features contribute to the model’s predictions. They break down the feature importance distribution, revealing which factors had the most influence in driving the final decision. The model is trained on extracted quantitative features from the curve.",
   };
   return mapping[type] || "The model used these to base its decision on.";
 };
 
+export const classificationDescriptionMapper = (type: string): string => {
+  const mapping: { [key: string]: string } = {
+    renogram:
+      "Obstructive uropathy classification for each kidney, performed by an AI model trained on 2-minute summed frames from the full image sequence.",
+    feature:
+      "Obstructive uropathy classification for each kidney, performed by an AI model trained on extracted quantitative features from the renogram time-activity curves.",
+  };
+  return (
+    mapping[type] ||
+    "These are the inputs the model used to make its prediction."
+  );
+};
+
 export const typeMapper = (category: string): string => {
   const mapping: { [key: string]: string } = {
-    renogram: "Renogram Analysis",
+    renogram: "Datapoint Analysis",
     feature: "Feature Analysis",
   };
   return mapping[category] || "Unknown Type";

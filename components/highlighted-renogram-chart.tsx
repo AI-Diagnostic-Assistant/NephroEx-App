@@ -72,7 +72,7 @@ export default function HighlightedRenogramChart({
   return (
     <ExplanationModule
       title="Highlighted Renogram"
-      description="Highlighting the areas of the renogram that contribute most to the classification."
+      description="Renogram curve highlighting the relative contribution of 2-minute summed frame segments across the entire acquisition period. The heatmap overlay illustrates which temporal regions of the time-activity curve had the greatest influence on the model’s classification decision — with warmer colors indicating higher importance."
       icon={<ChartLine className="text-primary-brand" />}
     >
       <div className="flex items-center">
@@ -112,13 +112,17 @@ export default function HighlightedRenogramChart({
                   position: "insideBottom",
                   offset: -5,
                 }}
+                className="text-xs"
                 ticks={segmentLabelPositions} // Centered tick positions
                 tickFormatter={(value) => {
                   const tickIndex = segmentLabelPositions.indexOf(value);
                   return tickIndex !== -1 ? segmentLabels[tickIndex] : "";
                 }}
               />
-              <YAxis label={{ angle: -90, position: "insideLeft" }} />
+              <YAxis
+                label={{ angle: -90, position: "insideLeft" }}
+                className="text-xs"
+              />
               {segmentStartFrames.map((frame) => (
                 <ReferenceLine
                   key={`ref-${frame}`}

@@ -27,15 +27,6 @@ function formatTime(minutes: number): string {
   return `${mins}m ${secs}s`;
 }
 
-function findPeakTime(data: any[], key: string): number {
-  const peakIndex = data.reduce(
-    (maxIndex, item, index, arr) =>
-      item[key] > arr[maxIndex][key] ? index : maxIndex,
-    0,
-  );
-  return data[peakIndex].time;
-}
-
 export default function RenogramChart({ datasets }: RenogramChartProps) {
   const params = useParams();
   const reportId = params.id;
@@ -48,6 +39,10 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
     });
     return dataPoint;
   });
+
+  const peakIndices = datasets.map((dataset) =>
+    dataset.data.findIndex((value) => value === Math.max(...dataset.data)),
+  );
 
   const { data } = useSWR(
     reportId ? ["/report/", reportId] : null,
@@ -83,43 +78,39 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
               x={data.diureticTiming}
               stroke="#EF4444"
               label={{
-                value: `Diuretic at ${data.diureticTiming}m`,
+                value: `Diuretic Injection`,
                 position: "insideTopLeft",
-                fill: "#EF4444",
+                fill: "#e01111",
               }}
+              strokeDasharray="3 3"
             />
           )}
           {datasets.map((dataset, index) => {
-            const peakTimes = datasets.map((d) =>
-              findPeakTime(chartData, d.label),
-            );
-            const isLaterPeak =
-              index === peakTimes.indexOf(Math.max(...peakTimes));
-
             return (
-              <ReferenceLine
-                key={`ref-${index}`}
-                x={findPeakTime(chartData, dataset.label)}
-                stroke={index === 0 ? "#2563EB" : "#4F46E5"}
-                strokeDasharray="3 3"
-                label={{
-                  value: `${dataset.label.replace(" Activities", "")}: ${formatTime(findPeakTime(chartData, dataset.label))}`,
-                  position: isLaterPeak ? "insideTopLeft" : "insideTopRight",
-                  fill: index === 0 ? "#2563EB" : "#4F46E5",
+              <Line
+                key={index}
+                type="monotone"
+                dataKey={dataset.label}
+                stroke={index === 0 ? "#0e3893" : "#e36e0d"}
+                strokeWidth={2}
+                dot={(props) => {
+                  const { index: dataIndex, cx, cy } = props;
+                  if (dataIndex === peakIndices[index]) {
+                    return (
+                      <circle
+                        cx={cx}
+                        cy={cy}
+                        r={6}
+                        fill={index === 0 ? "#0e3893" : "#e36e0d"}
+                        stroke="#fff"
+                        strokeWidth={2}
+                      />
+                    );
+                  }
                 }}
               />
             );
           })}
-          {datasets.map((dataset, index) => (
-            <Line
-              key={index}
-              type="monotone"
-              dataKey={dataset.label}
-              stroke={index === 0 ? "#2563EB" : "#4F46E5"}
-              strokeWidth={2}
-              dot={false}
-            />
-          ))}
         </LineChart>
       </ResponsiveContainer>
     </div>

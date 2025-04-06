@@ -52,7 +52,7 @@ export async function AppSidebar(props: AppSidebarProps) {
                 <Activity />
               </div>
               <div className="flex flex-col items-start p-4">
-                <span className="font-bold text-lg">AIDA</span>
+                <span className="font-bold text-lg">NEPHROEX</span>
                 <span className="text-sm">AI Diagnostic Assistant</span>
               </div>
             </div>

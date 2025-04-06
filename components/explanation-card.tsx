@@ -23,7 +23,6 @@ export async function ExplanationCard({
   category,
   totalActivities,
 }: ExplanationCardProps) {
-  //Can set it to 40 minutes since the models are padded to the longest sequence. So the all XAI techiques and models are using 240 elements.
   const imageAcquisitionValues = {
     totalImagingTime: 40 * 60,
     intervalSize: 2 * 60,
@@ -71,7 +70,6 @@ export async function ExplanationCard({
           <TabsContent
             key={classification.id}
             value={classification.kidneyLabel}
-            className=""
           >
             <div className="rounded-lg ">
               {classification.explanation.map((explanation) => (

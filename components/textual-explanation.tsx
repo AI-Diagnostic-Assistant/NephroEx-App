@@ -3,7 +3,7 @@
 import ReactMarkdown from "react-markdown";
 import { Badge } from "@/components/ui/badge";
 import { BrainIcon } from "lucide-react";
-import { cn, isLeftKidney } from "@/lib/utils";
+import { isLeftKidney } from "@/lib/utils";
 
 interface TextualExplanationProps {
   description: string;
@@ -13,32 +13,30 @@ interface TextualExplanationProps {
 export default function TextualExplanation(props: TextualExplanationProps) {
   const { description, kidneyLabel } = props;
 
+  // Define your custom hex colors
+  const leftKidneyColor = {
+    icon: "#0e3893",
+  };
+
+  const rightKidneyColor = {
+    icon: "#E36E0DFF",
+  };
+
+  const kidneyColors = isLeftKidney(kidneyLabel)
+    ? leftKidneyColor
+    : rightKidneyColor;
+
   return (
-    <div className="bg-primary-foreground px-3 py-2 rounded-lg text-foreground w-full">
-      {/*<h3 className="text-lg font-semibold mb-2">Reasoning</h3>*/}
+    <div className="px-3 py-2 rounded-lg w-full bg-primary-foreground text-foreground">
       <div className="flex items-start gap-2.5">
-        <div
-          className={cn(
-            isLeftKidney(kidneyLabel)
-              ? "bg-background-blue"
-              : "bg-background-purple",
-            "rounded-full p-3",
-          )}
-        >
-          <BrainIcon
-            size={16}
-            className={
-              isLeftKidney(kidneyLabel)
-                ? "text-primary-blue"
-                : "text-primary-purple"
-            }
-          />
+        <div className="rounded-full p-3">
+          <BrainIcon size={16} style={{ color: kidneyColors.icon }} />
         </div>
         <div>
           <Badge variant={kidneyLabel} className="uppercase">
-            {kidneyLabel} KIDNEY AI EXPLANATIONS
+            TEXTUAL DESCRIPTION
           </Badge>
-          <div className="prose prose-sm w-full max-w-none pl-1">
+          <div className="prose prose-sm w-full max-w-none pl-1 mt-2">
             <ReactMarkdown>{description}</ReactMarkdown>
           </div>
         </div>

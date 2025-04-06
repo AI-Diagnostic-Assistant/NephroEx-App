@@ -2,6 +2,7 @@ import { Analysis, Classification } from "@/lib/types";
 import { Dna } from "lucide-react";
 import ModuleCard from "@/components/module-card";
 import ObstructionCard from "@/components/ObstructionCard";
+import { classificationDescriptionMapper } from "@/lib/utils";
 
 interface ClassificationResultCardProps {
   analysis: Analysis;
@@ -14,7 +15,7 @@ export default async function ClassificationResultCard(
   return (
     <ModuleCard
       title="Classification Result"
-      description="Analysis of kidney function based on DICOM images uploaded."
+      description={classificationDescriptionMapper(analysis.category)}
       icon={<Dna className="text-primary-brand" />}
       className="xl:min-w-[400px] w-full"
     >

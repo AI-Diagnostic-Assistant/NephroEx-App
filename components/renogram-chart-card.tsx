@@ -13,7 +13,7 @@ export default function RenogramChartCard(props: RenogramChartCardProps) {
   return (
     <ModuleCard
       title="Renogram"
-      description="Activities over time for the left and right kidneys over the entire DICOM sequence in minutes."
+      description="Renogram curves showing region-of-interest (ROI) counts per second for the left and right kidneys throughout the full DICOM acquisition time (in minutes). Time-to-peak activity is marked with circles on each curve, and the timing of diuretic injection is indicated by a vertical reference line."
       icon={<ChartLine className="text-primary-brand" />}
       className="w-full"
     >

@@ -13,7 +13,7 @@ export default async function Layout({
           <div className="absolute inset-0 bg-zinc-900" />
           <div className="relative z-20 flex items-center text-lg font-medium gap-3">
             <Activity />
-            AIDA
+            NEPHROEX
           </div>
           <div className="relative z-20 mt-56">
             <TypewriterComponent />
@@ -21,10 +21,10 @@ export default async function Layout({
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;This web app has saved me countless hours of work and
-                helped me make diagnosis of chronic kidney disease.&rdquo;
+                &ldquo;This computer-aided diagnosis tool has enhanced my
+                decision-making in evaluating obstructive uropathy.&rdquo;
               </p>
-              <footer className="text-sm">Simen Wergeland</footer>
+              <footer className="text-sm">Ola Nordmann</footer>
             </blockquote>
           </div>
         </div>

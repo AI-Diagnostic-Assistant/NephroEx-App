@@ -8,11 +8,13 @@ export default function TypewriterComponent() {
     <div className="containerTypewriter">
       <TypeAnimation
         sequence={[
-          "Welcome to AIDA - AI Diagnostic Assistant",
+          "Welcome to NephroEx - an AI driven Computer Aided Diagnosis tool for detection of obstructive uropathy",
           1000,
-          "Make diagnosis of dynamic renal scintigraphy images with ease",
+          "Make diagnosis of renal obstruction only by uploading a diuretic renography scan",
           1000,
-          "Get accurate classifications of chronic kidney disease stages",
+          "Get accurate classifications of obstructive uropathy",
+          1000,
+          "See how the AI model came to a classification decision",
           1000,
           "Use it as a tool for making more accurate diagnosis",
         ]}

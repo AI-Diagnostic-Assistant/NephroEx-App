@@ -48,10 +48,12 @@ export default function WaterfallChartShap(props: BarChartProps) {
     cumulativeValue += shapValues[index];
 
     orderedData.push({
-      name: `${featureValues[index]} = ${featureNames[index]}`,
+      name: `${featureValues[index].toFixed(2)} = ${featureNames[index]}`,
       uv: shapValues[index], // Waterfall bar height
       pv: prevValue, // Base position
       shapValue: `${shapValues[index] >= 0 ? "+" : ""}${shapValues[index].toFixed(4)}`,
+      featureValue: featureValues[index].toFixed(4), // Add this line
+      featureName: featureNames[index],
     });
   }
 

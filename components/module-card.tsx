@@ -20,7 +20,7 @@ export default function ModuleCard(props: Props) {
   const { title, icon, description, children, className, badge } = props;
   return (
     <Card className={cn("border-none rounded-lg", className)}>
-      <CardHeader className="p-4">
+      <CardHeader className="p-4 flex flex-col gap-2">
         <CardTitle className="flex gap-1 items-center text-foreground">
           {icon}
           <div className="flex justify-between w-full items-center">

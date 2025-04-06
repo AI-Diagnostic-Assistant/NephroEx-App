@@ -56,8 +56,7 @@ export default async function Analysis({
         <ModuleCard
           title="DICOM Viewer"
           icon={<ImageIcon className="text-primary-brand" />}
-          description="Entire DICOM sequence uploaded is displayed here. Hint:
-                    Scroll on the image to switch DICOM frame."
+          description="The full uploaded DICOM sequence is displayed below. Scroll through the frames to visualize the dynamic radiotracer distribution."
           className="w-full mt-4"
         >
           <DicomViewer dicomUrl={`wadouri:${total_patient_dicom_public_url}`} />

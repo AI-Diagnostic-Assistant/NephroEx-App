@@ -26,7 +26,7 @@ export default function RenogramCharts(props: RenogramChartProps) {
     <div className="flex flex-col gap-4 w-full">
       <ExplanationModule
         title="Bar Plot"
-        description="The bar plot shows the impact of each feature on the model's prediction."
+        description="This bar plot provides a clear visualization of how each input feature influences the model’s prediction. The length of each bar quantifies the magnitude of the feature’s impact, making it easy to compare the relative importance of different features."
         icon={<ChartLine className="text-primary-brand" />}
       >
         <BarChartShap
@@ -38,7 +38,7 @@ export default function RenogramCharts(props: RenogramChartProps) {
       </ExplanationModule>
       <ExplanationModule
         title="Waterfall Chart"
-        description="The waterfall chart shows the contribution of each feature to the model's prediction."
+        description="This waterfall chart breaks down the prediction process by showing the incremental contribution of each feature. It clearly illustrates how positive and negative effects of individual features combine to form the final prediction, offering a step-by-step view of the model’s decision-making process."
         icon={<ChartLine className="text-primary-brand" />}
       >
         <WaterfallChartShap
