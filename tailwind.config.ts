@@ -24,8 +24,9 @@ const config = {
         ring: "hsl(var(--ring))",
         background: {
           DEFAULT: "hsl(var(--background))",
-          blue: "hsl(var(--background-blue))",
+          blue: "#E0E8F5",
           purple: "hsl(var(--background-purple))",
+          orange: "#FDECD7",
         },
         foreground: "var(--foreground)",
         primary: {
@@ -33,8 +34,9 @@ const config = {
           foreground: "hsl(var(--primary-foreground))",
           brand: "hsl(var(--primary-brand))",
           green: "hsl(var(--primary-green))",
-          blue: "hsl(var(--primary-blue))",
+          blue: "#0e3893",
           purple: "hsl(var(--primary-purple))",
+          orange: "#E36E0DFF",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
