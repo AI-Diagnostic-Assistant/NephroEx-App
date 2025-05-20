@@ -133,7 +133,6 @@ export default function RenogramChart(props: RenogramChartProps) {
                 legendType="none"
                 dot={(props): React.ReactElement<SVGElement> => {
                   const { index: dataIndex, cx, cy } = props;
-
                   const isPeak = dataIndex === peakIndices[index];
 
                   return (
