@@ -4,11 +4,18 @@ import { ChartLine } from "lucide-react";
 import ModuleCard from "@/components/module-card";
 
 interface RenogramChartCardProps {
-  datasets: { label: string; data: number[] }[];
+  interpolatedRenograms: { label: string; data: number[] }[];
+  interpolatedSmoothedRenograms: { label: string; data: number[] }[];
+  timeVector: string[];
   title: string;
 }
 export default function RenogramChartCard(props: RenogramChartCardProps) {
-  const { datasets, title } = props;
+  const {
+    interpolatedRenograms,
+    interpolatedSmoothedRenograms,
+    timeVector,
+    title,
+  } = props;
 
   return (
     <ModuleCard
@@ -18,7 +25,12 @@ export default function RenogramChartCard(props: RenogramChartCardProps) {
       className="w-full"
     >
       <div className="px-3 py-2 rounded-lg">
-        <RenogramChart datasets={datasets} title={title} />
+        <RenogramChart
+          interpolatedRenograms={interpolatedRenograms}
+          interpolatedSmoothedRenograms={interpolatedSmoothedRenograms}
+          timeVector={timeVector}
+          title={title}
+        />
       </div>
     </ModuleCard>
   );

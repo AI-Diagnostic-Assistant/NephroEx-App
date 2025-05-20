@@ -17,7 +17,9 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 interface RenogramChartProps {
-  datasets: { label: string; data: number[] }[];
+  interpolatedRenograms: { label: string; data: number[] }[];
+  interpolatedSmoothedRenograms: { label: string; data: number[] }[];
+  timeVector: string[];
   title: string;
 }
 
@@ -27,26 +29,43 @@ function formatTime(minutes: number): string {
   return `${mins}m ${secs}s`;
 }
 
-export default function RenogramChart({ datasets }: RenogramChartProps) {
+export default function RenogramChart(props: RenogramChartProps) {
+  const { interpolatedRenograms, interpolatedSmoothedRenograms, timeVector } =
+    props;
+
   const params = useParams();
   const reportId = params.id;
-  const maxLength = Math.max(...datasets.map((d) => d.data.length));
-  const chartData = Array.from({ length: maxLength }, (_, index) => {
-    const minutes = ((index + 1) * 10) / 60;
-    const dataPoint: any = { time: minutes };
-    datasets.forEach((dataset) => {
-      dataPoint[dataset.label] = dataset.data[index] || 0;
-    });
-    return dataPoint;
-  });
-
-  const peakIndices = datasets.map((dataset) =>
-    dataset.data.findIndex((value) => value === Math.max(...dataset.data)),
-  );
 
   const { data } = useSWR(
     reportId ? ["/report/", reportId] : null,
     ([_, reportId]) => getDiureticTiming(Number(reportId)),
+  );
+
+  const times = timeVector.map((t) =>
+    typeof t === "string" ? parseFloat(t) : t,
+  );
+
+  const minTime = Math.min(...times);
+  const maxTime = Math.max(...times);
+
+  // build ticks at every 2 minutes, rounding end points
+  const ticks: number[] = [];
+  for (let t = Math.ceil(minTime); t <= Math.floor(maxTime); t += 2) {
+    ticks.push(t);
+  }
+
+  const chartData = timeVector.map((t, i) => {
+    const row: any = { time: t };
+    [...interpolatedRenograms, ...interpolatedSmoothedRenograms].forEach(
+      (ds) => {
+        row[ds.label] = ds.data[i] ?? 0;
+      },
+    );
+    return row;
+  });
+
+  const peakIndices = interpolatedRenograms.map((dataset) =>
+    dataset.data.findIndex((value) => value === Math.max(...dataset.data)),
   );
 
   return (
@@ -56,11 +75,15 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
           <CartesianGrid vertical={false} />
           <XAxis
             dataKey="time"
+            type="number"
+            domain={["dataMin", "dataMax"]}
             label={{
               value: "Time (minutes)",
               position: "insideBottomRight",
               offset: -5,
             }}
+            tickFormatter={formatTime}
+            ticks={ticks}
           />
           <YAxis
             label={{
@@ -71,7 +94,17 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
             tickCount={10} // Increase number of ticks
           />
 
-          <Tooltip labelFormatter={formatTime} />
+          <Tooltip
+            labelFormatter={formatTime}
+            formatter={(value, name) => {
+              // only show names that include “smoothed”
+              if (!name.toLowerCase().includes("raw")) {
+                return [value, name];
+              }
+              // otherwise return [displayedValue, displayedName]
+              return [];
+            }}
+          />
           <Legend />
           {data && (
             <ReferenceLine
@@ -85,14 +118,15 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
               strokeDasharray="3 3"
             />
           )}
-          {datasets.map((dataset, index) => {
+          {interpolatedRenograms.map((dataset, index) => {
             return (
               <Line
                 key={index}
                 type="monotone"
                 dataKey={dataset.label}
-                stroke={index === 0 ? "#0e3893" : "#e36e0d"}
-                strokeWidth={2}
+                stroke={"#000000"}
+                strokeWidth={1.5}
+                legendType="none"
                 dot={(props) => {
                   const { index: dataIndex, cx, cy } = props;
                   if (dataIndex === peakIndices[index]) {
@@ -111,6 +145,17 @@ export default function RenogramChart({ datasets }: RenogramChartProps) {
               />
             );
           })}
+          {interpolatedSmoothedRenograms.map((ds) => (
+            <Line
+              key={ds.label}
+              type="monotone"
+              dataKey={ds.label}
+              stroke={ds.label === "Left Kidney-BKG" ? "#0e3893" : "#e36e0d"}
+              strokeWidth={2}
+              dot={false}
+              opacity={0.7}
+            />
+          ))}
         </LineChart>
       </ResponsiveContainer>
     </div>

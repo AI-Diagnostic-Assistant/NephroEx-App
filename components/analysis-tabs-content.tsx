@@ -8,10 +8,19 @@ import { ExplanationCard } from "@/components/explanation-card";
 
 type ReportContentProps = {
   analyses: Analysis[];
+  interpolatedRenograms: { label: string; data: number[] }[];
+  interpolatedSmoothedRenograms: { label: string; data: number[] }[];
+  originalTv: string[];
+  interpolatedTv: string[];
 };
 
 export default function AnalysisTabsContent(props: ReportContentProps) {
-  const { analyses } = props;
+  const {
+    analyses,
+    interpolatedRenograms,
+    interpolatedSmoothedRenograms,
+    interpolatedTv,
+  } = props;
 
   return (
     <div className="max-w-screen-lg mx-auto">
@@ -26,19 +35,37 @@ export default function AnalysisTabsContent(props: ReportContentProps) {
               <ClassificationResultCard analysis={analysis} />
               <PatientInfo />
             </div>
-            {analysis.roiActivity && (
+            {interpolatedRenograms && (
               <RenogramChartCard
-                datasets={[
-                  { label: "Left Kidney-BKG", data: analysis.roiActivity[0] },
-                  { label: "Right Kidney-BKG", data: analysis.roiActivity[1] },
+                interpolatedRenograms={[
+                  {
+                    label: "Raw Left Kidney-BKG",
+                    data: interpolatedRenograms[0],
+                  },
+                  {
+                    label: "Raw Right Kidney-BKG",
+                    data: interpolatedRenograms[1],
+                  },
                 ]}
+                interpolatedSmoothedRenograms={[
+                  {
+                    label: "Left Kidney-BKG",
+                    data: interpolatedSmoothedRenograms[0],
+                  },
+                  {
+                    label: "Right Kidney-BKG",
+                    data: interpolatedSmoothedRenograms[1],
+                  },
+                ]}
+                timeVector={interpolatedTv}
                 title="Renogram: Activities Over Time"
               />
             )}
             <ExplanationCard
               classifications={analysis.classification}
               category={analysis.category}
-              totalActivities={analysis.roiActivity}
+              interpolatedSmoothedRenograms={interpolatedSmoothedRenograms}
+              timeVector={interpolatedTv}
             />
           </div>
         </TabsContent>

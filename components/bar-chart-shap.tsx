@@ -48,7 +48,7 @@ export default function BarChartShap(props: BarChartProps) {
         <XAxis
           type="number"
           label={{
-            value: "SHAP Value (Impact on Model Output)",
+            value: "Impact on Model Output",
             position: "insideBottom",
             offset: -4,
             style: { textAnchor: "middle" },

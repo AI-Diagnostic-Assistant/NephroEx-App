@@ -24,7 +24,15 @@ export default async function Analysis({
     return <div>No data found for Analysis #{id}</div>;
   }
 
-  const { createdAt, analyses, patientDicomStorageId } = data;
+  const {
+    createdAt,
+    analyses,
+    patientDicomStorageId,
+    interpolatedRenograms,
+    interpolatedSmoothedRenograms,
+    originalTv,
+    interpolatedTv,
+  } = data;
 
   const summed_frames_signed_urls = await getSignedUrls(
     data.dicomStorageIds,
@@ -44,7 +52,13 @@ export default async function Analysis({
     <div>
       <Tabs defaultValue="renogram" className="w-full">
         <AnalysisTabsHeader analyses={analyses} createdAt={createdAt} id={id} />
-        <AnalysisTabsContent analyses={analyses} />
+        <AnalysisTabsContent
+          analyses={analyses}
+          interpolatedRenograms={interpolatedRenograms}
+          interpolatedSmoothedRenograms={interpolatedSmoothedRenograms}
+          originalTv={originalTv}
+          interpolatedTv={interpolatedTv}
+        />
       </Tabs>
       <div className="p-4 w-full max-w-screen-lg mx-auto">
         {summed_frames_signed_urls && (

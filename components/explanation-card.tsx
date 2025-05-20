@@ -4,7 +4,6 @@ import HighlightedRenogramChart from "@/components/highlighted-renogram-chart";
 import {
   capitalizeFirstLetter,
   explanationDescriptionMapper,
-  generateTimeIntervals,
 } from "@/lib/utils";
 import TextualExplanation from "@/components/textual-explanation";
 import { ChartBarBig } from "lucide-react";
@@ -15,13 +14,15 @@ import React from "react";
 interface ExplanationCardProps {
   classifications: Classification[];
   category: string;
-  totalActivities: number[][] | null;
+  interpolatedSmoothedRenograms: { label: string; data: number[] }[];
+  timeVector: string[];
 }
 
 export async function ExplanationCard({
   classifications,
   category,
-  totalActivities,
+  interpolatedSmoothedRenograms,
+  timeVector,
 }: ExplanationCardProps) {
   const imageAcquisitionValues = {
     totalImagingTime: 40 * 60,
@@ -29,22 +30,21 @@ export async function ExplanationCard({
     frameRate: 10,
   };
 
-  const { segmentLabels } = generateTimeIntervals(
-    imageAcquisitionValues.totalImagingTime,
-    imageAcquisitionValues.intervalSize,
-    imageAcquisitionValues.frameRate,
-  );
-
   const quantitativeFeatureNames = [
     "Mean",
     "Variance",
     "Skewness",
     "Kurtosis",
-    "Time to Peak",
+    "C_last",
+    "slope_0_5_min",
+    "slope_15_20_min",
+    "Length",
+    "Time to peek",
     "Peak to 1/2 peak",
     "Diuretic T1/2",
     "30min/peak",
     "30min/3min",
+    "Split function",
   ];
 
   return (
@@ -81,8 +81,8 @@ export async function ExplanationCard({
                       confidence={classification.confidence}
                       prediction={classification.prediction}
                       featureNames={quantitativeFeatureNames}
-                      barPlotHeight={300}
-                      waterfallPlotHeight={350}
+                      barPlotHeight={400}
+                      waterfallPlotHeight={500}
                     />
                   )}
                   {explanation.shapValuesRenogramSummed && (
@@ -93,14 +93,23 @@ export async function ExplanationCard({
                         }
                         confidence={classification.confidence}
                         prediction={classification.prediction}
-                        featureNames={segmentLabels}
+                        featureNames={classification.timeBins.map(
+                          ([s, e]) => `${Math.round(s)}–${Math.round(e)} min`,
+                        )}
                         barPlotHeight={550}
                         waterfallPlotHeight={650}
                       />
                       <HighlightedRenogramChart
                         shapValues={explanation.shapValuesRenogramSummed[0]}
-                        totalData={totalActivities?.[index] || []}
+                        interpolatedSmoothedRenogram={
+                          interpolatedSmoothedRenograms[index]
+                        }
                         imageAcquisitionValues={imageAcquisitionValues}
+                        timeVector={timeVector}
+                        timeBins={classification.timeBins.map(
+                          ([s, e]) => `${Math.round(s)}–${Math.round(e)} min`,
+                        )}
+                        predictedClass={classification.prediction}
                       />
                     </div>
                   )}

@@ -10,128 +10,139 @@ import {
   ReferenceLine,
 } from "recharts";
 import * as d3 from "d3";
-import { generateTimeIntervals } from "@/lib/utils";
 import ExplanationModule from "@/components/explanation-module";
 import { ChartLine } from "lucide-react";
 
 interface HighlightedRenogramChartProps {
-  totalData: number[];
+  interpolatedSmoothedRenogram: { label: string; data: number[] };
   shapValues: number[];
-  imageAcquisitionValues: {
-    totalImagingTime: number;
-    intervalSize: number;
-    frameRate: number;
-  };
+  timeVector: string[];
+  timeBins: number[];
+  predictedClass: "sick" | "healthy";
 }
 
 export default function HighlightedRenogramChart({
-  totalData,
+  interpolatedSmoothedRenogram,
   shapValues,
-  imageAcquisitionValues,
+  timeVector,
+  timeBins,
+  predictedClass,
 }: HighlightedRenogramChartProps) {
+  // compute signed SHAP extent
   const maxShap = Math.max(...shapValues);
   const minShap = Math.min(...shapValues);
-  const normalizedShap = shapValues.map(
-    (val) => (val - minShap) / (maxShap - minShap),
-  );
+  const maxMag = Math.max(Math.abs(minShap), Math.abs(maxShap));
 
-  const totalImagingTime = imageAcquisitionValues.totalImagingTime;
-  const intervalSize = imageAcquisitionValues.intervalSize;
-  const frameRate = imageAcquisitionValues.frameRate;
+  // static colors
+  const healthyColor = "green";
+  const sickColor = "red";
+  const neutralColor = "#e0e0e0"; // light grey for zero
 
-  const getHeatmapColor = (normalizedValue: number) =>
-    d3.interpolateWarm(1 - normalizedValue);
+  // map positive/negative to green/red based on predicted class
+  const posColor = predictedClass === "healthy" ? healthyColor : sickColor;
+  const negColor = predictedClass === "healthy" ? sickColor : healthyColor;
 
-  const { segmentStartFrames, segmentLabelPositions, segmentLabels } =
-    generateTimeIntervals(totalImagingTime, intervalSize, frameRate);
+  const colorScale = d3
+    .scaleLinear<string>()
+    .domain([-maxMag, 0, maxMag])
+    .range([negColor, neutralColor, posColor]);
 
-  const lineSegments = shapValues.map((_, segmentIndex) => {
-    const start = segmentIndex * (intervalSize / frameRate);
-    const end = Math.min(start + intervalSize / frameRate, totalData.length);
-    const segmentColor = getHeatmapColor(normalizedShap[segmentIndex]);
+  const numericBins = timeBins.map((lbl) => {
+    const [from, to] = lbl.split("–").map((s) => parseFloat(s));
+    return [from, to] as [number, number];
+  });
+  const binMids = numericBins.map(([s, e]) => (s + e) / 2);
 
-    const segmentData = totalData.slice(start, end).map((value, index) => ({
-      frame: start + index + 1,
-      value,
-    }));
+  const boundaries = Array.from(
+    new Set(numericBins.flatMap(([start, end]) => [start, end])),
+  ).sort((a, b) => a - b);
 
-    if (end < totalData.length) {
-      segmentData.push({
-        frame: end + 1,
-        value: totalData[end],
-      });
-    }
+  // Build one line‐segment per bin
+  const segments = numericBins.map(([start, end], idx) => {
+    const color = colorScale(shapValues[idx]);
+    // pick only those points whose timeVector is in [start,end)
+    const data = timeVector
+      .map((t, i) =>
+        t >= start && t < end
+          ? { time: t, value: interpolatedSmoothedRenogram[i] }
+          : null,
+      )
+      .filter((pt): pt is { time: number; value: number } => pt !== null);
 
     return {
-      data: segmentData,
-      color: segmentColor,
-      key: `segment-${segmentIndex}`,
+      key: `seg-${idx}`,
+      data,
+      color,
     };
   });
 
   return (
     <ExplanationModule
       title="Highlighted Renogram"
-      description="Renogram curve highlighting the relative contribution of 2-minute summed frame segments across the entire acquisition period. The heatmap overlay illustrates which temporal regions of the time-activity curve had the greatest influence on the model’s classification decision — with warmer colors indicating higher importance."
+      description="Renogram curve with 2-minute segments colored by SHAP importance (warm→high)."
       icon={<ChartLine className="text-primary-brand" />}
     >
       <div className="flex items-center">
-        <div className="flex flex-col items-center">
-          <span className="text-xs">High</span>
-          <svg width="20" height="150">
+        <div className="flex flex-col items-center mr-4 text-xs">
+          <span>
+            ↓ Pushes away from {predictedClass === 0 ? "healthy" : "sick"}
+          </span>
+          <svg width={20} height={150}>
             <defs>
-              <linearGradient id="colorScale" x1="0" x2="0" y1="1" y2="0">
-                {Array.from({ length: 10 }, (_, i) => {
-                  const offset = i * 10;
-                  const color = getHeatmapColor(i / 9);
-                  return (
-                    <stop
-                      key={offset}
-                      offset={`${offset}%`}
-                      stopColor={color}
-                    />
-                  );
-                })}
+              <linearGradient id="divergeScale" x1="0" x2="0" y1="1" y2="0">
+                {[-maxMag, 0, maxMag].map((d, i, arr) => (
+                  <stop
+                    key={i}
+                    offset={`${(i / (arr.length - 1)) * 100}%`}
+                    stopColor={colorScale(d)}
+                  />
+                ))}
               </linearGradient>
             </defs>
-            <rect width="20" height="150" fill="url(#colorScale)" />
+            <rect width="20" height="150" fill="url(#divergeScale)" />
           </svg>
-          <span className="text-xs">Low</span>
+          <span>
+            ↑ Pushes towards {predictedClass === 0 ? "healthy" : "sick"}
+          </span>
         </div>
 
-        <div style={{ width: "100%", height: 400 }}>
+        <div style={{ width: "100%", height: 400 }} className="text-xs">
           <ResponsiveContainer>
-            <LineChart margin={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-              <CartesianGrid vertical={false} />
+            <LineChart margin={{ top: 20, bottom: 30, left: 20, right: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+
               <XAxis
+                dataKey="time"
                 type="number"
-                dataKey="frame"
-                domain={[1, totalData.length]}
+                domain={["dataMin", "dataMax"]}
+                ticks={binMids}
+                tickFormatter={(val) => {
+                  const idx = binMids.indexOf(val as number);
+                  return idx >= 0 ? String(timeBins[idx]) : "";
+                }}
                 label={{
-                  value: "Time (min)",
+                  value: "Time (minutes)",
                   position: "insideBottom",
                   offset: -5,
                 }}
-                className="text-xs"
-                ticks={segmentLabelPositions} // Centered tick positions
-                tickFormatter={(value) => {
-                  const tickIndex = segmentLabelPositions.indexOf(value);
-                  return tickIndex !== -1 ? segmentLabels[tickIndex] : "";
-                }}
               />
               <YAxis
-                label={{ angle: -90, position: "insideLeft" }}
-                className="text-xs"
+                label={{
+                  value: "Counts/sec",
+                  angle: -90,
+                  position: "insideLeft",
+                }}
               />
-              {segmentStartFrames.map((frame) => (
+              {boundaries.map((b) => (
                 <ReferenceLine
-                  key={`ref-${frame}`}
-                  x={frame}
-                  stroke="gray"
+                  key={`ref-${b}`}
+                  x={b}
+                  stroke="#888"
                   strokeDasharray="3 3"
                 />
               ))}
-              {lineSegments.map(({ data, color, key }) => (
+
+              {segments.map(({ key, data, color }) => (
                 <Line
                   key={key}
                   type="monotone"
@@ -140,6 +151,7 @@ export default function HighlightedRenogramChart({
                   stroke={color}
                   strokeWidth={3}
                   dot={false}
+                  isAnimationActive={false}
                 />
               ))}
             </LineChart>
