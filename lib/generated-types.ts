@@ -206,8 +206,8 @@ export type Database = {
           dicom_storage_ids: string[] | null;
           diuretic_timing: number;
           id: number;
-          interpolated_renograms: number[] | null;
-          interpolated_smoothed_renograms: number[] | null;
+          interpolated_renograms: number[][] | null;
+          interpolated_smoothed_renograms: number[][] | null;
           interpolated_tv: number[] | null;
           original_tv: number[] | null;
           patient_dicom_storage_id: string | null;
