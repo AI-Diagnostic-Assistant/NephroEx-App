@@ -19,7 +19,7 @@ import React from "react";
 interface RenogramChartProps {
   interpolatedRenograms: { label: string; data: number[] }[];
   interpolatedSmoothedRenograms: { label: string; data: number[] }[];
-  timeVector: string[];
+  timeVector: number[];
   title: string;
 }
 

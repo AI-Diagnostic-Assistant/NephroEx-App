@@ -8,10 +8,10 @@ import { ExplanationCard } from "@/components/explanation-card";
 
 type ReportContentProps = {
   analyses: Analysis[];
-  interpolatedRenograms: { label: string; data: number[] }[];
-  interpolatedSmoothedRenograms: { label: string; data: number[] }[];
-  originalTv: string[];
-  interpolatedTv: string[];
+  interpolatedRenograms: number[][];
+  interpolatedSmoothedRenograms: number[][];
+  originalTv: number[];
+  interpolatedTv: number[];
 };
 
 export default function AnalysisTabsContent(props: ReportContentProps) {

@@ -14,9 +14,9 @@ import ExplanationModule from "@/components/explanation-module";
 import { ChartLine } from "lucide-react";
 
 interface HighlightedRenogramChartProps {
-  interpolatedSmoothedRenogram: { label: string; data: number[] };
+  interpolatedSmoothedRenogram: number[];
   shapValues: number[];
-  timeVector: string[];
+  timeVector: number[];
   timeBins: number[];
   predictedClass: "sick" | "healthy";
 }

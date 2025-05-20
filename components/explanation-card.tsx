@@ -14,8 +14,8 @@ import React from "react";
 interface ExplanationCardProps {
   classifications: Classification[];
   category: string;
-  interpolatedSmoothedRenograms: { label: string; data: number[] }[];
-  timeVector: string[];
+  interpolatedSmoothedRenograms: number[][];
+  timeVector: number[];
 }
 
 export async function ExplanationCard({

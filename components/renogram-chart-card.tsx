@@ -6,7 +6,7 @@ import ModuleCard from "@/components/module-card";
 interface RenogramChartCardProps {
   interpolatedRenograms: { label: string; data: number[] }[];
   interpolatedSmoothedRenograms: { label: string; data: number[] }[];
-  timeVector: string[];
+  timeVector: number[];
   title: string;
 }
 export default function RenogramChartCard(props: RenogramChartCardProps) {

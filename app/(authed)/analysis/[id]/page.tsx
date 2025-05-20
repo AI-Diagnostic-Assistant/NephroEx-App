@@ -52,13 +52,18 @@ export default async function Analysis({
     <div>
       <Tabs defaultValue="renogram" className="w-full">
         <AnalysisTabsHeader analyses={analyses} createdAt={createdAt} id={id} />
-        <AnalysisTabsContent
-          analyses={analyses}
-          interpolatedRenograms={interpolatedRenograms}
-          interpolatedSmoothedRenograms={interpolatedSmoothedRenograms}
-          originalTv={originalTv}
-          interpolatedTv={interpolatedTv}
-        />
+        {interpolatedRenograms &&
+          interpolatedSmoothedRenograms &&
+          originalTv &&
+          interpolatedTv && (
+            <AnalysisTabsContent
+              analyses={analyses}
+              interpolatedRenograms={interpolatedRenograms}
+              interpolatedSmoothedRenograms={interpolatedSmoothedRenograms}
+              originalTv={originalTv}
+              interpolatedTv={interpolatedTv}
+            />
+          )}
       </Tabs>
       <div className="p-4 w-full max-w-screen-lg mx-auto">
         {summed_frames_signed_urls && (
