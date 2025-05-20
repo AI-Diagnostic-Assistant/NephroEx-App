@@ -72,7 +72,6 @@ export async function ExplanationCard({
             value={classification.kidneyLabel}
           >
             <div className="rounded-lg ">
-              <div> {classification.timeBins}</div>
               {classification.explanation.map((explanation) => (
                 <div key={explanation.id} className="space-y-4">
                   {explanation.shapValuesRenogram && (
