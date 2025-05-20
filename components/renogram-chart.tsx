@@ -131,22 +131,26 @@ export default function RenogramChart(props: RenogramChartProps) {
                 stroke={"#000000"}
                 strokeWidth={1.5}
                 legendType="none"
-                dot={(props) => {
+                dot={(props): React.ReactElement<SVGElement> => {
                   const { index: dataIndex, cx, cy } = props;
                   const isPeak = dataIndex === peakIndices[index];
 
-                  if (dataIndex === peakIndices[index]) {
-                    return (
-                      <circle
-                        cx={cx}
-                        cy={cy}
-                        r={isPeak ? 6 : 0}
-                        fill={index === 0 ? "#0e3893" : "#e36e0d"}
-                        stroke="#fff"
-                        strokeWidth={2}
-                      />
-                    );
-                  }
+                  return (
+                    <circle
+                      cx={cx}
+                      cy={cy}
+                      r={isPeak ? 6 : 0}
+                      fill={
+                        isPeak
+                          ? index === 0
+                            ? "#0e3893"
+                            : "#e36e0d"
+                          : "transparent"
+                      }
+                      stroke={isPeak ? "#fff" : "none"}
+                      strokeWidth={isPeak ? 2 : 0}
+                    />
+                  );
                 }}
               />
             );
