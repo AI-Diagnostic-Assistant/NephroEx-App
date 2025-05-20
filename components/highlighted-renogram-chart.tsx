@@ -17,7 +17,7 @@ interface HighlightedRenogramChartProps {
   interpolatedSmoothedRenogram: number[];
   shapValues: number[];
   timeVector: number[];
-  timeBins: number[];
+  timeBins: string[];
   predictedClass: "sick" | "healthy";
 }
 

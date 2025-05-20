@@ -72,6 +72,7 @@ export async function ExplanationCard({
             value={classification.kidneyLabel}
           >
             <div className="rounded-lg ">
+              <div> {classification.timeBins}</div>
               {classification.explanation.map((explanation) => (
                 <div key={explanation.id} className="space-y-4">
                   {explanation.shapValuesRenogram && (
@@ -93,12 +94,17 @@ export async function ExplanationCard({
                         }
                         confidence={classification.confidence}
                         prediction={classification.prediction}
-                        featureNames={classification.timeBins.map(
-                          ([s, e]) => `${Math.round(s)}–${Math.round(e)} min`,
-                        )}
+                        featureNames={
+                          (
+                            classification.timeBins as [number, number][] | null
+                          )?.map(
+                            ([s, e]) => `${Math.round(s)}–${Math.round(e)} min`,
+                          ) ?? []
+                        }
                         barPlotHeight={550}
                         waterfallPlotHeight={650}
                       />
+
                       <HighlightedRenogramChart
                         shapValues={explanation.shapValuesRenogramSummed[0]}
                         interpolatedSmoothedRenogram={
@@ -106,9 +112,13 @@ export async function ExplanationCard({
                         }
                         imageAcquisitionValues={imageAcquisitionValues}
                         timeVector={timeVector}
-                        timeBins={classification.timeBins.map(
-                          ([s, e]) => `${Math.round(s)}–${Math.round(e)} min`,
-                        )}
+                        timeBins={
+                          (
+                            classification.timeBins as [number, number][] | null
+                          )?.map(
+                            ([s, e]) => `${Math.round(s)}–${Math.round(e)} min`,
+                          ) ?? []
+                        }
                         predictedClass={classification.prediction}
                       />
                     </div>

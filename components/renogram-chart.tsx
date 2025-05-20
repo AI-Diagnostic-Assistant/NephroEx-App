@@ -36,9 +36,10 @@ export default function RenogramChart(props: RenogramChartProps) {
   const params = useParams();
   const reportId = params.id;
 
-  const { data } = useSWR(
-    reportId ? ["/report/", reportId] : null,
-    ([_, reportId]) => getDiureticTiming(Number(reportId)),
+  const { data } = useSWR<{
+    diureticTiming: number;
+  }>(reportId ? ["/report/", reportId] : null, ([_, reportId]) =>
+    getDiureticTiming(Number(reportId)),
   );
 
   const times = timeVector.map((t) =>
@@ -96,7 +97,7 @@ export default function RenogramChart(props: RenogramChartProps) {
 
           <Tooltip
             labelFormatter={formatTime}
-            formatter={(value, name) => {
+            formatter={(value: number, name: string) => {
               // only show names that include “smoothed”
               if (!name.toLowerCase().includes("raw")) {
                 return [value, name];
