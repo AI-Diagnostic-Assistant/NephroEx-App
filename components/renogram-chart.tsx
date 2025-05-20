@@ -16,6 +16,10 @@ import useSWR from "swr";
 import { useParams } from "next/navigation";
 import React from "react";
 
+interface DiureticTimingResponse {
+  diureticTiming: number;
+}
+
 interface RenogramChartProps {
   interpolatedRenograms: { label: string; data: number[] }[];
   interpolatedSmoothedRenograms: { label: string; data: number[] }[];
@@ -36,10 +40,9 @@ export default function RenogramChart(props: RenogramChartProps) {
   const params = useParams();
   const reportId = params.id;
 
-  const { data } = useSWR<{
-    diureticTiming: number;
-  }>(reportId ? ["/report/", reportId] : null, ([_, reportId]) =>
-    getDiureticTiming(Number(reportId)),
+  const { data } = useSWR<DiureticTimingResponse | null, Error>(
+    reportId ? ["/report/", reportId] : null,
+    ([, reportId]) => getDiureticTiming(Number(reportId)),
   );
 
   const times = timeVector.map((t) =>
