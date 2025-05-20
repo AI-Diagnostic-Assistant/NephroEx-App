@@ -24,12 +24,6 @@ export async function ExplanationCard({
   interpolatedSmoothedRenograms,
   timeVector,
 }: ExplanationCardProps) {
-  const imageAcquisitionValues = {
-    totalImagingTime: 40 * 60,
-    intervalSize: 2 * 60,
-    frameRate: 10,
-  };
-
   const quantitativeFeatureNames = [
     "Mean",
     "Variance",
@@ -109,7 +103,6 @@ export async function ExplanationCard({
                         interpolatedSmoothedRenogram={
                           interpolatedSmoothedRenograms[index]
                         }
-                        imageAcquisitionValues={imageAcquisitionValues}
                         timeVector={timeVector}
                         timeBins={
                           (
