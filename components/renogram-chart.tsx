@@ -15,6 +15,7 @@ import { getDiureticTiming } from "@/lib/data-access";
 import useSWR from "swr";
 import { useParams } from "next/navigation";
 import React from "react";
+import { LineDot } from "recharts/types/cartesian/Line";
 
 interface DiureticTimingResponse {
   diureticTiming: number;
@@ -131,14 +132,16 @@ export default function RenogramChart(props: RenogramChartProps) {
                 stroke={"#000000"}
                 strokeWidth={1.5}
                 legendType="none"
-                dot={(props) => {
+                dot={(props: LineDot) => {
                   const { index: dataIndex, cx, cy } = props;
+                  const isPeak = dataIndex === peakIndices[index];
+
                   if (dataIndex === peakIndices[index]) {
                     return (
                       <circle
                         cx={cx}
                         cy={cy}
-                        r={6}
+                        r={isPeak ? 6 : 0}
                         fill={index === 0 ? "#0e3893" : "#e36e0d"}
                         stroke="#fff"
                         strokeWidth={2}
