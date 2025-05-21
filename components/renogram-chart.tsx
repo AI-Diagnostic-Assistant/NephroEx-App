@@ -137,6 +137,7 @@ export default function RenogramChart(props: RenogramChartProps) {
 
                   return (
                     <circle
+                      key={dataIndex}
                       cx={cx}
                       cy={cy}
                       r={isPeak ? 6 : 0}
