@@ -1,6 +1,6 @@
 # NephroEx Frontend
 
-This repository contains the frontend code for NephroEx, a CAD tool for interpreting diuretic renography in urinary tract obstruction (UTO) and Explainable AI analysis.
+This repository contains the frontend code for NephroEx, a Computer-Aided Diagnosis (CAD) tool for interpreting diuretic renography in urinary tract obstruction (UTO) with Explainable AI analysis capabilities.
 
 🔗 **Live Demo**: [https://nephroviz-app-gfcndyesfnbwfzgh.westeurope-01.azurewebsites.net/sign-in](https://nephroviz-app-gfcndyesfnbwfzgh.westeurope-01.azurewebsites.net/sign-in)
 
