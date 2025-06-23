@@ -84,7 +84,7 @@ export default function HighlightedRenogramChart({
     >
       <div className="flex items-center">
         <div className="flex flex-col items-center mr-4 text-xs">
-          <span>↓ Pushes away from {predictedClass}</span>
+          <span>↑ Pushes towards {predictedClass}</span>
           <svg width={20} height={150}>
             <defs>
               <linearGradient id="divergeScale" x1="0" x2="0" y1="1" y2="0">
@@ -99,7 +99,7 @@ export default function HighlightedRenogramChart({
             </defs>
             <rect width="20" height="150" fill="url(#divergeScale)" />
           </svg>
-          <span>↑ Pushes towards {predictedClass}</span>
+          <span>↓ Pushes away from {predictedClass}</span>
         </div>
 
         <div style={{ width: "100%", height: 400 }} className="text-xs">
